@@ -32,7 +32,7 @@
               }
             ],
             "styles": ["src/theme/variables.scss", "src/global.scss"],
-            "scripts": []
+            "scripts": ["node_modules/bootstrap/dist/js/bootstrap.js", "src/bootstrap-darkmode.js"]
           },
           "configurations": {
             "production": {
