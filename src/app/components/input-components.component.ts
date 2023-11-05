@@ -8,7 +8,7 @@ class BaseComponent {
   // User defined messages, key is errorName and value is the message
   messages: {[key: string]: string} = {};
 
-  private convertErrorsToMessage(name: string, errors: ValidationErrors | null) : string|undefined {
+  private convertErrorsToMessage(name: string, errors: ValidationErrors | null): string | undefined {
     // console.log({name, errors: errors})
     if (errors == null)
       return;
@@ -43,7 +43,7 @@ class BaseComponent {
         return `${name} is not valid`;
 
       default:
-        console.warn(`The error ${errorName} was not catched`, errorContent);
+        console.warn(`The error '${errorName}' was not catched`, errorContent);
         return `${name} is not valid`;
     }
   }
