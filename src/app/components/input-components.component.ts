@@ -5,6 +5,8 @@ class BaseComponent {
   name!: string;
   fc!: FormControl;
   wasSubmitted!: boolean;
+  // User defined messages, key is errorName and value is the message
+  messages: {[key: string]: string} = {};
 
   private convertErrorsToMessage(name: string, errors: ValidationErrors | null) : string|undefined {
     // console.log({name, errors: errors})
@@ -15,6 +17,13 @@ class BaseComponent {
       return;
     var [errorName, errorContent] = entries[0];
     // console.log(errorName, errorContent);
+
+
+    // Check if errorName is in user-defined messages
+    if (errorName in this.messages)
+      return this.messages[errorName];
+
+
     switch (errorName) {
       case 'required':
         return `${name} is required`;
@@ -71,6 +80,7 @@ export class InputComponent extends BaseComponent implements OnInit {
   @Input() override name = 'defaultName';
   @Input() override fc!: FormControl;
   @Input() override wasSubmitted = false;
+  @Input() override messages = {};
 
   ngOnInit() {
     if (this.name == 'defaultName')
