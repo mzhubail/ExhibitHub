@@ -1,12 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
+import { WasSubmittedService } from '../services/was-submitted.service';
 
 class BaseComponent {
   name!: string;
   fc!: FormControl;
-  wasSubmitted!: boolean;
+  wasSubmittedService!: WasSubmittedService;
   // User defined messages, key is errorName and value is the message
   messages: {[key: string]: string} = {};
+
 
   private convertErrorsToMessage(name: string, errors: ValidationErrors | null): string | undefined {
     // console.log({name, errors: errors})
@@ -49,14 +51,14 @@ class BaseComponent {
   }
 
   public errorMessages() {
-    if (this.fc.dirty || this.wasSubmitted)
+    if (this.fc.dirty || this.wasSubmittedService)
       return this.convertErrorsToMessage(this.name, this.fc.errors);
     return;
   }
 
-  public invalidCondition = (fc: FormControl) => fc.invalid && (fc.dirty || this.wasSubmitted);
+  public invalidCondition = (fc: FormControl) => fc.invalid && (fc.dirty || this.wasSubmittedService.wasSubmitted);
   // public validCondition = (fc: FormControl) => fc.valid && (fc.dirty || this.wasSubmitted);
-  public validCondition = (fc: FormControl) => fc.valid && this.wasSubmitted;
+  public validCondition = (fc: FormControl) => fc.valid && this.wasSubmittedService.wasSubmitted;
 }
 
 
@@ -79,11 +81,44 @@ export class InputComponent extends BaseComponent implements OnInit {
   @Input() label = 'defaultLabel';
   @Input() override name = 'defaultName';
   @Input() override fc!: FormControl;
-  @Input() override wasSubmitted = false;
   @Input() override messages = {};
+
+  constructor(
+    override wasSubmittedService: WasSubmittedService,
+  ) {
+    super();
+  }
 
   ngOnInit() {
     if (this.name == 'defaultName')
       this.name = this.label;
+  }
+}
+
+
+
+/**
+ * This component is responsible for storing the wasSubmitted value of the form,
+ * and provides that as a service for the inputs inside it
+ */
+@Component({
+  selector: 'x-form',
+  template: `
+    <form class="container my-2" (ngSubmit)="submitForm()">
+      <ng-content></ng-content>
+    </form>
+  `,
+  providers: [WasSubmittedService],
+})
+export class FormComponent {
+  @Output() onSubmit = new EventEmitter()
+
+  constructor(
+    public wasSubmittedService: WasSubmittedService,
+  ) { }
+
+  submitForm() {
+    this.wasSubmittedService.wasSubmitted = true;
+    this.onSubmit.emit();
   }
 }

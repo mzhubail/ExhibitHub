@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { InputComponent } from './input-components.component';
+import { FormComponent, InputComponent } from './input-components.component';
 
 
-var components = [InputComponent]
+var components = [
+  InputComponent,
+  FormComponent,
+]
 
 @NgModule({
   declarations: components,
