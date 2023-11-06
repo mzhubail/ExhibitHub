@@ -2,14 +2,49 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { WasSubmittedService } from '../services/was-submitted.service';
 
-class BaseComponent {
-  name!: string;
-  fc!: FormControl;
-  wasSubmittedService!: WasSubmittedService;
-  // User defined messages, key is errorName and value is the message
-  messages: {[key: string]: string} = {};
+@Component({
+  selector: 'x-input',
+  template: `
+    <div class="mb-3">
+      <label [for]="name" class="form-label"> {{ label }} </label>
+      <input class="form-control" [id]="name" [name]="name" [formControl]="fc"
+          autocomplete="off" spellcheck="false"
+          [class.is-invalid]="invalidCondition()" [class.is-valid]="validCondition()"
+          >
+      <span class="invalid-feedback">
+        {{ errorMessages() }}
+      </span>
+    </div>
+  `,
+})
+export class InputComponent implements OnInit {
+  /** The label of the input */
+  @Input({ required: true }) label!: string;
+  /**
+   * The name of the input used in the error message.  By default has the same
+   * value as the label (see ngOnInit)
+   */
+  @Input() name = 'defaultName';
+  @Input({ required: true }) fc!: FormControl;
+  /** User defined messages, key is errorName and value is the message */
+  @Input() messages: { [key: string]: string } = {};
+
+  get wasSubmitted() {
+    return this.wasSubmittedService.wasSubmitted;
+  }
+
+  constructor(
+    public wasSubmittedService: WasSubmittedService,
+  ) { }
 
 
+  ngOnInit() {
+    if (this.name == 'defaultName')
+      this.name = this.label;
+  }
+
+
+  /** Converts angular provided validation errors to error message */
   private convertErrorsToMessage(name: string, errors: ValidationErrors | null): string | undefined {
     // console.log({name, errors: errors})
     if (errors == null)
@@ -50,49 +85,23 @@ class BaseComponent {
     }
   }
 
-  public errorMessages() {
-    if (this.fc.dirty || this.wasSubmittedService)
+
+  /** Wrapper to convert angular provided error to error message */
+  public errorMessages() : string | undefined {
+    if (this.invalidCondition())
       return this.convertErrorsToMessage(this.name, this.fc.errors);
     return;
   }
 
-  public invalidCondition = (fc: FormControl) => fc.invalid && (fc.dirty || this.wasSubmittedService.wasSubmitted);
-  // public validCondition = (fc: FormControl) => fc.valid && (fc.dirty || this.wasSubmitted);
-  public validCondition = (fc: FormControl) => fc.valid && this.wasSubmittedService.wasSubmitted;
-}
 
+  /** Specifies when to display error message */
+  public invalidCondition = () =>
+    this.fc.invalid && (this.fc.dirty || this.wasSubmitted);
 
-@Component({
-  selector: 'x-input',
-  template: `
-    <div class="mb-3">
-      <label [for]="name" class="form-label"> {{ label }} </label>
-      <input type="email" class="form-control" [id]="name" [name]="name" [formControl]="fc"
-          autocomplete="off" spellcheck="false"
-          [class.is-invalid]="invalidCondition(fc)" [class.is-valid]="validCondition(fc)"
-          >
-      <span class="invalid-feedback">
-        {{ errorMessages() }}
-      </span>
-    </div>
-  `,
-})
-export class InputComponent extends BaseComponent implements OnInit {
-  @Input() label = 'defaultLabel';
-  @Input() override name = 'defaultName';
-  @Input() override fc!: FormControl;
-  @Input() override messages = {};
-
-  constructor(
-    override wasSubmittedService: WasSubmittedService,
-  ) {
-    super();
-  }
-
-  ngOnInit() {
-    if (this.name == 'defaultName')
-      this.name = this.label;
-  }
+  /** Specifies when to provide positive feedback to the user */
+  public validCondition = () =>
+    // this.fc.valid && (this.fc.dirty || this.wasSubmitted);
+    this.fc.valid && this.wasSubmitted;
 }
 
 
