@@ -15,6 +15,10 @@ const routes: Routes = [
     path: 'sign-in',
     loadChildren: () => import('./sign-in/sign-in.module').then( m => m.SignInPageModule)
   },
+  {
+    path: 'test-deeplinks/:param',
+    loadChildren: () => import('./test-deeplinks/test-deeplinks.module').then( m => m.TestDeeplinksPageModule)
+  },
 ];
 
 @NgModule({

@@ -1,0 +1,17 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>test-deeplinks</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">test-deeplinks</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="conatiner m-3">
+    Recieved message: <b> {{ activatedRoute.snapshot.paramMap.get('param') }} </b>
+  </div>
+</ion-content>
