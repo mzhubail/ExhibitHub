@@ -10,11 +10,11 @@ const routes: Routes = [
     path: 'client/tabs',
     component: TabsPage,
     children: [
-      {
-        path: 'account',
-        loadChildren: () =>
-          import('../account/account.module').then((m) => m.AccountPageModule),
-      },
+      // {
+      //   path: 'account',
+      //   loadChildren: () =>
+      //     import('../account/account.module').then((m) => m.AccountPageModule),
+      // },
       {
         path: 'home',
         loadChildren: () =>
@@ -26,6 +26,16 @@ const routes: Routes = [
           import('../reservations/reservations.module').then(
             (m) => m.ReservationsPageModule
           ),
+      },
+      {
+        path: 'halls',
+        loadChildren: () =>
+          import('../halls/halls.module').then((m) => m.HallsPageModule),
+      },
+      {
+        path: 'chat',
+        loadChildren: () =>
+          import('../chat/chat.module').then((m) => m.ChatPageModule),
       },
     ],
   },

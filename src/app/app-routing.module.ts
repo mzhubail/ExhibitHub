@@ -38,6 +38,26 @@ const routes: Routes = [
         (m) => m.ClientTabsRoutingModule
       ),
   },
+  {
+    path: 'filter',
+    loadChildren: () => import('./client/filter/filter.module').then( m => m.FilterPageModule)
+  },
+  {
+    path: 'conform-reservation',
+    loadChildren: () => import('./client/conform-reservation/conform-reservation.module').then( m => m.ConformReservationPageModule)
+  },
+  {
+    path: 'create-event',
+    loadChildren: () => import('./client/create-event/create-event.module').then( m => m.CreateEventPageModule)
+  },
+  // {
+  //   path: 'chat',
+  //   loadChildren: () => import('./client/chat/chat.module').then( m => m.ChatPageModule)
+  // },
+  // {
+  //   path: 'halls',
+  //   loadChildren: () => import('./client/halls/halls.module').then( m => m.HallsPageModule)
+  // },
 ];
 
 @NgModule({

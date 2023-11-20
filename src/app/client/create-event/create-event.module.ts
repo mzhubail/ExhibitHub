@@ -4,22 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ReservationsPageRoutingModule } from './reservations-routing.module';
+import { CreateEventPageRoutingModule } from './create-event-routing.module';
 
-import { ReservationsPage } from './reservations.page';
-
-
-
+import { CreateEventPage } from './create-event.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ReservationsPageRoutingModule,
-    CommonModule,
-
+    CreateEventPageRoutingModule
   ],
-  declarations: [ReservationsPage]
+  declarations: [CreateEventPage]
 })
-export class ReservationsPageModule {}
+export class CreateEventPageModule {}

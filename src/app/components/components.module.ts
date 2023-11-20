@@ -4,9 +4,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormComponent, InputComponent } from './input-components.component';
 
 
+
 var components = [
   InputComponent,
   FormComponent,
+
 ]
 
 @NgModule({
@@ -15,7 +17,7 @@ var components = [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    // IonicModule,
+
   ],
   exports: components,
 })
