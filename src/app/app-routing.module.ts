@@ -40,15 +40,29 @@ const routes: Routes = [
   },
   {
     path: 'filter',
-    loadChildren: () => import('./client/filter/filter.module').then( m => m.FilterPageModule)
+    loadChildren: () =>
+      import('./client/filter/filter.module').then((m) => m.FilterPageModule),
   },
   {
     path: 'conform-reservation',
-    loadChildren: () => import('./client/conform-reservation/conform-reservation.module').then( m => m.ConformReservationPageModule)
+    loadChildren: () =>
+      import('./client/conform-reservation/conform-reservation.module').then(
+        (m) => m.ConformReservationPageModule
+      ),
   },
   {
     path: 'create-event',
-    loadChildren: () => import('./client/create-event/create-event.module').then( m => m.CreateEventPageModule)
+    loadChildren: () =>
+      import('./client/create-event/create-event.module').then(
+        (m) => m.CreateEventPageModule
+      ),
+  },
+  {
+    path: 'event-details',
+    loadChildren: () =>
+      import('./attendee/event-details/event-details.module').then(
+        (m) => m.EventDetailsPageModule
+      ),
   },
   // {
   //   path: 'chat',
