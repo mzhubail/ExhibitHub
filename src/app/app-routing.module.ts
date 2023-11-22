@@ -64,6 +64,10 @@ const routes: Routes = [
         (m) => m.EventDetailsPageModule
       ),
   },
+  {
+    path: 'request-details',
+    loadChildren: () => import('./admin/request-details/request-details.module').then( m => m.RequestDetailsPageModule)
+  },
   // {
   //   path: 'chat',
   //   loadChildren: () => import('./client/chat/chat.module').then( m => m.ChatPageModule)
