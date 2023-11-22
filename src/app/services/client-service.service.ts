@@ -1,21 +1,55 @@
 import { Injectable } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClientServiceService {
 
-  constructor() { }
+  constructor(public alertCtrl: AlertController) {
+  }
 
-startDate:any;
-endDate:any;
-  highlightedDates = (isoString:any) => {
-    const currentDate = new Date(isoString);
+
   
+
+  // This retrieved from the database
+  CurrentReservations: any[] = [
+    {
+      startDate: new Date('2023-12-01'),
+      endDate: new Date('2023-12-05'),
+    },
+    {
+      startDate: new Date('2023-12-10'),
+      endDate: new Date('2023-12-23'),
+    },
+  ];
+
+   
+  
+
+  // Chosen by the client 
+  startDate: Date = new Date();
+  endDate: Date = new Date();
+
+  startDateChanged(event: any) {
+    this.startDate = event.detail.value;
+    console.log(this.startDate);
+  }
+
+  endDateChanged(event: any) {
+    this.endDate = event.detail.value;
+    console.log(this.endDate);
+  }
+
+
+  // Show the reserved dates
+  highlightedDates = (isoString: any) => {
+    const currentDate = new Date(isoString);
+
     const reservedDates = this.CurrentReservations.reduce((acc, res) => {
       const start = new Date(res.startDate);
       const end = new Date(res.endDate);
-  
+
       while (start <= end) {
         const dateString = start.toISOString().split('T')[0];
         acc.add(dateString);
@@ -23,27 +57,15 @@ endDate:any;
       }
       return acc;
     }, new Set());
-  
+
     const isReserved = reservedDates.has(currentDate.toISOString().split('T')[0]);
-  
+
     return {
       textColor: '#ffffff',
       backgroundColor: isReserved ? 'red' : 'green',
-      disabled: isReserved ? 'true' : 'false', // Disable the button for reserved dates
     };
   };
-  
-  
-  CurrentReservations: any[] = [
-    {
-      startDate: '2023-12-01',
-      endDate: '2023-12-05',
-    },
-    {
-      startDate: '2023-12-10',
-      endDate: '2023-12-15',
-    },
-  ];
+
 
   datePickerOptions = {
     highlightedDates: this.highlightedDates,
@@ -79,7 +101,66 @@ endDate:any;
     return calendarStatusArray;
   }
 
+
+
+  check_conflict(chosenStartDate: Date, chosenEndDate: Date, existingReservations: any[]) {
+    for (const reservation of existingReservations) {
+      const reservationStartDate = new Date(reservation.startDate);
+      const reservationEndDate = new Date(reservation.endDate);
+
+      const doesOverlap = (
+        chosenStartDate <= reservationEndDate && 
+        chosenEndDate >= reservationStartDate
+      );
+
+      if (doesOverlap) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+
+
+  async generalAlert(
+    header: string,
+    message: string,
+    buttons: any,
+    inputs?: any
+  ) {
+    const alert = await this.alertCtrl.create({
+      header: header,
+      message: message,
+      buttons: buttons,
+      inputs: inputs,
+    });
+    await alert.present();
+  }
+
+
+
+  fake_submit() {
+    const chosenStartDate = new Date(this.startDate);
+  const chosenEndDate = new Date(this.endDate);
+    let conflict = this.check_conflict(chosenStartDate, chosenEndDate, this.CurrentReservations)
+    if (conflict)
+      this.generalAlert(
+        'Conflict Alert',
+        'The chosen start and end dates conflict with existing reservations.',
+        ['OK']
+      );
+      else
+      console.log('Whatever');
+  }
+
+
+
+
 }
+
+
+
+
 
 
 

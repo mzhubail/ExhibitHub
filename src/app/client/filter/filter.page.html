@@ -16,20 +16,19 @@
 
     <ion-modal [keepContentsMounted]="true">
         <ng-template>
-            <ion-datetime id="datetime-start" presentation="date"
+            <ion-datetime displayFormat="YYYY-MM-DD" (ionChange)="client.startDateChanged($event)"  id="datetime-start" presentation="date"
                 [highlightedDates]="client.datePickerOptions.highlightedDates"></ion-datetime>
         </ng-template>
     </ion-modal>
 
     <ion-modal [keepContentsMounted]="true">
         <ng-template>
-            <ion-datetime id="datetime-end" presentation="date"
+            <ion-datetime displayFormat="YYYY-MM-DD" (ionChange)="client.endDateChanged($event)"  id="datetime-end" presentation="date"
                 [highlightedDates]="client.datePickerOptions.highlightedDates"></ion-datetime>
         </ng-template>
     </ion-modal>
 
     <ion-grid>
-        
         <ion-row class="date-pickers">
             <ion-col>
                 <div class="date-picker-item ion-padding">
@@ -37,7 +36,7 @@
                         <ion-text color="primary" class="ion-text-uppercase">Start</ion-text>
                     </div>
                     <ion-item lines="none">
-                        <ion-datetime-button date-target="true" datetime="datetime-start" [(ngModel)]="client.startDate"
+                        <ion-datetime-button date-target="true" datetime="datetime-start" 
                             color="primary" class="ion-text-center"></ion-datetime-button>
                     </ion-item>
                 </div>
@@ -49,7 +48,7 @@
                         <ion-text color="primary" class="ion-text-uppercase">End</ion-text>
                     </div>
                     <ion-item lines="none">
-                        <ion-datetime-button date-target="true" datetime="datetime-end" [(ngModel)]="client.endDate"
+                        <ion-datetime-button date-target="true" datetime="datetime-end" 
                             color="primary" class="ion-text-center"></ion-datetime-button>
                     </ion-item>
                 </div>
@@ -113,5 +112,6 @@
     </ion-card>
     <ion-item>
         <ion-button size="big" slot="end" routerLink="/conform-reservation">Reserve Hall</ion-button>
+        <ion-button (click)="client.fake_submit()" size="large" slot="end">Check conflict</ion-button>
     </ion-item>
 </ion-content>
