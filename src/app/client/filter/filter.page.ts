@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ClientServiceService } from '../../services/client-service.service';
 
 @Component({
   selector: 'app-filter',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FilterPage implements OnInit {
 
-  constructor() { }
+  constructor(public client:ClientServiceService) { }
 
   ngOnInit() {
   }
