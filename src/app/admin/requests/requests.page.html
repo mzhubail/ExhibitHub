@@ -2,4 +2,165 @@
   <ion-toolbar>
     <ion-title> Requests </ion-title>
   </ion-toolbar>
+  <!-------------------------------------------- Segment buttons ------------------------------------------->
+  <div>
+    <ion-segment [(ngModel)]="selectedSegment" mode="md">
+      <ion-segment-button value="pending">
+        <ion-label>Pending</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="approved">
+        <ion-label>Approved</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="rejected">
+        <ion-label>Rejected</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+    <hr style="margin: 0; opacity: 0.1" />
+  </div>
 </ion-header>
+
+<ion-content class="ion-padding">
+  <div [ngSwitch]="selectedSegment">
+    <!-------------------------------------------- Pending list ------------------------------------------->
+
+    <ion-list *ngSwitchCase="'pending'">
+      <div routerLink="/request-details">
+        <ion-card class="event-card">
+          <ion-col class="event-card-img">
+            <ion-avatar>
+              <ion-img src="assets/IMG_2275.jpg"></ion-img>
+            </ion-avatar>
+          </ion-col>
+
+          <ion-col class="event-card-content">
+            <ion-card-content>
+              <h3 class="event-card-content-element">
+                Requested Date: <br />
+                <b> 23 Nov - 26 Nov 2023</b>
+              </h3>
+              <h3 class="event-card-content-element">
+                Event name: <br />
+                <b> Jewellary Arabia</b>
+              </h3>
+              <h3 class="event-card-content-element">
+                Request Status: <b>Pending</b>
+              </h3>
+            </ion-card-content>
+          </ion-col>
+        </ion-card>
+      </div>
+
+      <div>
+        <ion-card class="event-card">
+          <ion-col class="event-card-img">
+            <ion-avatar>
+              <ion-img src="assets/IMG_2275.jpg"></ion-img>
+            </ion-avatar>
+          </ion-col>
+
+          <ion-col class="event-card-content">
+            <ion-card-content>
+              <h3 class="event-card-content-element">
+                Requested Date: <br />
+                <b> 23 Nov - 26 Nov 2023</b>
+              </h3>
+              <h3 class="event-card-content-element">
+                Event name: <br />
+                <b> Jewellary Arabia</b>
+              </h3>
+              <h3 class="event-card-content-element">
+                Request Status: <b>Pending</b>
+              </h3>
+            </ion-card-content>
+          </ion-col>
+        </ion-card>
+      </div>
+
+      <div>
+        <ion-card class="event-card">
+          <ion-col class="event-card-img">
+            <ion-avatar>
+              <ion-img src="assets/IMG_2275.jpg"></ion-img>
+            </ion-avatar>
+          </ion-col>
+
+          <ion-col class="event-card-content">
+            <ion-card-content>
+              <h3 class="event-card-content-element">
+                Requested Date: <br />
+                <b> 23 Nov - 26 Nov 2023</b>
+              </h3>
+              <h3 class="event-card-content-element">
+                Event name: <br />
+                <b> Jewellary Arabia</b>
+              </h3>
+              <h3 class="event-card-content-element">
+                Request Status: <b>Pending</b>
+              </h3>
+            </ion-card-content>
+          </ion-col>
+        </ion-card>
+      </div>
+    </ion-list>
+
+    <!-------------------------------------------- Approved list ------------------------------------------->
+
+    <ion-list *ngSwitchCase="'approved'">
+      <div routerLink="/request-details">
+        <ion-card class="event-card">
+          <ion-col class="event-card-img">
+            <ion-avatar>
+              <ion-img src="assets/IMG_2275.jpg"></ion-img>
+            </ion-avatar>
+          </ion-col>
+
+          <ion-col class="event-card-content">
+            <ion-card-content>
+              <h3 class="event-card-content-element">
+                Requested Date: <br />
+                <b> 23 Nov - 26 Nov 2023</b>
+              </h3>
+              <h3 class="event-card-content-element">
+                Event name: <br />
+                <b> Jewellary Arabia</b>
+              </h3>
+              <h3 class="event-card-content-element">
+                Request Status: <b>Approved</b>
+              </h3>
+            </ion-card-content>
+          </ion-col>
+        </ion-card>
+      </div>
+    </ion-list>
+
+    <!-------------------------------------------- Rejected list ------------------------------------------->
+
+    <ion-list *ngSwitchCase="'rejected'">
+      <div routerLink="/request-details">
+        <ion-card class="event-card">
+          <ion-col class="event-card-img">
+            <ion-avatar>
+              <ion-img src="assets/IMG_2275.jpg"></ion-img>
+            </ion-avatar>
+          </ion-col>
+
+          <ion-col class="event-card-content">
+            <ion-card-content>
+              <h3 class="event-card-content-element">
+                Requested Date: <br />
+                <b> 23 Nov - 26 Nov 2023</b>
+              </h3>
+              <h3 class="event-card-content-element">
+                Event name: <br />
+                <b> Jewellary Arabia</b>
+              </h3>
+              <h3 class="event-card-content-element">
+                Request Status: <b>Rejected</b>
+              </h3>
+            </ion-card-content>
+          </ion-col>
+        </ion-card>
+      </div>
+    </ion-list>
+  </div>
+</ion-content>
