@@ -1,5 +1,24 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Tickets</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title color="primary">Tickets</ion-title>
+    </ion-toolbar>
 </ion-header>
+<ion-content>
+    <ion-item>
+        <ion-button slot="end" fill="clear">
+            <ion-icon name="funnel-outline"></ion-icon>
+            SORT
+        </ion-button>
+    </ion-item>
+    <ion-card color="tertiary" *ngFor="let i of [0, 1, 2, 3]">
+        <ion-card-header>
+            <ion-card-title>Event name</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-label>
+                description about the event only few line <br>Nov 24, 2023 - Nov 23, 2023
+            </ion-label>
+        </ion-card-content>
+
+    </ion-card>
+</ion-content>
