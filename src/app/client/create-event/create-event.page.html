@@ -5,16 +5,19 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-    <ion-label class="ion-padding">Customize your event</ion-label>
-    <ion-card>
-        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-        <ion-card-header>
-            <ion-input placeholder="Event Name"></ion-input>
-            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-        </ion-card-header>
 
-        <ion-card-content>
-            Here's a small text description for the card content. Nothing more, nothing less.
-        </ion-card-content>
-    </ion-card>
+    <ion-list>
+  <!-- The reorder gesture is disabled by default, enable it to drag and drop items -->
+  <!-- Casting $event to $any is a temporary fix for this bug https://github.com/ionic-team/ionic-framework/issues/24245 -->
+      <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
+    <ion-reorder *ngFor="let item of itemOrder" [id]="item.id">
+       <ion-item >
+    <ion-label>Item {{ item.id }}</ion-label>
+    <div [innerHTML]="item.content" (click)="showElementAlert($event)"></div>
+     </ion-item>
+    </ion-reorder>
+</ion-reorder-group>
+</ion-list>
+
+<input type="file">
 </ion-content>
