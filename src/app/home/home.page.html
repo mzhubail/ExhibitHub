@@ -1,17 +1,41 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title> Blank </ion-title>
+    <ion-title> Welcome </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <div class="card-container">
+    <ion-card>
+      <ion-row>
+        <ion-col size-md="3" size="12" class="ion-padding ion-blue-bkg">
+          <img
+            src="assets/icon/company_icon.png"
+            alt="Company logo"
+            loading="lazy"
+          />
+        </ion-col>
+        <ion-col size-md="9" size="12" class="welcome">
+          <ion-card-header>
+            <ion-card-title> Welcome to ?????? 🔝 put your icon and company name </ion-card-title>
+          </ion-card-header>
 
-  <div class="container my-2">
-    <button class="btn btn-primary" routerLink="/sign-in">Sign In Page</button>
+          <ion-card-content align="center">
+            <ion-button routerDirection="forward" routerLink="/log-in" shape="round" color="primary"> Log in </ion-button>
+            <ion-button routerDirection="forward" routerLink="/sign-up" shape="round" color="primary"> Sign up </ion-button>
+
+            <ion-item style="margin:1rem;border:solid rgb(221, 218, 218) 2px;border-radius:1rem;">
+
+              <ion-note slot="start">Continue as a guest ?</ion-note>
+              <ion-fab-button size="small" slot="end" routerDirection="forward" routerLink="/attendee" fill="outline" color="primary"> 
+              <ion-icon name="chevron-forward"></ion-icon>  
+              </ion-fab-button>
+
+            </ion-item>
+          
+          </ion-card-content>
+        </ion-col>
+      </ion-row>
+    </ion-card>
   </div>
 </ion-content>
