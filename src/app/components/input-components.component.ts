@@ -48,10 +48,10 @@ export class InputComponent implements OnInit {
   private convertErrorsToMessage(name: string, errors: ValidationErrors | null): string | undefined {
     // console.log({name, errors: errors})
     if (errors == null)
-      return;
+      return null; // error if no value returned !
     var entries = Object.entries(errors);
     if (entries.length == 0)
-      return;
+      return null; // error if no value returned !
     var [errorName, errorContent] = entries[0];
     // console.log(errorName, errorContent);
 
@@ -90,7 +90,7 @@ export class InputComponent implements OnInit {
   public errorMessages() : string | undefined {
     if (this.invalidCondition())
       return this.convertErrorsToMessage(this.name, this.fc.errors);
-    return;
+    return null; // error if no value returned !
   }
 
 

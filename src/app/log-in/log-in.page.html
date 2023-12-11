@@ -16,25 +16,34 @@
     <ion-card-content>
 <ion-list-header style="color:#ab916b;margin-bottom:1rem;">Login</ion-list-header>
   <form>
+
     <ion-icon size="small" name="mail-outline"></ion-icon>
     <ion-label position="stacked" style="padding-bottom: 2px;font-size:large;"> Email</ion-label>
       <ion-input placeholder="example@example.com" label="" style="padding-left:3rem" type="email"></ion-input>
+
+
 
       <ion-icon size="small" name="lock-closed-outline"></ion-icon>
       <ion-label position="stacked" style="padding-bottom: 2px;font-size:large;"> Password</ion-label>
       <ion-input placeholder="enter your password" label="" type="password"></ion-input>
 
+
     <ion-button style="margin:1rem"  expand="block" color="primary">Log in</ion-button>
+
+
     <p class="ion-text-center ion-padding-top">
       <ion-button routerLink="/reset-password" routerDirection="forward"  fill="clear">
         <ion-note>Forgot password?</ion-note>
       </ion-button>
     </p>
 
+
     <div class="ion-no-margin ion-text-center ion-padding-top">
       <p class="ion-no-margin">Don't have an account?</p>
       <ion-button routerLink="/sign-up" routerDirection="forward" fill="outline">Create new</ion-button>
     </div>
+
+    
   </form>
 
   </ion-card-content>
