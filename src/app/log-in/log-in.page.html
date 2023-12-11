@@ -5,48 +5,55 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
   <ion-card>
     <ion-card-header class="ion-text-center">
       <ion-img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
-        style="width: 185px;" alt="logo"></ion-img>
-        <h4 class="ion-margin-top ion-padding-bottom">MJ: Put your company icon and name</h4>
+        style="width: 185px" alt="logo"></ion-img>
+      <h4 class="ion-margin-top ion-padding-bottom">
+        MJ: Put your company icon and name
+      </h4>
     </ion-card-header>
-  
+
     <ion-card-content>
-<ion-list-header style="color:#ab916b;margin-bottom:1rem;">Login</ion-list-header>
-  <form>
+      <ion-list-header style="color: #ab916b; margin-bottom: 1rem">Login</ion-list-header>
+      <form [formGroup]="loginForm" (ngSubmit)="checkCredentials()">
+        <ion-icon size="small" name="mail-outline"></ion-icon>
+        <ion-label position="stacked" style="padding-bottom: 2px; font-size: large">
+          Email</ion-label>
+        <ion-input formControlName="email" placeholder="example@example.com" label="" style="padding-left: 3rem" type="email"></ion-input>
 
-    <ion-icon size="small" name="mail-outline"></ion-icon>
-    <ion-label position="stacked" style="padding-bottom: 2px;font-size:large;"> Email</ion-label>
-      <ion-input placeholder="example@example.com" label="" style="padding-left:3rem" type="email"></ion-input>
+        <!-- errors of email -->
+        <ion-note color="danger" class="error-message"
+          *ngIf="loginForm.get('email').invalid && loginForm.get('email').touched">
+          <ion-icon name="alert-outline" color="danger"></ion-icon>
+          <span *ngIf="loginForm.get('email').hasError('required')">Email is required.</span>
+          <span *ngIf="loginForm.get('email').hasError('email')">Please enter a valid email..</span>
+        </ion-note>
 
+        <ion-icon size="small" name="lock-closed-outline"></ion-icon>
+        <ion-label position="stacked" style="padding-bottom: 2px; font-size: large">
+          Password</ion-label>
+        <ion-input formControlName="password" placeholder="enter your password" label="" type="password"></ion-input>
 
+        <!-- errors of email -->
+        <ion-note color="danger" class="error-message" *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched">
+          <ion-icon name="alert-outline" color="danger"></ion-icon>
+          <span *ngIf="loginForm.get('password').hasError('required')">Password is required.</span>
+        </ion-note>
 
-      <ion-icon size="small" name="lock-closed-outline"></ion-icon>
-      <ion-label position="stacked" style="padding-bottom: 2px;font-size:large;"> Password</ion-label>
-      <ion-input placeholder="enter your password" label="" type="password"></ion-input>
+        <ion-button type="submit" style="margin: 1rem" expand="block" color="primary">Log in</ion-button>
 
+        <p class="ion-text-center ion-padding-top">
+          <ion-button routerLink="/reset-password" routerDirection="forward" fill="clear">
+            <ion-note>Forgot password?</ion-note>
+          </ion-button>
+        </p>
 
-    <ion-button style="margin:1rem"  expand="block" color="primary">Log in</ion-button>
-
-
-    <p class="ion-text-center ion-padding-top">
-      <ion-button routerLink="/reset-password" routerDirection="forward"  fill="clear">
-        <ion-note>Forgot password?</ion-note>
-      </ion-button>
-    </p>
-
-
-    <div class="ion-no-margin ion-text-center ion-padding-top">
-      <p class="ion-no-margin">Don't have an account?</p>
-      <ion-button routerLink="/sign-up" routerDirection="forward" fill="outline">Create new</ion-button>
-    </div>
-
-    
-  </form>
-
-  </ion-card-content>
+        <div class="ion-no-margin ion-text-center ion-padding-top">
+          <p class="ion-no-margin">Don't have an account?</p>
+          <ion-button routerLink="/sign-up" routerDirection="forward" fill="clear">Create new</ion-button>
+        </div>
+      </form>
+    </ion-card-content>
   </ion-card>
-
 </ion-content>

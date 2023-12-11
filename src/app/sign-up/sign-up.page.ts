@@ -5,19 +5,25 @@ import {
   FormGroup,
   FormControl,
 } from '@angular/forms';
+import { AuthenticationService } from '../authentication.service';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.page.html',
   styleUrls: ['./sign-up.page.scss'],
 })
 export class SignUpPage implements OnInit {
-
-  constructor(public formBuilder:FormBuilder) { }
+  constructor(
+    public formBuilder: FormBuilder,
+    public authSrv: AuthenticationService,
+    public router: Router
+  ) {}
 
   ngOnInit() {
-
     this.validation();
 
+    
   }
 
   // I've edited "strict" to false in ts-config.json
@@ -25,13 +31,7 @@ export class SignUpPage implements OnInit {
 
   validation() {
     this.signup = this.formBuilder.group({
-      email: [
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.email,
-        ]),
-      ],
+      email: ['', Validators.compose([Validators.required, Validators.email])],
 
       first_name: [
         '',
@@ -49,7 +49,6 @@ export class SignUpPage implements OnInit {
         ]),
       ],
 
-    
       phone: [
         '',
         Validators.compose([
@@ -62,7 +61,9 @@ export class SignUpPage implements OnInit {
         '',
         Validators.compose([
           Validators.required,
-          Validators.pattern('^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$'),
+          Validators.pattern('^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])\\S+$'),
+          Validators.minLength(8),
+          Validators.maxLength(20),
         ]),
       ],
 
@@ -70,35 +71,40 @@ export class SignUpPage implements OnInit {
         '',
         Validators.compose([
           Validators.required,
-          Validators.pattern('^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$'),
+          Validators.pattern('^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).+$'),
+          Validators.minLength(8),
+          Validators.maxLength(20),
         ]),
-        // check if there is a mismatch
-        // this.passwordMismatchValidator.bind(this),
       ],
-
-    }); 
+      role: [
+        'client'
+      ],
+    });
   }
 
-  
-  passwordMismatchValidator(): { [key: string]: boolean } | null {
-    const password = this.signup.get('password')?.value;
-    const confirmPassword = this.signup.get('confirm_password')?.value;
+  register(formInformation: any) {
+    // check if mismatch. then check the validation as a whole
 
-    return password === confirmPassword ? null : { passwordMismatch: true };
+    let email = formInformation.get('email').value;
+    let phone = formInformation.get('phone').value;
+    let first_name = formInformation.get('first_name').value;
+    let last_name = formInformation.get('last_name').value;
+    let pass = formInformation.get('password').value;
+    let confirm_pass = formInformation.get('confirm_password').value;
+    let role = formInformation.get('role').value;
+
+    if (!this.signup.valid) {
+      this.authSrv.generalAlert(
+        'INVALID DATA ❌',
+        'Please check the entered data and make sure you fill all the form',
+        ['OK']
+      );
+    } else if (pass !== confirm_pass) {
+      this.authSrv.generalAlert('MISMATCH ❌', 'Make sure passwords match', [
+        'OK',
+      ]);
+    } else {
+      this.authSrv.signUp(email, pass, first_name, last_name, phone, role);
+    }
   }
-
-
-  register(formInformation:any){
-    
-
-    
-
-  }
-
-
-
-
 }
-
-
-
