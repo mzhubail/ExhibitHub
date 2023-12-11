@@ -66,7 +66,18 @@ const routes: Routes = [
   },
   {
     path: 'request-details',
-    loadChildren: () => import('./admin/request-details/request-details.module').then( m => m.RequestDetailsPageModule)
+    loadChildren: () =>
+      import('./admin/request-details/request-details.module').then(
+        (m) => m.RequestDetailsPageModule
+      ),
+  },
+
+  {
+    path: 'create-reservation',
+    loadChildren: () =>
+      import('./client/create-reservation/create-reservation.module').then(
+        (m) => m.CreateReservationPageModule
+      ),
   },
   // {
   //   path: 'chat',
