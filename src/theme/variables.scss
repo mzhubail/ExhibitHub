@@ -114,7 +114,8 @@ ion-list {
       color: var(--ion-color-primary);
     }
     ion-button {
-      ion-text {
+      ion-text,
+      ion-icon {
         font-size: 0.9rem;
         font-weight: 500;
       }
