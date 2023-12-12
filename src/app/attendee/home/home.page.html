@@ -1,12 +1,20 @@
 <ion-header>
   <ion-toolbar>
     <ion-title> Home </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="authSrv.signOut()">
+        Log out
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <!-- <ion-content class="ion-padding"> </ion-content> -->
 <ion-content class="ion-padding">
   <ion-row class="ion-justify-content-center ion-margin">
-    <img src="assets/img1.jpg" />
+    <ion-card>
+      <gallery-slider></gallery-slider>
+    </ion-card>
   </ion-row>
   <ion-row class="ion-text-center ion-justify-content-center ion-margin">
     <h1>What's on</h1>

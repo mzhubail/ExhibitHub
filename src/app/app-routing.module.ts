@@ -66,7 +66,30 @@ const routes: Routes = [
   },
   {
     path: 'request-details',
-    loadChildren: () => import('./admin/request-details/request-details.module').then( m => m.RequestDetailsPageModule)
+    loadChildren: () =>
+      import('./admin/request-details/request-details.module').then(
+        (m) => m.RequestDetailsPageModule
+      ),
+  },
+
+  {
+    path: 'create-reservation',
+    loadChildren: () =>
+      import('./client/create-reservation/create-reservation.module').then(
+        (m) => m.CreateReservationPageModule
+      ),
+  },
+  {
+    path: 'log-in',
+    loadChildren: () => import('./log-in/log-in.module').then( m => m.LogInPageModule)
+  },
+  {
+    path: 'sign-up',
+    loadChildren: () => import('./sign-up/sign-up.module').then( m => m.SignUpPageModule)
+  },
+  {
+    path: 'reset-password',
+    loadChildren: () => import('./reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
   },
   // {
   //   path: 'chat',

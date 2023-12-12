@@ -1,0 +1,55 @@
+ion-input {
+  text-indent: 5px;
+  padding-left: 20px;
+  border-radius: 10px;
+  border-width: 1.5px;
+  border-style: solid;
+  border-color: #b5babf;
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+  background: #f1f1f1;
+}
+
+
+.disabled {
+  opacity: 0.5;
+}
+
+.error-message {
+  display: block;
+  font-size: 14px;
+  font-family: 'Lucida Sans';
+  color: #d9534f;
+  background-color: #f2dede;
+  border: 1px solid #d9534f;
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.error-message ion-icon {
+  margin-right: 8px;
+  position: relative;
+  top: 2px;
+}
+
+ion-radio {
+  --border-radius: 4px;
+  --inner-border-radius: 4px;
+
+  --color: #ddd;
+  --color-checked: #ab916b;
+}
+
+ion-radio.ios::part(container) {
+  width: 20px;
+  height: 20px;
+
+  border: 2px solid #ddd;
+  border-radius: 4px;
+}
+
+.radio-checked.ios::part(container) {
+  border-color: #ab916b;
+}
