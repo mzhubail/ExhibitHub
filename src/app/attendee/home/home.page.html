@@ -11,41 +11,21 @@
 </ion-header>
 <!-- <ion-content class="ion-padding"> </ion-content> -->
 <ion-content class="ion-padding">
-  <ion-row class="ion-justify-content-center ion-margin">
-    <ion-card>
-      <gallery-slider></gallery-slider>
-    </ion-card>
-  </ion-row>
+  <gallery-slider></gallery-slider>
 
-  <ion-list lines="none" class="ion-margin">
-    <ion-list-header class="ion-margin-bottom">
-      <ion-label color="primary">What's On</ion-label>
-      <ion-button fill="clear" size="small" color="primary" routerLink="/events"
+  <ion-list>
+    <ion-list-header>
+      <ion-label>What's On</ion-label>
+      <ion-button
+        fill="clear"
+        size="small"
+        routerLink="../events"
+        routerDirection="forward"
         ><ion-text>Show All</ion-text></ion-button
       >
     </ion-list-header>
-
     <cards-slider></cards-slider>
   </ion-list>
 
-  <ion-list lines="none" class="ion-margin">
-    <ion-list-header class="ion-margin-bottom">
-      <ion-label color="primary">About Us</ion-label>
-    </ion-list-header>
-
-    <ion-text>
-      <div>
-        Exhibition World Bahrain is a stunning piece of architecture that
-        embraces the rich Arabic art and culture within its design. An
-        innovative, flexible and adaptable space that is able to cater to every
-        type of event from large conventions and exhibitions to meetings,
-        entertainment, concerts, gala, events and celebrations.
-        <br />
-        <br />
-        Exhibition World Bahrain is proudly managed by ASM Global, the world’s
-        leading venue and event strategy management company, connecting people
-        through the power of live experience.
-      </div>
-    </ion-text>
-  </ion-list>
+  <about-us></about-us>
 </ion-content>

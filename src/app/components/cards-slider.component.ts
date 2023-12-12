@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { IonCard } from '@ionic/angular';
 
 @Component({
   selector: 'cards-slider',
