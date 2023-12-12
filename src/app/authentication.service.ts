@@ -76,6 +76,10 @@ export class AuthenticationService {
         const user = userCredential.user;
         this.UserCollection = collection(this.firestore, 'Users Information');
 
+        ////////////////////////////////////////
+        // before adding the email go and check if th email exists show an error message and exit from the function
+        ////////////////////////////////////////////////////////////////////////////////////////
+
         addDoc(this.UserCollection, {
           UserID: user.uid,
           Phone: phone,
@@ -88,8 +92,16 @@ export class AuthenticationService {
             this.generalAlert(
               'Success',
               'Your account has been created successfully ✅',
-              ['OK']
+              [
+                  {
+                    text: 'OK',
+                    handler: () => {
+                      this.router.navigateByUrl("/log-in");
+                    }
+                  }
+                ]
             );
+
           })
           .catch(() => {
             user.delete().then(() => {
