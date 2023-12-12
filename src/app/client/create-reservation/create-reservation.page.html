@@ -3,49 +3,56 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title color="primary">Create Reservation</ion-title>
+    <!-- <ion-title color="primary">Create Reservation</ion-title> -->
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <form [formGroup]="reservationsForm" (ngSubmit)="AddReservation()">
-    <ion-item>
-      <ion-label position="stacked"
-        ><ion-card-subtitle>Name</ion-card-subtitle></ion-label
-      >
-      <ion-input label="" formControlName="name"> </ion-input>
-    </ion-item>
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Create Reservation</ion-label>
+    </ion-list-header>
 
-    <ion-item>
-      <ion-label position="stacked"
-        ><ion-card-subtitle>Description</ion-card-subtitle></ion-label
-      >
-      <ion-input label="" formControlName="description"> </ion-input>
-    </ion-item>
+    <form [formGroup]="reservationsForm" (ngSubmit)="AddReservation()">
+      <ion-item>
+        <ion-label position="stacked"
+          ><ion-card-subtitle>Name</ion-card-subtitle></ion-label
+        >
+        <ion-input label="" formControlName="name"> </ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label position="stacked"
-        ><ion-card-subtitle>Laction</ion-card-subtitle></ion-label
-      >
-      <ion-input label="" formControlName="location"> </ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-label position="stacked"
+          ><ion-card-subtitle>Description</ion-card-subtitle></ion-label
+        >
+        <ion-input label="" formControlName="description"> </ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label position="stacked"
-        ><ion-card-subtitle>Start Date</ion-card-subtitle></ion-label
-      >
-      <ion-input label="" type="date" formControlName="start_date"> </ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-label position="stacked"
+          ><ion-card-subtitle>Laction</ion-card-subtitle></ion-label
+        >
+        <ion-input label="" formControlName="location"> </ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label position="stacked"
-        ><ion-card-subtitle>End Date</ion-card-subtitle></ion-label
-      >
-      <ion-input label="" type="date" formControlName="end_date"> </ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-label position="stacked"
+          ><ion-card-subtitle>Start Date</ion-card-subtitle></ion-label
+        >
+        <ion-input label="" type="date" formControlName="start_date">
+        </ion-input>
+      </ion-item>
 
-    <ion-button class="ion-margin" expand="block" type="submit">
-      Create</ion-button
-    >
-  </form>
+      <ion-item>
+        <ion-label position="stacked"
+          ><ion-card-subtitle>End Date</ion-card-subtitle></ion-label
+        >
+        <ion-input label="" type="date" formControlName="end_date"> </ion-input>
+      </ion-item>
+
+      <ion-button class="ion-margin" expand="block" type="submit">
+        Create</ion-button
+      >
+    </form>
+  </ion-list>
 </ion-content>
