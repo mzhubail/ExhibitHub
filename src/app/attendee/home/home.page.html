@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title> Home </ion-title>
-    <ion-buttons slot="end">
+    <ion-buttons *ngIf="authSrv.user" slot="end">
       <ion-button (click)="authSrv.signOut()">
         Log out
         <ion-icon name="log-out-outline"></ion-icon>

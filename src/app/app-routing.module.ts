@@ -91,6 +91,10 @@ const routes: Routes = [
     path: 'reset-password',
     loadChildren: () => import('./reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
   },
+  {
+    path: 'new-password',
+    loadChildren: () => import('./new-password/new-password.module').then( m => m.NewPasswordPageModule)
+  },
   // {
   //   path: 'chat',
   //   loadChildren: () => import('./client/chat/chat.module').then( m => m.ChatPageModule)

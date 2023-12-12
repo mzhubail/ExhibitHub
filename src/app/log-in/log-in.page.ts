@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../authentication.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { getAuth, onAuthStateChanged } from '@angular/fire/auth';
-
+import { getAuth, onAuthStateChanged, signInWithEmailLink } from '@angular/fire/auth';
 @Component({
   selector: 'app-log-in',
   templateUrl: './log-in.page.html',
@@ -11,7 +10,33 @@ import { getAuth, onAuthStateChanged } from '@angular/fire/auth';
 })
 export class LogInPage implements OnInit {
 
-  constructor(public authSrv:AuthenticationService, public formBuilder:FormBuilder, public router:Router) { }
+  role:string;
+  constructor(public authSrv:AuthenticationService, public formBuilder:FormBuilder, public router:Router) { 
+    const auth = getAuth();
+    const email = window.localStorage.getItem('emailForSignIn');
+    const url = window.location.href;
+    if (email && url.includes('mode=signIn')) {
+       this.authSrv.getRoleByEmail(email).then((role)=>{
+
+        this.role = role;
+
+        signInWithEmailLink(auth, email, url).then(() => {
+          // The user has been signed in.
+          this.router.navigateByUrl('/'+role);
+        }).catch(() => {
+          this.authSrv.generalAlert(
+            'Fail',
+            'Sorry, something wrong logging you in. Try again later ❌',
+            [
+              'OK'
+            ]
+          );
+        });
+      
+      });
+     
+    }
+  }
 
   ngOnInit() {
 
@@ -23,7 +48,7 @@ export class LogInPage implements OnInit {
 
  validate_login(){
   this.loginForm = this.formBuilder.group({
-    email: ['' ,Validators.compose([Validators.required, Validators.email])],
+    email: ['' ,Validators.compose([Validators.required, Validators.email, Validators.pattern('^[\\w-\\.]+@([\\w-]+\.)+[\\w-]{2,4}$')])],
     password: [
       '',
       Validators.compose([

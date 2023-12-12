@@ -27,7 +27,7 @@
           *ngIf="loginForm.get('email').invalid && loginForm.get('email').touched">
           <ion-icon name="alert-outline" color="danger"></ion-icon>
           <span *ngIf="loginForm.get('email').hasError('required')">Email is required.</span>
-          <span *ngIf="loginForm.get('email').hasError('email')">Please enter a valid email..</span>
+          <span *ngIf="loginForm.get('email').hasError('email')||loginForm.get('email').hasError('pattern')">Please enter a valid email..</span>
         </ion-note>
 
         <ion-icon size="small" name="lock-closed-outline"></ion-icon>
@@ -51,7 +51,7 @@
 
         <div class="ion-no-margin ion-text-center ion-padding-top">
           <p class="ion-no-margin">Don't have an account?</p>
-          <ion-button routerLink="/sign-up" routerDirection="forward" fill="clear">Create new</ion-button>
+          <ion-button routerLink="/sign-up" routerDirection="forward" fill="clear"><u>Create new</u></ion-button>
         </div>
       </form>
     </ion-card-content>
