@@ -104,3 +104,22 @@ ion-thumbnail {
 .event-card-content-element {
   padding: 5px 0;
 }
+
+ion-list {
+  ion-list-header {
+    ion-label {
+      font-size: 1.2rem;
+    }
+    ion-button {
+      ion-text {
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+    }
+  }
+  ion-text {
+    div {
+      padding-left: 3vw;
+    }
+  }
+}

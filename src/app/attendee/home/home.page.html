@@ -17,45 +17,35 @@
     </ion-card>
   </ion-row>
 
-  <ion-list>
-    <ion-list-header>
-      <h1>What's On</h1>
-      <ion-button><label>Show All</label></ion-button>
+  <ion-list lines="none" class="ion-margin">
+    <ion-list-header class="ion-margin-bottom">
+      <ion-label color="primary">What's On</ion-label>
+      <ion-button fill="clear" size="small" color="primary" routerLink="/events"
+        ><ion-text>Show All</ion-text></ion-button
+      >
     </ion-list-header>
+
+    <cards-slider></cards-slider>
   </ion-list>
 
-  <ion-row class="ion-text-center ion-justify-content-center ion-margin">
-    <h1>What's on</h1>
-    <ion-card>
-      <img src="assets/IMG_2275.jpg" />
-      <ion-card-content class="">
-        <ion-card-subtitle class="ion-text-left"
-          >Jewellery Arabia</ion-card-subtitle
-        >
-        <div style="display: flex" class="ion-text-left">
-          <ion-icon name="calendar-clear-sharp" color="primary"></ion-icon>
-          <h2 style="margin: auto 10px">11-14 November 2023</h2>
-        </div>
-        <div style="display: flex" class="ion-text-left">
-          <ion-icon name="location-sharp" color="primary"></ion-icon>
-          <h2 style="margin: auto 10px">Hall 6&7</h2>
-        </div>
-      </ion-card-content>
-    </ion-card>
-    <ion-button size="small">View more</ion-button>
-  </ion-row>
+  <ion-list lines="none" class="ion-margin">
+    <ion-list-header class="ion-margin-bottom">
+      <ion-label color="primary">About Us</ion-label>
+    </ion-list-header>
 
-  <ion-row class="ion-text-center ion-justify-content-center ion-margin">
-    <h1>About us</h1>
-    <p>
-      Exhibition World Bahrain is a stunning piece of architecture that embraces
-      the rich Arabic art and culture within its design. An innovative, flexible
-      and adaptable space that is able to cater to every type of event from
-      large conventions and exhibitions to meetings, entertainment, concerts,
-      gala, events and celebrations. <br />
-      Exhibition World Bahrain is proudly managed by ASM Global, the world’s
-      leading venue and event strategy management company, connecting people
-      through the power of live experience.
-    </p>
-  </ion-row>
+    <ion-text>
+      <div>
+        Exhibition World Bahrain is a stunning piece of architecture that
+        embraces the rich Arabic art and culture within its design. An
+        innovative, flexible and adaptable space that is able to cater to every
+        type of event from large conventions and exhibitions to meetings,
+        entertainment, concerts, gala, events and celebrations.
+        <br />
+        <br />
+        Exhibition World Bahrain is proudly managed by ASM Global, the world’s
+        leading venue and event strategy management company, connecting people
+        through the power of live experience.
+      </div>
+    </ion-text>
+  </ion-list>
 </ion-content>
