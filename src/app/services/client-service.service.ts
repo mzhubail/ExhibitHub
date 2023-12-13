@@ -174,11 +174,6 @@ export class ClientServiceService {
 
 
 
-  //Plan:filtering the halls for reservation
-
-  // get the Reservations collection and make a filtering function if the selected date range is not reserved for the halls,
-  // to show all the available halls in the for that date range
-  // also after filtering the halls I want to filter the filtered array based on the on the entered capacity als
 
 
   public reservations$: Observable<any[]>;
