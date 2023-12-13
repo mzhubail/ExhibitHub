@@ -16,15 +16,15 @@
 
     <ion-modal [keepContentsMounted]="true">
         <ng-template>
-            <ion-datetime displayFormat="YYYY-MM-DD" (ionChange)="client.startDateChanged($event)"  id="datetime-start" presentation="date"
-                [highlightedDates]="client.datePickerOptions.highlightedDates"></ion-datetime>
+            <ion-datetime displayFormat="YYYY-MM-DD" (ionChange)="client.start_date_changed($event)"  id="datetime-start" presentation="date"
+                ></ion-datetime>
         </ng-template>
     </ion-modal>
 
     <ion-modal [keepContentsMounted]="true">
         <ng-template>
-            <ion-datetime displayFormat="YYYY-MM-DD" (ionChange)="client.endDateChanged($event)"  id="datetime-end" presentation="date"
-                [highlightedDates]="client.datePickerOptions.highlightedDates"></ion-datetime>
+            <ion-datetime displayFormat="YYYY-MM-DD"  (ionChange)="client.end_date_changed($event)"  id="datetime-end" presentation="date"
+                ></ion-datetime>
         </ng-template>
     </ion-modal>
 
@@ -72,17 +72,18 @@
         </ion-row> -->
 
         <ion-row class="ion-text-center ion-padding">
-            <ion-input label="Capacity" type="number" placeholder="Enter a capacity"></ion-input>
+            <ion-input label="Capacity" [(ngModel)]="client.capacity" (ionInput)="client.filterHalls()" type="number" placeholder="Enter a capacity"></ion-input>
         </ion-row>
         <ion-row class="ion-padding-start">
             <ion-label>Halls Found</ion-label>
         </ion-row>
-        <ion-row class="ion-padding">
-            <ion-button class="ion-padding-end" color="secondary">Hall1</ion-button>
+        <ion-row  class="ion-padding">
+            <ion-button *ngFor="let hall of client.filteredHalls$ | async" class="ion-padding-end" color="secondary">Hall {{hall.id}}</ion-button>
+            <!-- <ion-button class="ion-padding-end" color="secondary">Hall1</ion-button>
             <ion-button class="ion-padding-end" color="secondary">Hall2</ion-button>
             <ion-button class="ion-padding-end" color="secondary">Hall3</ion-button>
             <ion-button class="ion-padding-end" color="secondary">Hall4</ion-button>
-            <ion-button class="ion-padding-end" color="secondary">Hall5</ion-button>
+            <ion-button class="ion-padding-end" color="secondary">Hall5</ion-button> -->
         </ion-row>
     </ion-grid>
     <ion-card>
@@ -112,6 +113,5 @@
     </ion-card>
     <ion-item>
         <ion-button size="big" slot="end" routerLink="/conform-reservation">Reserve Hall</ion-button>
-        <ion-button (click)="client.fake_submit()" size="large" slot="end">Check conflict</ion-button>
     </ion-item>
 </ion-content>
