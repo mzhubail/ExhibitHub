@@ -9,7 +9,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'log-in',
     pathMatch: 'full',
   },
   {
@@ -81,15 +81,20 @@ const routes: Routes = [
   },
   {
     path: 'log-in',
-    loadChildren: () => import('./log-in/log-in.module').then( m => m.LogInPageModule)
+    loadChildren: () =>
+      import('./log-in/log-in.module').then((m) => m.LogInPageModule),
   },
   {
     path: 'sign-up',
-    loadChildren: () => import('./sign-up/sign-up.module').then( m => m.SignUpPageModule)
+    loadChildren: () =>
+      import('./sign-up/sign-up.module').then((m) => m.SignUpPageModule),
   },
   {
     path: 'reset-password',
-    loadChildren: () => import('./reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
+    loadChildren: () =>
+      import('./reset-password/reset-password.module').then(
+        (m) => m.ResetPasswordPageModule
+      ),
   },
   // {
   //   path: 'chat',
