@@ -11,13 +11,26 @@ export class CreateReservationPage implements OnInit {
   newReservation: Reservation = {} as Reservation;
   reservationsForm: FormGroup = new FormGroup({});
 
+  start_date: Date = new Date();
+  end_date: Date = new Date();
+
+  startDateChanged(event: any) {
+    this.start_date = event.detail.value;
+    console.log(this.start_date);
+  }
+
+  endDateChanged(event: any) {
+    this.end_date = event.detail.value;
+    console.log(this.end_date);
+  }
+
   constructor(public FBService: FBService, public FormBuilder: FormBuilder) {
     this.reservationsForm = FormBuilder.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
-      location: ['', Validators.required],
-      start_date: ['', Validators.required],
-      end_date: ['', Validators.required],
+      // hall: ['', Validators.required],
+      start_date: [this.start_date],
+      end_date: [this.end_date],
       status: ['pending'],
     });
   }

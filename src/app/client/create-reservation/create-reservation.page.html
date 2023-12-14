@@ -28,26 +28,72 @@
         <ion-input label="" formControlName="description"> </ion-input>
       </ion-item>
 
+      <ion-modal [keepContentsMounted]="true">
+        <ng-template>
+          <ion-datetime
+            displayFormat="YYYY-MM-DD"
+            id="datetime-start"
+            presentation="date"
+            (ionChange)="startDateChanged($event)"
+          ></ion-datetime>
+        </ng-template>
+      </ion-modal>
+
+      <ion-modal [keepContentsMounted]="true">
+        <ng-template>
+          <ion-datetime
+            displayFormat="YYYY-MM-DD"
+            id="datetime-end"
+            presentation="date"
+            (ionChange)="endDateChanged($event)"
+          ></ion-datetime>
+        </ng-template>
+      </ion-modal>
+
       <ion-item>
-        <ion-label position="stacked"
-          ><ion-card-subtitle>Laction</ion-card-subtitle></ion-label
-        >
-        <ion-input label="" formControlName="location"> </ion-input>
+        <ion-row>
+          <ion-col style="padding: 5px 0">
+            <ion-label position="stacked"
+              ><ion-card-subtitle>Start Date</ion-card-subtitle></ion-label
+            >
+            <ion-datetime-button
+              date-target="true"
+              datetime="datetime-start"
+              color="primary"
+              class="ion-text-center"
+            ></ion-datetime-button>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col style="padding: 5px 0">
+            <ion-label position="stacked"
+              ><ion-card-subtitle>End Date</ion-card-subtitle></ion-label
+            >
+            <ion-datetime-button
+              date-target="true"
+              datetime="datetime-end"
+              color="primary"
+              class="ion-text-center"
+            ></ion-datetime-button>
+          </ion-col>
+        </ion-row>
       </ion-item>
 
       <ion-item>
         <ion-label position="stacked"
-          ><ion-card-subtitle>Start Date</ion-card-subtitle></ion-label
+          ><ion-card-subtitle>Halls found</ion-card-subtitle></ion-label
         >
-        <ion-input label="" type="date" formControlName="start_date">
-        </ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="stacked"
-          ><ion-card-subtitle>End Date</ion-card-subtitle></ion-label
+        <ion-row>
+          <ion-button *ngFor="let x of [1,2,3,4,5,6,7,8]"
+            >Hall {{x}}</ion-button
+          >
+        </ion-row>
+        <ion-text
+          >the filtered halls based on specified date range should be displayed
+          as a buttons</ion-text
         >
-        <ion-input label="" type="date" formControlName="end_date"> </ion-input>
+        <!-- <ion-input label="" formControlName="hall"> </ion-input> -->
       </ion-item>
 
       <ion-button class="ion-margin" expand="block" type="submit">
