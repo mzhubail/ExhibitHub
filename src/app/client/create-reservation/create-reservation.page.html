@@ -16,16 +16,16 @@
     <form [formGroup]="reservationsForm" (ngSubmit)="AddReservation()">
       <ion-item>
         <ion-label position="stacked"
-          ><ion-card-subtitle>Name</ion-card-subtitle></ion-label
+          ><ion-card-subtitle>Name (Name of what??)</ion-card-subtitle></ion-label
         >
-        <ion-input label="" formControlName="name"> </ion-input>
+        <ion-input label="" placeholder="Enter name" formControlName="name"> </ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label position="stacked"
           ><ion-card-subtitle>Description</ion-card-subtitle></ion-label
         >
-        <ion-input label="" formControlName="description"> </ion-input>
+        <ion-input placeholder="Enter the description" label="" formControlName="description"> </ion-input>
       </ion-item>
 
       <ion-modal [keepContentsMounted]="true">
@@ -34,7 +34,7 @@
             displayFormat="YYYY-MM-DD"
             id="datetime-start"
             presentation="date"
-            (ionChange)="startDateChanged($event)"
+            (ionChange)="this.FBService.start_date_changed($event)"
           ></ion-datetime>
         </ng-template>
       </ion-modal>
@@ -45,7 +45,7 @@
             displayFormat="YYYY-MM-DD"
             id="datetime-end"
             presentation="date"
-            (ionChange)="endDateChanged($event)"
+            (ionChange)="this.FBService.end_date_changed($event)"
           ></ion-datetime>
         </ng-template>
       </ion-modal>
@@ -85,8 +85,8 @@
           ><ion-card-subtitle>Halls found</ion-card-subtitle></ion-label
         >
         <ion-row>
-          <ion-button *ngFor="let x of [1,2,3,4,5,6,7,8]"
-            >Hall {{x}}</ion-button
+          <ion-button *ngFor="let hall of FBService.filteredHalls$|async"
+            >Hall {{hall.id}}</ion-button
           >
         </ion-row>
         <ion-text

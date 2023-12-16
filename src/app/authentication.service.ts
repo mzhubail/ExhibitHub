@@ -57,14 +57,13 @@ export class AuthenticationService {
       },
       dynamicLinkDomain: 'mobileammz.page.link',  // important  
     };
+    //  this.x= getAuth().currentUser.uid;
   }
-
-  user = false;
+x:string;
   signIn(email: string, password: string) {
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
       .then((credentials) => {
-        this.user = true;
         let userID = credentials.user.uid;
         this.getRole(userID).then((role: string) => {
           this.router.navigateByUrl('/' + role);
@@ -140,6 +139,9 @@ export class AuthenticationService {
       }
     });
   }
+
+
+  
 
   async checkDuplicate(email: string): Promise<boolean> {
     const userQuery = query(

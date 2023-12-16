@@ -41,6 +41,7 @@ export class LogInPage implements OnInit {
   ngOnInit() {
 
     this.validate_login();
+    
 
   }
 
