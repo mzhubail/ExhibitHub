@@ -23,7 +23,20 @@ import {
 
 import { DocumentData } from 'firebase/firestore';
 
-import { Observable } from 'rxjs';
+
+import {
+  getDocs,
+  doc,
+  deleteDoc,
+  updateDoc,
+  docData,
+  setDoc,
+  addDoc,
+  query,
+} from '@angular/fire/firestore';
+
+import { Observable, map, switchMap, of } from 'rxjs';
+import { Firestore } from 'firebase/firestore';
 
 //exhabitor (client) interface
 export interface Exhabitor {
@@ -40,7 +53,7 @@ export interface Reservation {
   exhabitorID: string; //foriegn key from exhabitor collection
   name: string;
   description: string;
-  location: string;
+  location: string; // Should be changed to hall (Better Description), also the filtering considered it as "hall" not "location"
   start_date: Date;
   end_date: Date;
   status: string; //(approved/rejected/pending)
@@ -78,16 +91,17 @@ export class FBService {
     this.reservationCollection = collection(this.firestore, 'Reservations');
 
     this.getReservations(); // get members as observable
+    this.getHalls();
 
     this.getReservationsCopy(); // get members by copy into array
   }
 
-  async getReservations() {
-    const q = query(collection(this.firestore, 'Reservations'));
-    this.reservations$ = collectionData(q, { idField: 'id' }) as Observable<
-      reservations[]
-    >;
-  }
+  // async getReservations() {
+  //   const q = query(collection(this.firestore, 'Reservations'));
+  //   this.reservations$ = collectionData(q, { idField: 'id' }) as Observable<
+  //     reservations[]
+  //   >;
+  // }
 
   async getReservationsCopy() {
     const querySnapshot = await getDocs(
@@ -123,4 +137,104 @@ export class FBService {
   // deleteMember(res: Member): Promise<void> {
   //   return deleteDoc(doc(this.firestore, 'Members', member.id));
   // }
+
+
+
+  public reservations$: Observable<any[]>;
+  public filteredReservations$: Observable<any[]>;
+  public halls$: Observable<any[]>;
+  public filteredHalls$: Observable<any[]>;
+
+  async getReservations() {
+    const queryCollection = query(collection(this.firestore, 'Reservations'));
+    this.reservations$ = collectionData(queryCollection, {
+      idField: 'id',
+    }) as Observable<any[]>;
+  }
+
+  async getHalls() {
+    const queryCollection = query(collection(this.firestore, 'halls'));
+    this.halls$ = collectionData(queryCollection, {
+      idField: 'id',
+    }) as Observable<any[]>;
+    this.filteredHalls$ = this.halls$;
+  }
+
+
+
+  // Chosen by the client
+  start_date: Date = new Date();
+  end_date: Date = new Date();
+
+  start_date_changed(event: any) {
+    this.start_date = new Date(event.detail.value);
+    this.filterHalls(); // Call filterHalls() when start_date changes
+  }
+
+  end_date_changed(event: any) {
+    this.end_date = new Date(event.detail.value);
+    this.filterHalls(); // Call filterHalls() when end_date changes
+  }
+
+  filterHalls() {
+    if (!this.reservations$) {
+      return;
+    }
+    this.filteredHalls$ = this.halls$;
+    const start = this.start_date.toISOString().split('T')[0];
+    const end = this.end_date.toISOString().split('T')[0];
+    console.log(start);
+    console.log(end);
+
+    this.halls$
+      .pipe(
+        switchMap((halls) =>
+          this.reservations$.pipe(
+            map((reservations) => {
+              return halls.filter((hall) => {
+                const reservationsForHall = reservations.filter(
+                  (reservation) => reservation.location === hall.id
+                );
+                const hasReservation = reservationsForHall.some((reservation) =>
+                  this.checkDateRangeOverlap(
+                    start,
+                    end,
+                    reservation.start_date,
+                    reservation.end_date
+                  )
+                );
+                return !hasReservation;
+              });
+            })
+          )
+        )
+      )
+      .subscribe((filteredHalls) => {
+        console.log(filteredHalls);
+        this.filteredHalls$ = of(filteredHalls);
+      });
+  }
+
+  checkDateRangeOverlap(
+    start1: string,
+    end1: string,
+    start2: string,
+    end2: string
+  ): boolean {
+    const startDate1 = new Date(start1);
+    const endDate1 = new Date(end1);
+    const startDate2 = new Date(start2);
+    const endDate2 = new Date(end2);
+
+    return startDate1 < endDate2 && endDate1 > startDate2;
+  }
+
+
+
+
+
+
+
 }
+
+

@@ -1,50 +1,48 @@
-import { Component, OnInit } from '@angular/core';
-import { ItemReorderEventDetail } from '@ionic/core';
-import { CustomEventService } from 'src/app/custom-event.service';
-import { AlertController } from '@ionic/angular';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Gesture, GestureController } from '@ionic/angular';
+import { CustomePageService } from 'src/app/services/custome-page.service';
 
 @Component({
   selector: 'app-create-event',
   templateUrl: './create-event.page.html',
   styleUrls: ['./create-event.page.scss'],
 })
-export class CreateEventPage implements OnInit {
- items = [
-   {
-     id: 1, content: `
-     <ion-card>
-  <img src="/assets/upload.png" alt="Item 1 image">
-  </ion-card>
-  ` },
-  { id: 2, content: 'Item 2 content' },
-  { id: 3, content: 'Item 3 content' },
-];
+export class CreateEventPage implements AfterViewInit {
 
-  itemOrder: any[]=[];
+  @ViewChild('rectangle') rect: ElementRef;
 
-  constructor(private customEventServ: CustomEventService,
-    private alertController: AlertController,
-  private sanitizer: DomSanitizer
-  ) { }
+  constructor(private gestureCtrl: GestureController, public custPage: CustomePageService) { }
 
-  ngOnInit() {
-    this.itemOrder = this.items.slice(); // Populate the itemOrder array with a copy of the items
+  public type;
+  public currentX;
+  public currentY;
+
+  ngAfterViewInit(): void { 
+    this.updateGestures();
   }
 
-   handleReorder(ev: CustomEvent<ItemReorderEventDetail>){
-    const movedItem = this.itemOrder[ev.detail.from];
-    this.itemOrder.splice(ev.detail.from, 1);
-    this.itemOrder.splice(ev.detail.to, 0, movedItem);
+  updateGestures() {
+    const element = this.rect.nativeElement;
+    let initialX = 0;
+    let initialY = 0;
 
-    const moveArray = this.itemOrder.map((item) => ({ id: item.id, position: this.itemOrder.indexOf(item) }));
-     console.log('Move Array:', moveArray);
-     ev.detail.complete();
-   }
-  showElementAlert(event: MouseEvent) {
-    const element = event.target as HTMLElement;
-    const elementType = element.tagName.toLowerCase();
+    const drag = this.gestureCtrl.create({
+      el: element,
+      threshold: 1,
+      gestureName: 'drag',
+      onStart: () => {
+        initialX = element.getBoundingClientRect().left;
+        initialY = element.getBoundingClientRect().top;
+      },
+      onMove: (ev) => {
+        this.type = ev.type;
+        this.currentX = initialX + ev.deltaX;
+        this.currentY = initialY + ev.deltaY;
+        element.style.transform = `translate3d(${this.currentX}px, ${this.currentY}px, 0)`;
+        this.custPage.takeIndex(this.currentX, this.currentY)
+      },
+    });
 
-    console.log(`The clicked element is of type: ${elementType}`);
+    drag.enable();
   }
 }

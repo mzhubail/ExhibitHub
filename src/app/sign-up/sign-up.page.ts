@@ -22,8 +22,6 @@ export class SignUpPage implements OnInit {
 
   ngOnInit() {
     this.validation();
-
-    
   }
 
   // I've edited "strict" to false in ts-config.json
@@ -31,7 +29,14 @@ export class SignUpPage implements OnInit {
 
   validation() {
     this.signup = this.formBuilder.group({
-      email: ['', Validators.compose([Validators.required, Validators.email])],
+      email: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.email,
+          Validators.pattern('^[\\w-\\.]+@([\\w-]+.)+[\\w-]{2,4}$'),
+        ]),
+      ],
 
       first_name: [
         '',
@@ -76,9 +81,7 @@ export class SignUpPage implements OnInit {
           Validators.maxLength(20),
         ]),
       ],
-      role: [
-        'client'
-      ],
+      role: ['attendee'],
     });
   }
 
