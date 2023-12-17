@@ -57,9 +57,8 @@ export class AuthenticationService {
       },
       dynamicLinkDomain: 'mobileammz.page.link',  // important  
     };
-    //  this.x= getAuth().currentUser.uid;
   }
-x:string;
+
   signIn(email: string, password: string) {
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
@@ -94,7 +93,7 @@ x:string;
           (userCredential) => {
             const user = userCredential.user;
             this.UserCollection = collection(this.firestore, 'Users Information');
-  
+
             addDoc(this.UserCollection, {
               UserID: user.uid,
               Phone: phone,
@@ -103,33 +102,33 @@ x:string;
               Last_Name: last_name,
               Role: role,
             })
-            .then(() => {
-              this.generalAlert(
-                'Success',
-                'Your account has been created successfully ✅',
-                [{
-                  text: 'OK',
-                  handler: () => {
-                    this.router.navigateByUrl('/log-in');
-                  },
-                }]
-              );
-            })
-            .catch(() => {
-              user.delete().then(() => {
+              .then(() => {
                 this.generalAlert(
-                  'Fail',
-                  'Sorry, your account cannot be created. Try again later ❌',
-                  ['OK']
+                  'Success',
+                  'Your account has been created successfully ✅',
+                  [{
+                    text: 'OK',
+                    handler: () => {
+                      this.router.navigateByUrl('/log-in');
+                    },
+                  }]
                 );
+              })
+              .catch(() => {
+                user.delete().then(() => {
+                  this.generalAlert(
+                    'Fail',
+                    'Sorry, your account cannot be created. Try again later ❌',
+                    ['OK']
+                  );
+                });
               });
-            });
           }
         );
       }
     });
   }
-  
+
 
   changeAuth() {
     // for all pages except home, login and signup
@@ -141,7 +140,7 @@ x:string;
   }
 
 
-  
+
 
   async checkDuplicate(email: string): Promise<boolean> {
     const userQuery = query(
@@ -278,7 +277,7 @@ x:string;
         console.log(error);
       });
   }
-  
+
 
   // updatePassword() {
   //   const auth = getAuth();
