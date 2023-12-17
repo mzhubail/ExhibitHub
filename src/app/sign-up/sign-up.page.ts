@@ -58,7 +58,7 @@ export class SignUpPage implements OnInit {
         '',
         Validators.compose([
           Validators.required,
-          Validators.pattern('^(00|\\+)973(3|6)\\d{7}$'),
+          Validators.pattern(this.phoneRegex),
         ]),
       ],
 
@@ -89,7 +89,7 @@ export class SignUpPage implements OnInit {
     // check if mismatch. then check the validation as a whole
 
     let email = formInformation.get('email').value;
-    let phone = formInformation.get('phone').value;
+    let phone = this.parsePhoneNumber( formInformation.get('phone').value );
     let first_name = formInformation.get('first_name').value;
     let last_name = formInformation.get('last_name').value;
     let pass = formInformation.get('password').value;
@@ -110,4 +110,18 @@ export class SignUpPage implements OnInit {
       this.authSrv.signUp(email, pass, first_name, last_name, phone, role);
     }
   }
+
+
+  /* Phone regular expression
+   * with optional country code and whitespaces, and number capture
+   */
+  phoneRegex = /^((00 ?|\+)973 ?)?(?<num>(3\d|66)\d{6})$/;
+
+
+  parsePhoneNumber(numberString: string) {
+    let { groups } = numberString.match(/^((00 ?|\+)973 ?)?(?<num>(3\d|66)\d{6})$/)
+    console.log(numberString, groups?.['num']);
+    return groups?.['num'] as string;
+  }
+
 }
