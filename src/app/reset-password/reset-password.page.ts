@@ -7,26 +7,23 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./reset-password.page.scss'],
 })
 export class ResetPasswordPage implements OnInit {
+  emailForm: FormGroup;
+
   constructor(
     public authSrv: AuthenticationService,
     public formBuilder: FormBuilder
   ) {
-
-    this.validateEmail();
-  }
-
-  ngOnInit() {}
-
-  emailForm: FormGroup;
-
-  validateEmail() {
     this.emailForm = this.formBuilder.group({
       email: ['', Validators.compose([Validators.required, Validators.email, Validators.pattern('^[\\w-\\.]+@([\\w-]+\.)+[\\w-]{2,4}$')])],
     });
   }
 
+  ngOnInit() {}
 
-  choice:string;
+
+
+  // TODO: fix this!!
+  choice!:string;
   request(choice:string){
     this.choice = choice;
   }
@@ -37,7 +34,7 @@ check(){
     this.authSrv.generalAlert('Invalid Email','Please, make sure you enter a valid email', ['OK']);
     return;
   }
-  let email = this.emailForm.get('email').value;
+  let email = this.emailForm.controls['email'].value;
   if(this.choice==='reset'){
     this.resetPasswordEmail(email);
   }
