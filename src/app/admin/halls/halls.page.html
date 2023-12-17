@@ -1,5 +1,22 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title> hw </ion-title>
+        <ion-title color="primary"> Halls </ion-title>
     </ion-toolbar>
 </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding-top">
+    <ion-item *ngFor="let h of hallservice.halls">
+        <ion-thumbnail slot="start">
+            <svg width="100%" height="100%">
+                <image href="assets/hall.svg" width="100%" height="100%" />
+
+                <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="40"
+                    fill="#AB916B">{{h.id}}</text>
+            </svg>
+        </ion-thumbnail>
+        <ion-label>{{h.name}}</ion-label>
+        <ion-button routerLink="/hall-info/{{h.id}}" fill="clear" slot="end">
+            info
+        </ion-button>
+    </ion-item>
+
+</ion-content>

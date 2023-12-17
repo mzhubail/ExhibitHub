@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+// @ts-nocheck
 import { AlertController } from '@ionic/angular';
+
 
 @Injectable({
   providedIn: 'root'
@@ -152,6 +153,7 @@ export class ClientServiceService {
       else
       console.log('Whatever');
   }
+
 
 
 

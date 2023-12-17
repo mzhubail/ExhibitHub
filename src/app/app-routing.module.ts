@@ -91,6 +91,10 @@ const routes: Routes = [
     path: 'reset-password',
     loadChildren: () => import('./reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
   },
+  {
+    path: 'hall-info/:id',
+    loadChildren: () => import('./admin/hall-info/hall-info.module').then( m => m.HallInfoPageModule)
+  },
   // {
   //   path: 'chat',
   //   loadChildren: () => import('./client/chat/chat.module').then( m => m.ChatPageModule)

@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FilterPage } from './filter.page';
+import { HallInfoPage } from './hall-info.page';
 
-describe('FilterPage', () => {
-  let component: FilterPage;
-  let fixture: ComponentFixture<FilterPage>;
+describe('HallInfoPage', () => {
+  let component: HallInfoPage;
+  let fixture: ComponentFixture<HallInfoPage>;
 
   beforeEach(async(() => {
-    fixture = TestBed.createComponent(FilterPage);
+    fixture = TestBed.createComponent(HallInfoPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
