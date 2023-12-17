@@ -26,14 +26,14 @@
       <ion-note
         lines="none"
         class="error-message"
-        *ngIf="loginForm.get('email').invalid && loginForm.get('email').touched"
+        *ngIf="loginForm.controls.email.invalid && loginForm.controls.email.touched"
       >
         <ion-icon name="alert-outline" color="danger"></ion-icon>
-        <span *ngIf="loginForm.get('email').hasError('required')"
+        <span *ngIf="loginForm.controls.email.hasError('required')"
           >Email is required.</span
         >
         <span
-          *ngIf="loginForm.get('email').hasError('email')||loginForm.get('email').hasError('pattern')"
+          *ngIf="loginForm.controls.email.hasError('email')||loginForm.controls.email.hasError('pattern')"
           >Please enter a valid email..</span
         >
       </ion-note>
@@ -54,10 +54,10 @@
       <ion-note
         lines="none"
         class="error-message"
-        *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched"
+        *ngIf="loginForm.controls.password.invalid && loginForm.controls.password.touched"
       >
         <ion-icon name="alert-outline" color="danger"></ion-icon>
-        <span *ngIf="loginForm.get('password').hasError('required')"
+        <span *ngIf="loginForm.controls.password.hasError('required')"
           >Password is required.</span
         >
       </ion-note>

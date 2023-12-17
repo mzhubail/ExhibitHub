@@ -9,13 +9,13 @@ import { CustomePageService } from 'src/app/services/custome-page.service';
 })
 export class CreateEventPage implements AfterViewInit {
 
-  @ViewChild('rectangle') rect: ElementRef;
+  @ViewChild('rectangle') rect!: ElementRef;
 
   constructor(private gestureCtrl: GestureController, public custPage: CustomePageService) { }
 
-  public type;
-  public currentX;
-  public currentY;
+  public type!: string;
+  public currentX!: number;
+  public currentY!: number;
 
   ngAfterViewInit(): void { 
     this.updateGestures();

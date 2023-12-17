@@ -36,7 +36,8 @@ export class AuthenticationService {
   UserCollection: CollectionReference<DocumentData>;
   actionCodeSettings: any;
   userMoveToUrl = 'new-password';
-  urole: string;
+
+
   constructor(
     public firestore: Firestore,
     public auth: Auth,
@@ -44,6 +45,8 @@ export class AuthenticationService {
     public alertCtrl: AlertController,
     public navCtrl: NavController
   ) {
+    this.UserCollection = collection(this.firestore, 'Users Information');
+
     this.actionCodeSettings = {
       url: 'http://localhost:8100/log-in', // important  
       handleCodeInApp: true,
@@ -57,16 +60,18 @@ export class AuthenticationService {
       },
       dynamicLinkDomain: 'mobileammz.page.link',  // important  
     };
-    //  this.x= getAuth().currentUser.uid;
   }
-x:string;
+
   signIn(email: string, password: string) {
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
       .then((credentials) => {
         let userID = credentials.user.uid;
-        this.getRole(userID).then((role: string) => {
-          this.router.navigateByUrl('/' + role);
+        this.getRole(userID).then(role => {
+          if (role === undefined)
+            throw new Error('Undefined role');
+          else
+            this.router.navigateByUrl('/' + role);
         });
       })
       .catch(() => {
@@ -93,8 +98,7 @@ x:string;
         createUserWithEmailAndPassword(getAuth(), email, password).then(
           (userCredential) => {
             const user = userCredential.user;
-            this.UserCollection = collection(this.firestore, 'Users Information');
-  
+
             addDoc(this.UserCollection, {
               UserID: user.uid,
               Phone: phone,
@@ -103,33 +107,33 @@ x:string;
               Last_Name: last_name,
               Role: role,
             })
-            .then(() => {
-              this.generalAlert(
-                'Success',
-                'Your account has been created successfully ✅',
-                [{
-                  text: 'OK',
-                  handler: () => {
-                    this.router.navigateByUrl('/log-in');
-                  },
-                }]
-              );
-            })
-            .catch(() => {
-              user.delete().then(() => {
+              .then(() => {
                 this.generalAlert(
-                  'Fail',
-                  'Sorry, your account cannot be created. Try again later ❌',
-                  ['OK']
+                  'Success',
+                  'Your account has been created successfully ✅',
+                  [{
+                    text: 'OK',
+                    handler: () => {
+                      this.router.navigateByUrl('/log-in');
+                    },
+                  }]
                 );
+              })
+              .catch(() => {
+                user.delete().then(() => {
+                  this.generalAlert(
+                    'Fail',
+                    'Sorry, your account cannot be created. Try again later ❌',
+                    ['OK']
+                  );
+                });
               });
-            });
           }
         );
       }
     });
   }
-  
+
 
   changeAuth() {
     // for all pages except home, login and signup
@@ -141,7 +145,7 @@ x:string;
   }
 
 
-  
+
 
   async checkDuplicate(email: string): Promise<boolean> {
     const userQuery = query(
@@ -155,42 +159,36 @@ x:string;
       });
   }
 
-  async getRole(userID: string) {
-    let role: string;
+
+  // Note both getRole functions will be removed
+  async getRole(userID: string): Promise<string | undefined> {
+    let role;
     const userQuery = query(
       collection(this.firestore, 'Users Information'),
       where('UserID', '==', userID),
       limit(1)
     );
-    await getDocs(userQuery)
-      .then((querySnapshot: any) => {
-        querySnapshot.forEach((doc: any) => {
-          role = doc.data()['Role'];
-        });
-      })
-      .catch(() => {
-        // nothing
-      });
+    const querySnapshot = await getDocs(userQuery)
+
+    querySnapshot.forEach((doc: any) => {
+      role = doc.data()['Role'];
+    });
 
     return role;
   }
 
-  async getRoleByEmail(userEmail: string) {
-    let role: string;
+  async getRoleByEmail(userEmail: string): Promise<string | undefined> {
+    let role;
     const userQuery = query(
       collection(this.firestore, 'Users Information'),
       where('Email', '==', userEmail),
       limit(1)
     );
-    await getDocs(userQuery)
-      .then((querySnapshot: any) => {
-        querySnapshot.forEach((doc: any) => {
-          role = doc.data()['Role'];
-        });
-      })
-      .catch(() => {
-        // nothing
-      });
+    const querySnapshot = await getDocs(userQuery)
+
+    querySnapshot.forEach((doc: any) => {
+      role = doc.data()['Role'];
+    });
 
     return role;
   }
@@ -278,7 +276,7 @@ x:string;
         console.log(error);
       });
   }
-  
+
 
   // updatePassword() {
   //   const auth = getAuth();

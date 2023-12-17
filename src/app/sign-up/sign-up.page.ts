@@ -14,20 +14,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./sign-up.page.scss'],
 })
 export class SignUpPage implements OnInit {
+  signup;
+
   constructor(
     public formBuilder: FormBuilder,
     public authSrv: AuthenticationService,
     public router: Router
-  ) {}
-
-  ngOnInit() {
-    this.validation();
-  }
-
-  // I've edited "strict" to false in ts-config.json
-  signup: FormGroup;
-
-  validation() {
+  ) {
     this.signup = this.formBuilder.group({
       email: [
         '',
@@ -85,6 +78,9 @@ export class SignUpPage implements OnInit {
     });
   }
 
+  ngOnInit() { }
+
+
   register(formInformation: any) {
     // check if mismatch. then check the validation as a whole
 
@@ -96,7 +92,7 @@ export class SignUpPage implements OnInit {
     let confirm_pass = formInformation.get('confirm_password').value;
     let role = formInformation.get('role').value;
 
-    if (!this.signup.valid) {
+    if (!this.signup.valid || phone === undefined) {
       this.authSrv.generalAlert(
         'INVALID DATA ❌',
         'Please check the entered data and make sure you fill all the form',
@@ -118,10 +114,15 @@ export class SignUpPage implements OnInit {
   phoneRegex = /^((00 ?|\+)973 ?)?(?<num>(3\d|66)\d{6})$/;
 
 
-  parsePhoneNumber(numberString: string) {
-    let { groups } = numberString.match(/^((00 ?|\+)973 ?)?(?<num>(3\d|66)\d{6})$/)
-    console.log(numberString, groups?.['num']);
-    return groups?.['num'] as string;
+  /* Attempts to parse phone number */
+  parsePhoneNumber(numberString: string): string | undefined {
+    const match = numberString.match(/^((00 ?|\+)973 ?)?(?<num>(3\d|66)\d{6})$/);
+    if (match == null)
+      return;
+
+    const parsedNumber = match.groups?.['num']
+    console.log('Parsed', numberString, 'as', parsedNumber);
+    return parsedNumber;
   }
 
 }
