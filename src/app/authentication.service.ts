@@ -152,7 +152,7 @@ export class AuthenticationService {
                   [{
                     text: 'OK',
                     handler: () => {
-                      this.router.navigateByUrl('/log-in');
+                      this.logInUser(user);
                     },
                   }]
                 );
@@ -170,6 +170,23 @@ export class AuthenticationService {
         );
       }
     });
+  }
+
+
+  /**
+   * This is to be used to sign in a user when he is first created.
+   *
+   * @param user The new User
+   */
+  private logInUser(user: User) {
+    this.auth.updateCurrentUser(user)
+      .then(() => {
+        // Do something
+      })
+      .catch(err => {
+        console.error(err);
+        this.router.navigateByUrl('/log-in');
+      });
   }
 
 
