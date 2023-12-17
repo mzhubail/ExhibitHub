@@ -27,14 +27,14 @@
     <ion-note
       color="danger"
       class="error-message"
-      *ngIf="signup.get('email').invalid && signup.get('email').touched"
+      *ngIf="signup.controls.email.invalid && signup.controls.email.touched"
     >
       <ion-icon name="alert-outline" color="danger"></ion-icon>
-      <span *ngIf="signup.get('email').hasError('required')"
+      <span *ngIf="signup.controls.email.hasError('required')"
         >Email is required.</span
       >
       <span
-        *ngIf="signup.get('email').hasError('email')||signup.get('email').hasError('pattern')"
+        *ngIf="signup.controls.email.hasError('email')||signup.controls.email.hasError('pattern')"
         >Email must be similar of "example@example.com" format.</span
       >
     </ion-note>
@@ -56,13 +56,13 @@
     <ion-note
       color="danger"
       class="error-message"
-      *ngIf="signup.get('first_name').invalid && signup.get('first_name').touched"
+      *ngIf="signup.controls.first_name.invalid && signup.controls.first_name.touched"
     >
       <ion-icon name="alert-outline" color="danger"></ion-icon>
-      <span *ngIf="signup.get('first_name').hasError('required')"
+      <span *ngIf="signup.controls.first_name.hasError('required')"
         >First name is required.</span
       >
-      <span *ngIf="signup.get('first_name').hasError('pattern')"
+      <span *ngIf="signup.controls.first_name.hasError('pattern')"
         >First name must contain 3 to 20 characters .</span
       >
     </ion-note>
@@ -84,13 +84,13 @@
     <ion-note
       color="danger"
       class="error-message"
-      *ngIf="signup.get('last_name').invalid && signup.get('last_name').touched"
+      *ngIf="signup.controls.last_name.invalid && signup.controls.last_name.touched"
     >
       <ion-icon name="alert-outline" color="danger"></ion-icon>
-      <span *ngIf="signup.get('last_name').hasError('required')"
+      <span *ngIf="signup.controls.last_name.hasError('required')"
         >Last name is required.</span
       >
-      <span *ngIf="signup.get('last_name').hasError('pattern')"
+      <span *ngIf="signup.controls.last_name.hasError('pattern')"
         >Last name must contain 3 to 20 characters .</span
       >
     </ion-note>
@@ -113,13 +113,13 @@
     <ion-note
       color="danger"
       class="error-message"
-      *ngIf="signup.get('phone').invalid && signup.get('phone').touched"
+      *ngIf="signup.controls.phone.invalid && signup.controls.phone.touched"
     >
       <ion-icon name="alert-outline" color="danger"></ion-icon>
-      <span *ngIf="signup.get('phone').hasError('required')"
+      <span *ngIf="signup.controls.phone.hasError('required')"
         >Phone number is required.</span
       >
-      <span *ngIf="signup.get('phone').hasError('pattern')"
+      <span *ngIf="signup.controls.phone.hasError('pattern')"
         >Phone number must follow the Bahraini format.</span
       >
     </ion-note>
@@ -140,20 +140,20 @@
     <ion-note
       color="danger"
       class="error-message"
-      *ngIf="signup.get('password').invalid && signup.get('password').touched"
+      *ngIf="signup.controls.password.invalid && signup.controls.password.touched"
     >
       <ion-icon name="alert-outline" color="danger"></ion-icon>
-      <span *ngIf="signup.get('password').hasError('required')"
+      <span *ngIf="signup.controls.password.hasError('required')"
         >Password is required.</span
       >
-      <span *ngIf="signup.get('password').hasError('pattern')"
+      <span *ngIf="signup.controls.password.hasError('pattern')"
         >Password must include at least one small alphabet, one capital alphabet
         and one number(No spaces are allowed).</span
       >
-      <span *ngIf="signup.get('password').hasError('minlength')"
+      <span *ngIf="signup.controls.password.hasError('minlength')"
         >Password must be at least 8 characters length.</span
       >
-      <span *ngIf="signup.get('password').hasError('maxlength')"
+      <span *ngIf="signup.controls.password.hasError('maxlength')"
         >Password must be at least 8 characters length.</span
       >
     </ion-note>
@@ -174,24 +174,24 @@
     <ion-note
       color="danger"
       class="error-message"
-      *ngIf="signup.get('confirm_password').invalid && signup.get('confirm_password').touched"
+      *ngIf="signup.controls.confirm_password.invalid && signup.controls.confirm_password.touched"
     >
       <ion-icon name="alert-outline" color="danger"></ion-icon>
-      <span *ngIf="signup.get('confirm_password').hasError('required')"
+      <span *ngIf="signup.controls.confirm_password.hasError('required')"
         >Password confirmation is required.</span
       >
-      <span *ngIf="signup.get('confirm_password').hasError('pattern')"
+      <span *ngIf="signup.controls.confirm_password.hasError('pattern')"
         >Password confirmation must include at least one small alphabet, one
         capital alphabet and one number(No spaces are allowed).</span
       >
-      <span *ngIf="signup.get('confirm_password').hasError('minlength')"
+      <span *ngIf="signup.controls.confirm_password.hasError('minlength')"
         >Password confirmation must be at least 8 characters length.</span
       >
-      <span *ngIf="signup.get('confirm_password').hasError('maxlength')"
+      <span *ngIf="signup.controls.confirm_password.hasError('maxlength')"
         >Password confirmation must be at least 8 characters length.</span
       >
       <span
-        *ngIf="signup.get('confirm_password').hasError('passwordMismatchValidator')"
+        *ngIf="signup.controls.confirm_password.hasError('passwordMismatchValidator')"
         >Passwords don not match.</span
       >
     </ion-note>
@@ -216,10 +216,10 @@
     <ion-note
       color="danger"
       class="error-message"
-      *ngIf="signup.get('role').invalid && signup.get('role').touched"
+      *ngIf="signup.controls.role.invalid && signup.controls.role.touched"
     >
       <ion-icon name="alert-outline" color="danger"></ion-icon>
-      <span *ngIf="signup.get('role').hasError('required')"
+      <span *ngIf="signup.controls.role.hasError('required')"
         >Role is required.</span
       >
     </ion-note>

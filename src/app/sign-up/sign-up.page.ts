@@ -14,20 +14,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./sign-up.page.scss'],
 })
 export class SignUpPage implements OnInit {
+  signup;
+
   constructor(
     public formBuilder: FormBuilder,
     public authSrv: AuthenticationService,
     public router: Router
-  ) {}
-
-  ngOnInit() {
-    this.validation();
-  }
-
-  // I've edited "strict" to false in ts-config.json
-  signup: FormGroup;
-
-  validation() {
+  ) {
     this.signup = this.formBuilder.group({
       email: [
         '',
@@ -84,6 +77,9 @@ export class SignUpPage implements OnInit {
       role: ['attendee'],
     });
   }
+
+  ngOnInit() { }
+
 
   register(formInformation: any) {
     // check if mismatch. then check the validation as a whole
