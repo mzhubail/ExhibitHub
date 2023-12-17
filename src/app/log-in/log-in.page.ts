@@ -10,8 +10,6 @@ import { getAuth, onAuthStateChanged, signInWithEmailLink } from '@angular/fire/
 })
 export class LogInPage implements OnInit {
 
-  role:string;
-
   loginForm;
   constructor(public authSrv:AuthenticationService, public formBuilder:FormBuilder, public router:Router) { 
     this.loginForm = this.formBuilder.group({
@@ -29,8 +27,6 @@ export class LogInPage implements OnInit {
     const url = window.location.href;
     if (email && url.includes('mode=signIn')) {
        this.authSrv.getRoleByEmail(email).then((role)=>{
-
-        this.role = role;
 
         signInWithEmailLink(auth, email, url).then(() => {
           // The user has been signed in.
