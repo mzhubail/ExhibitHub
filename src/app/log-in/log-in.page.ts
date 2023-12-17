@@ -11,7 +11,19 @@ import { getAuth, onAuthStateChanged, signInWithEmailLink } from '@angular/fire/
 export class LogInPage implements OnInit {
 
   role:string;
+
+  loginForm;
   constructor(public authSrv:AuthenticationService, public formBuilder:FormBuilder, public router:Router) { 
+    this.loginForm = this.formBuilder.group({
+      email: ['', Validators.compose([Validators.required, Validators.email, Validators.pattern('^[\\w-\\.]+@([\\w-]+\.)+[\\w-]{2,4}$')])],
+      password: [
+        '',
+        Validators.compose([
+          Validators.required,
+        ]),
+      ],
+    });
+
     const auth = getAuth();
     const email = window.localStorage.getItem('emailForSignIn');
     const url = window.location.href;
@@ -38,33 +50,14 @@ export class LogInPage implements OnInit {
     }
   }
 
-  ngOnInit() {
-
-    this.validate_login();
-    
-
-  }
-
-  loginForm:FormGroup;
-
- validate_login(){
-  this.loginForm = this.formBuilder.group({
-    email: ['' ,Validators.compose([Validators.required, Validators.email, Validators.pattern('^[\\w-\\.]+@([\\w-]+\.)+[\\w-]{2,4}$')])],
-    password: [
-      '',
-      Validators.compose([
-        Validators.required,
-      ]),
-    ],
-  });
- }
-
+  ngOnInit() { }
  
 
  checkCredentials(){
-   let email:string = this.loginForm.get('email').value;
-   let password:string = this.loginForm.get('password').value;
-  if(this.loginForm.valid&&password.length>7&&password.length<21){
+   let email = this.loginForm.controls.email.value;
+   let password = this.loginForm.controls.password.value;
+  if(this.loginForm.valid && email !== null && password !== null
+    &&password.length>7&&password.length<21){
     this.authSrv.signIn(email,password);
   }
   else{
