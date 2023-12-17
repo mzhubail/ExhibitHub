@@ -1,18 +1,17 @@
 import { Injectable, OnInit } from '@angular/core';
-import { Firestore } from '@angular/fire/firestore';
 import {
+  Firestore,
   collection,
   CollectionReference,
-  addDoc,
   getDoc,
   doc,
   where,
   limit,
   query,
   getDocs,
+  setDoc,
 } from '@angular/fire/firestore';
 
-import { DocumentData } from 'firebase/firestore';
 import {
   updatePassword,
   Auth,
@@ -23,20 +22,35 @@ import {
   sendSignInLinkToEmail,
   sendPasswordResetEmail,
   onAuthStateChanged,
+  User,
 } from '@angular/fire/auth';
 
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 
+
+export interface UserInfo {
+  id?: string,
+  Email: string,
+  First_Name: string,
+  Last_Name: string,
+  Phone: string,
+  Role: string,
+}
+
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService {
-  UserCollection: CollectionReference<DocumentData>;
+  UserCollection: CollectionReference<UserInfo>;
   actionCodeSettings: any;
   userMoveToUrl = 'new-password';
 
+  // User related variables
+  user!: User | null;
+  userRole!: string | null;
 
   constructor(
     public firestore: Firestore,
@@ -45,7 +59,30 @@ export class AuthenticationService {
     public alertCtrl: AlertController,
     public navCtrl: NavController
   ) {
-    this.UserCollection = collection(this.firestore, 'Users Information');
+    this.UserCollection =
+      collection(this.firestore, 'Users Information') as CollectionReference<UserInfo>;
+
+    auth.onAuthStateChanged(user => {
+      // Set user
+      this.user = user;
+      if (this.user === null)
+        return;
+      console.log('Logged in with user', this.user.email);
+
+      // Get userRole
+      this.getUserInfo(this.user.uid)
+        .then(userInfo => {
+          if (!userInfo) {
+            console.error(
+              'User role was not retrieved correctly.\n\n Make sure that the ' +
+              'corresponding userInfo for the user is stored in ' +
+              '\'User Information\' with the same id as the current user id.'
+            );
+          }
+          else
+            this.userRole = userInfo.Role;
+        })
+    });
 
     this.actionCodeSettings = {
       url: 'http://localhost:8100/log-in', // important  
@@ -98,15 +135,16 @@ export class AuthenticationService {
         createUserWithEmailAndPassword(getAuth(), email, password).then(
           (userCredential) => {
             const user = userCredential.user;
-
-            addDoc(this.UserCollection, {
-              UserID: user.uid,
+            const userInfo: UserInfo = {
               Phone: phone,
               Email: email,
               First_Name: first_name,
               Last_Name: last_name,
               Role: role,
-            })
+            };
+
+            // Use setDoc to force userInfo to have the same identifier as uid
+            setDoc(doc(this.UserCollection, user.uid), userInfo)
               .then(() => {
                 this.generalAlert(
                   'Success',
@@ -135,6 +173,7 @@ export class AuthenticationService {
   }
 
 
+  // Please don't use this.
   changeAuth() {
     // for all pages except home, login and signup
     onAuthStateChanged(this.auth, (user) => {
@@ -157,6 +196,17 @@ export class AuthenticationService {
         const numberOfDocs = querySnapshot.size;
         return numberOfDocs > 0 ? true : false;
       });
+  }
+
+
+  /**
+   * @param userID Identifier of a user
+   * @returns the userInfo associated with that user, or null in case there is none.
+   */
+  private async getUserInfo(userID: string): Promise<UserInfo | null> {
+    const userInfoDoc = doc(this.UserCollection, userID);
+    const x = await getDoc(userInfoDoc);
+    return x.data() as UserInfo | null;
   }
 
 
