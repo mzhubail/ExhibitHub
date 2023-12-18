@@ -51,7 +51,7 @@ export class AuthenticationService {
 
   // User related variables
   user!: User | null;
-  userRole!: string | null;
+  userInfo!: UserInfo | null;
 
   constructor(
     public firestore: Firestore,
@@ -80,7 +80,7 @@ export class AuthenticationService {
               '\'User Information\' with the same id as the current user id.'
             );
           } else {
-            this.userRole = userInfo.Role;
+            this.userInfo = userInfo;
 
             if (this.router.url === '/log-in')
               this.redirectUser();
@@ -187,8 +187,8 @@ export class AuthenticationService {
 
   /** Redirect user to the interface corresponding to his role. */
   private redirectUser() {
-    if (this.userRole !== null)
-      this.navCtrl.navigateForward('/' + this.userRole);
+    const role = this.userInfo?.Role ?? '';
+    this.navCtrl.navigateForward('/' + role);
   }
 
 
