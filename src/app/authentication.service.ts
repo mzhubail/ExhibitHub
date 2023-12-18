@@ -10,6 +10,7 @@ import {
   query,
   getDocs,
   setDoc,
+  DocumentData,
 } from '@angular/fire/firestore';
 
 import {
@@ -190,17 +191,6 @@ export class AuthenticationService {
   }
 
 
-  // Please don't use this.
-  changeAuth() {
-    // for all pages except home, login and signup
-    onAuthStateChanged(this.auth, (user) => {
-      if (!user) {
-        this.router.navigateByUrl('/home');
-      }
-    });
-  }
-
-
 
 
   async checkDuplicate(email: string): Promise<boolean> {
@@ -228,21 +218,28 @@ export class AuthenticationService {
 
 
   // Note both getRole functions will be removed
-  async getRole(userID: string): Promise<string | undefined> {
-    let role;
-    const userQuery = query(
-      collection(this.firestore, 'Users Information'),
-      where('UserID', '==', userID),
-      limit(1)
-    );
-    const querySnapshot = await getDocs(userQuery)
+  // Why wanna remove them?? 
+  // One of them has been edited based on auth, Good? or Better Idea?
 
-    querySnapshot.forEach((doc: any) => {
-      role = doc.data()['Role'];
-    });
 
-    return role;
+  async getRole(userID: string): Promise<DocumentData | undefined> {
+    const userDoc = doc(this.firestore, "Users Information", userID);
+    const userSnapshot = await getDoc(userDoc);
+    const userData = userSnapshot.data();
+  
+    if (userData) {
+      // Ensure that the 'role' property exists in the userData object
+      if ('Role' in userData) {
+        return userData['Role'];
+      }
+    }
+  
+    return undefined;
   }
+  
+
+  
+
 
   async getRoleByEmail(userEmail: string): Promise<string | undefined> {
     let role;
@@ -260,12 +257,13 @@ export class AuthenticationService {
     return role;
   }
 
+
   signOut() {
     // use it wherever it necessary
     const auth = getAuth();
     signOut(auth)
       .then(() => {
-        this.changeAuth();
+        this.navCtrl.navigateBack('/log-in');
       })
       .catch(() => {
         this.generalAlert(
