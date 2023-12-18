@@ -37,16 +37,19 @@ export class ChatService {
     });
   }
 
-  sendMessage(text: string) {
+
+  async sendMessage(text: string) {
     console.log(serverTimestamp());
-    if (this.authService.user)
-      addDoc(
-        this.messagesRef,
-        {
-          uid: this.authService.user.uid,
-          text: text,
-          createdAt: serverTimestamp(),
-        },
-      );
+    if (!this.authService.user)
+      return;
+
+    await addDoc(
+      this.messagesRef,
+      {
+        uid: this.authService.user.uid,
+        text: text,
+        createdAt: serverTimestamp(),
+      },
+    );
   }
 }

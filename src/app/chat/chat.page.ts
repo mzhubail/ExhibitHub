@@ -27,8 +27,9 @@ export class ChatPage implements OnInit {
       .scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  sendMessage() {
-    this.chatService.sendMessage(this.text);
+  async sendMessage() {
+    await this.chatService.sendMessage(this.text);
+    this.text = '';
   }
 
   isSent = (m: Message) => m.uid === this.authService.user?.uid;
