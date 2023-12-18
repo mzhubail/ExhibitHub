@@ -217,29 +217,6 @@ export class AuthenticationService {
   }
 
 
-  // Note both getRole functions will be removed
-  // Why wanna remove them?? 
-  // One of them has been edited based on auth, Good? or Better Idea?
-
-
-  async getRole(userID: string): Promise<DocumentData | undefined> {
-    const userDoc = doc(this.firestore, "Users Information", userID);
-    const userSnapshot = await getDoc(userDoc);
-    const userData = userSnapshot.data();
-  
-    if (userData) {
-      // Ensure that the 'role' property exists in the userData object
-      if ('Role' in userData) {
-        return userData['Role'];
-      }
-    }
-  
-    return undefined;
-  }
-  
-
-  
-
 
   async getRoleByEmail(userEmail: string): Promise<string | undefined> {
     let role;
