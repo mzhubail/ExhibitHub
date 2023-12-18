@@ -79,9 +79,12 @@ export class AuthenticationService {
               'corresponding userInfo for the user is stored in ' +
               '\'User Information\' with the same id as the current user id.'
             );
-          }
-          else
+          } else {
             this.userRole = userInfo.Role;
+
+            if (this.router.url === '/log-in')
+              this.redirectUser();
+          }
         })
     });
 
@@ -103,15 +106,6 @@ export class AuthenticationService {
   signIn(email: string, password: string) {
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
-      .then((credentials) => {
-        let userID = credentials.user.uid;
-        this.getRole(userID).then(role => {
-          if (role === undefined)
-            throw new Error('Undefined role');
-          else
-            this.router.navigateByUrl('/' + role);
-        });
-      })
       .catch(() => {
         this.generalAlert(
           'Wrong Credentials',
@@ -190,6 +184,12 @@ export class AuthenticationService {
       });
   }
 
+
+  /** Redirect user to the interface corresponding to his role. */
+  private redirectUser() {
+    if (this.userRole !== null)
+      this.navCtrl.navigateForward('/' + this.userRole);
+  }
 
 
 
