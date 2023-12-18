@@ -14,21 +14,28 @@ export interface Message {
 })
 export class ChatService {
   messages: Message[] = [];
-  messagesRef!: CollectionReference<Message>;
+  messagesRef: CollectionReference<Message> | undefined;
 
   constructor(
     public authService: AuthenticationService,
     public db: Firestore,
   ) {
-    if (!authService.user) {
-      authService.redirectUser()
+    this.initializeMessages();
+  }
+
+  /**
+   * Initializes messagesRef and updates the listener accordingly.
+   */
+  initializeMessages() {
+    if (!this.authService.user) {
+      this.authService.redirectUser()
       return;
     }
 
     this.messagesRef =
       collection(
-        authService.UserCollection,
-        authService.user.uid,
+        this.authService.UserCollection,
+        this.authService.user.uid,
         'messages'
       ) as CollectionReference<Message>;
 
@@ -51,6 +58,15 @@ export class ChatService {
     console.log(serverTimestamp());
     if (!this.authService.user)
       return;
+
+    if (!this.messagesRef) {
+      console.error(
+        'this.messagesRef was not initialized preoperly.\n\n' +
+        'Redirecting.'
+      );
+      this.authService.redirectUser();
+      return;
+    }
 
     await addDoc(
       this.messagesRef,

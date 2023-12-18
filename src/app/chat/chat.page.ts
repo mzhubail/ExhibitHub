@@ -19,6 +19,11 @@ export class ChatPage implements OnInit {
 
   ngOnInit() { }
 
+  ionViewWillEnter() {
+    // This should fix the issue of chatService.messagesRef not being initialized properly
+    this.chatService.initializeMessages();
+  }
+
   /* Scroll to last child of chatArea */
   scroll() {
     const elem = this.messagesContainer.nativeElement;
