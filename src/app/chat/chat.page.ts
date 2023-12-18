@@ -24,6 +24,10 @@ export class ChatPage implements OnInit {
     this.chatService.initializeMessages();
   }
 
+  ionViewWillLeave() {
+    this.chatService.unsubscribe?.();
+  }
+
   /* Scroll to last child of chatArea */
   scroll() {
     const elem = this.messagesContainer.nativeElement;

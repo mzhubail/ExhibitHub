@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CollectionReference, Firestore, Timestamp, addDoc, collection, onSnapshot, orderBy, query, serverTimestamp } from '@angular/fire/firestore';
+import { CollectionReference, Firestore, Timestamp, Unsubscribe, addDoc, collection, onSnapshot, orderBy, query, serverTimestamp } from '@angular/fire/firestore';
 import { AuthenticationService } from '../authentication.service';
 
 export interface Message {
@@ -15,6 +15,8 @@ export interface Message {
 export class ChatService {
   messages: Message[] = [];
   messagesRef: CollectionReference<Message> | undefined;
+  /** Unsubscribe from listening to messages */
+  unsubscribe: Unsubscribe | undefined;
 
   constructor(
     public authService: AuthenticationService,
@@ -42,7 +44,7 @@ export class ChatService {
 
     const messagesQuery = query(this.messagesRef, orderBy('createdAt', 'asc'));
 
-    onSnapshot(messagesQuery, doc => {
+    this.unsubscribe = onSnapshot(messagesQuery, doc => {
       // Disables latency compensation
       if (doc.metadata.hasPendingWrites)
         return;
