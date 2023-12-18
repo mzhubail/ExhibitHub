@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <!-- <ion-title color="primary">Tickets</ion-title> -->
+    <ion-searchbar class="ion-margin-top"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-list-header>
+      <ion-label>My Tickets</ion-label>
+
+      <ion-button fill="clear">
+        <ion-text>SORT</ion-text>
+        <ion-icon name="chevron-down"></ion-icon>
+      </ion-button>
+    </ion-list-header>
+    <ion-card color="tertiary" *ngFor="let i of [0, 1, 2, 3]">
+      <ion-card-header>
+        <ion-card-title>Event name</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-label>
+          description about the event only few line <br />Nov 24, 2023 - Nov 23,
+          2023
+        </ion-label>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+</ion-content>

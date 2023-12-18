@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar>
+    <!-- <ion-buttons slot="start">
+      <ion-button
+        color="primary"
+        class="rounded-btn"
+        fill="clear"
+        size="large"
+        routerLink="/create-reservation"
+        >+</ion-button
+      >
+    </ion-buttons> -->
+    <ion-title color="primary">Reservations</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-list-header>
+      <ion-label>My Reservations</ion-label>
+      <ion-button fill="clear" routerLink="/create-reservation">
+        <ion-text>Create</ion-text>
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+    </ion-list-header>
+
+    <ion-card color="tertiary">
+      <ion-card-header>
+        <ion-card-title>AL-DANA hall</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-label>Event name,</ion-label>
+        description about the event only few line <br />
+        Nov 24, 2023 - Nov 23, 2023
+      </ion-card-content>
+      <ion-button routerLink="/create-event" fill="clear">
+        <ion-icon name="add"></ion-icon>
+        event
+      </ion-button>
+    </ion-card>
+
+    <ion-card color="tertiary">
+      <ion-card-header>
+        <ion-card-title>AL-DANA hall</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-label>Event name,</ion-label>
+        description about the event only few line
+      </ion-card-content>
+      <ion-button routerLink="/reservation-details" fill="clear">
+        <ion-icon name="add"></ion-icon>
+        event
+      </ion-button>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>AL-DANA hall</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-label>Event name,</ion-label>
+        description about the event only few line
+      </ion-card-content>
+      <ion-button fill="clear" [disabled]="true">Pending</ion-button>
+    </ion-card>
+  </ion-list>
+</ion-content>

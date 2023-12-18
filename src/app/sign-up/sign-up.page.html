@@ -1,0 +1,249 @@
+<ion-header>
+  <ion-toolbar>
+    <!-- <ion-title>signUp</ion-title> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list-header style="color: #ab916b; margin-bottom: 1rem">
+    <ion-label> Create a new account </ion-label></ion-list-header
+  >
+  <form [formGroup]="signup" (ngSubmit)="register(signup)">
+    <ion-item>
+      <ion-label position="stacked">
+        <ion-card-subtitle>Email</ion-card-subtitle>
+      </ion-label>
+
+      <ion-input
+        label=""
+        formControlName="email"
+        placeholder="example@example.com"
+        style="padding-left: 3rem"
+        type="email"
+      ></ion-input>
+    </ion-item>
+
+    <!-- errors of email -->
+    <ion-note
+      color="danger"
+      class="error-message"
+      *ngIf="signup.controls.email.invalid && signup.controls.email.touched"
+    >
+      <ion-icon name="alert-outline" color="danger"></ion-icon>
+      <span *ngIf="signup.controls.email.hasError('required')"
+        >Email is required.</span
+      >
+      <span
+        *ngIf="signup.controls.email.hasError('email')||signup.controls.email.hasError('pattern')"
+        >Email must be similar of "example@example.com" format.</span
+      >
+    </ion-note>
+
+    <ion-item>
+      <ion-label position="stacked">
+        <ion-card-subtitle>First name</ion-card-subtitle>
+      </ion-label>
+      <ion-input
+        label=""
+        formControlName="first_name"
+        placeholder="Ali"
+        style="padding-left: 3rem"
+        type="text"
+      ></ion-input>
+    </ion-item>
+
+    <!-- errors of first name -->
+    <ion-note
+      color="danger"
+      class="error-message"
+      *ngIf="signup.controls.first_name.invalid && signup.controls.first_name.touched"
+    >
+      <ion-icon name="alert-outline" color="danger"></ion-icon>
+      <span *ngIf="signup.controls.first_name.hasError('required')"
+        >First name is required.</span
+      >
+      <span *ngIf="signup.controls.first_name.hasError('pattern')"
+        >First name must contain 3 to 20 characters .</span
+      >
+    </ion-note>
+
+    <ion-item>
+      <ion-label position="stacked">
+        <ion-card-subtitle>Last Name</ion-card-subtitle>
+      </ion-label>
+      <ion-input
+        label=""
+        formControlName="last_name"
+        placeholder="Mohammed"
+        style="padding-left: 3rem"
+        type="text"
+      ></ion-input>
+    </ion-item>
+
+    <!-- errors of last name -->
+    <ion-note
+      color="danger"
+      class="error-message"
+      *ngIf="signup.controls.last_name.invalid && signup.controls.last_name.touched"
+    >
+      <ion-icon name="alert-outline" color="danger"></ion-icon>
+      <span *ngIf="signup.controls.last_name.hasError('required')"
+        >Last name is required.</span
+      >
+      <span *ngIf="signup.controls.last_name.hasError('pattern')"
+        >Last name must contain 3 to 20 characters .</span
+      >
+    </ion-note>
+
+    <ion-item>
+      <ion-label position="stacked">
+        <ion-card-subtitle>Phone Number</ion-card-subtitle>
+      </ion-label>
+
+      <ion-input
+        label=""
+        formControlName="phone"
+        placeholder="+97333333333"
+        style="padding-left: 3rem"
+        type="text"
+      ></ion-input>
+    </ion-item>
+
+    <!-- errors of phone number -->
+    <ion-note
+      color="danger"
+      class="error-message"
+      *ngIf="signup.controls.phone.invalid && signup.controls.phone.touched"
+    >
+      <ion-icon name="alert-outline" color="danger"></ion-icon>
+      <span *ngIf="signup.controls.phone.hasError('required')"
+        >Phone number is required.</span
+      >
+      <span *ngIf="signup.controls.phone.hasError('pattern')"
+        >Phone number must follow the Bahraini format.</span
+      >
+    </ion-note>
+
+    <ion-item>
+      <ion-label position="stacked">
+        <ion-card-subtitle>Password</ion-card-subtitle>
+      </ion-label>
+      <ion-input
+        label=""
+        formControlName="password"
+        placeholder="set your password"
+        type="password"
+      ></ion-input>
+    </ion-item>
+
+    <!-- errors of password -->
+    <ion-note
+      color="danger"
+      class="error-message"
+      *ngIf="signup.controls.password.invalid && signup.controls.password.touched"
+    >
+      <ion-icon name="alert-outline" color="danger"></ion-icon>
+      <span *ngIf="signup.controls.password.hasError('required')"
+        >Password is required.</span
+      >
+      <span *ngIf="signup.controls.password.hasError('pattern')"
+        >Password must include at least one small alphabet, one capital alphabet
+        and one number(No spaces are allowed).</span
+      >
+      <span *ngIf="signup.controls.password.hasError('minlength')"
+        >Password must be at least 8 characters length.</span
+      >
+      <span *ngIf="signup.controls.password.hasError('maxlength')"
+        >Password must be at least 8 characters length.</span
+      >
+    </ion-note>
+
+    <ion-item>
+      <ion-label position="stacked">
+        <ion-card-subtitle>Confirm Password</ion-card-subtitle>
+      </ion-label>
+      <ion-input
+        label=""
+        formControlName="confirm_password"
+        placeholder="confirm your password"
+        type="password"
+      ></ion-input>
+    </ion-item>
+
+    <!-- errors of confirm password -->
+    <ion-note
+      color="danger"
+      class="error-message"
+      *ngIf="signup.controls.confirm_password.invalid && signup.controls.confirm_password.touched"
+    >
+      <ion-icon name="alert-outline" color="danger"></ion-icon>
+      <span *ngIf="signup.controls.confirm_password.hasError('required')"
+        >Password confirmation is required.</span
+      >
+      <span *ngIf="signup.controls.confirm_password.hasError('pattern')"
+        >Password confirmation must include at least one small alphabet, one
+        capital alphabet and one number(No spaces are allowed).</span
+      >
+      <span *ngIf="signup.controls.confirm_password.hasError('minlength')"
+        >Password confirmation must be at least 8 characters length.</span
+      >
+      <span *ngIf="signup.controls.confirm_password.hasError('maxlength')"
+        >Password confirmation must be at least 8 characters length.</span
+      >
+      <span
+        *ngIf="signup.controls.confirm_password.hasError('passwordMismatchValidator')"
+        >Passwords don not match.</span
+      >
+    </ion-note>
+
+    <ion-item>
+      <ion-label position="stacked">
+        <ion-card-subtitle>Role</ion-card-subtitle>
+      </ion-label>
+      <ion-radio-group formControlName="role" value="attendee">
+        <ion-item lines="none">
+          <ion-label>Attendee</ion-label>
+          <ion-radio slot="start" value="attendee"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>Client</ion-label>
+          <ion-radio slot="start" value="client"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-item>
+
+    <!-- errors of role -->
+    <ion-note
+      color="danger"
+      class="error-message"
+      *ngIf="signup.controls.role.invalid && signup.controls.role.touched"
+    >
+      <ion-icon name="alert-outline" color="danger"></ion-icon>
+      <span *ngIf="signup.controls.role.hasError('required')"
+        >Role is required.</span
+      >
+    </ion-note>
+
+    <ion-button
+      [class.disabled]="!signup.valid"
+      [disabled]="!signup.valid"
+      type="submit"
+      class="ion-margin"
+      expand="block"
+      >Sign up</ion-button
+    >
+
+    <ion-button
+      routerLink="/log-in"
+      routerDirection="forward"
+      fill="clear"
+      expand="block"
+      style="color: black; margin: -15px"
+    >
+      Already have account? &nbsp;
+      <span style="color: var(--ion-color-primary); font-weight: 500"
+        >Sign in</span
+      ></ion-button
+    >
+  </form>
+</ion-content>

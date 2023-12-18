@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title> Home </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="authSrv.signOut()">
+        Log out
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<!-- <ion-content class="ion-padding"> </ion-content> -->
+<ion-content class="ion-padding">
+  <gallery-slider></gallery-slider>
+
+  <ion-list>
+    <ion-list-header>
+      <ion-label>What's On</ion-label>
+      <ion-button
+        fill="clear"
+        size="small"
+        routerLink="../events"
+        routerDirection="forward"
+        ><ion-text>Show All</ion-text></ion-button
+      >
+    </ion-list-header>
+    <cards-slider></cards-slider>
+  </ion-list>
+
+  <about-us></about-us>
+</ion-content>

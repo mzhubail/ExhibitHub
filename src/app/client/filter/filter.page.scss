@@ -1,0 +1,13 @@
+.date-pickers {
+    display: flex;
+    justify-content: space-around; /* Adjust spacing as needed */
+    align-items: flex-start; /* Align labels to the top */
+    margin-top: 20px; /* Adjust top margin as needed */
+}
+
+
+
+.label-above {
+    font-weight: bold;
+    margin-bottom: 8px; /* Adjust space between label and ion-item */
+}
