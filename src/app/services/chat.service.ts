@@ -14,15 +14,24 @@ export interface Message {
 })
 export class ChatService {
   messages: Message[] = [];
-  messagesRef;
+  messagesRef!: CollectionReference<Message>;
 
   constructor(
     public authService: AuthenticationService,
     public db: Firestore,
   ) {
-    // TODO: Change this!
+    if (!authService.user) {
+      authService.redirectUser()
+      return;
+    }
+
     this.messagesRef =
-      collection(db, 'messages') as CollectionReference<Message>;
+      collection(
+        authService.UserCollection,
+        authService.user.uid,
+        'messages'
+      ) as CollectionReference<Message>;
+
 
     const messagesQuery = query(this.messagesRef, orderBy('createdAt', 'asc'));
 

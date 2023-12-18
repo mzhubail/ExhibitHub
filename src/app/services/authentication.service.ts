@@ -186,7 +186,7 @@ export class AuthenticationService {
 
 
   /** Redirect user to the interface corresponding to his role. */
-  private redirectUser() {
+  public redirectUser() {
     const role = this.userInfo?.Role ?? '';
     this.navCtrl.navigateForward('/' + role);
   }
