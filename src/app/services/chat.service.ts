@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CollectionReference, Firestore, Timestamp, Unsubscribe, addDoc, collection, onSnapshot, orderBy, query, serverTimestamp } from '@angular/fire/firestore';
+import { CollectionReference, Firestore, Timestamp, Unsubscribe, addDoc, collection, collectionData, collectionGroup, doc, getDocs, onSnapshot, orderBy, query, serverTimestamp, setDoc } from '@angular/fire/firestore';
 import { AuthenticationService } from '../authentication.service';
 
 export interface Message {
@@ -9,12 +9,26 @@ export interface Message {
   uid: string;
 }
 
+
+/**
+ * The puropse of this interface is to indicate which chats exist in the
+ * database.
+ */
+export interface ChatSurrogate {
+  id?: string;
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
   messages: Message[] = [];
   messagesRef: CollectionReference<Message> | undefined;
+
+  /** Reference to available chats in the database. */
+  chatsRef;
+
   /** Unsubscribe from listening to messages */
   unsubscribe: Unsubscribe | undefined;
 
@@ -22,7 +36,8 @@ export class ChatService {
     public authService: AuthenticationService,
     public db: Firestore,
   ) {
-    this.initializeMessages();
+    this.chatsRef =
+      collection(db, 'chats') as CollectionReference<ChatSurrogate>;
   }
 
   /**
@@ -69,6 +84,7 @@ export class ChatService {
     console.log(serverTimestamp());
     if (!this.authService.user)
       return;
+    const uid = this.authService.user.uid;
 
     if (!this.messagesRef) {
       console.error(
@@ -79,13 +95,23 @@ export class ChatService {
       return;
     }
 
+    // Store the message
     await addDoc(
       this.messagesRef,
       {
-        uid: this.authService.user.uid,
+        uid: uid,
         text: text,
         createdAt: serverTimestamp(),
       },
     );
+
+    // Ensure that the chat was added to the list of chats
+    const chatDoc = doc(this.chatsRef, uid);
+    setDoc(chatDoc, {});
+  }
+
+
+  getChats() {
+    return collectionData(this.chatsRef, { idField: 'id' });
   }
 }
