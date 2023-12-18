@@ -56,6 +56,15 @@ export class ChatService {
   }
 
 
+  /**
+   * Stores the given message and marks it as being sent by the current user.
+   *
+   * This method may fail if there is not user logged in, or the reference to
+   * messages was not initialized properly
+   *
+   * @param text Message to be stored
+   * @returns
+   */
   async sendMessage(text: string) {
     console.log(serverTimestamp());
     if (!this.authService.user)
