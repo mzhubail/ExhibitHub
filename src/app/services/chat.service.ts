@@ -34,7 +34,7 @@ type GroupedMessages = { [date: string]: Message[]; };
   providedIn: 'root'
 })
 export class ChatService {
-  messages: Message[] = [];
+  messages: GroupedMessages = {};
   messagesRef: CollectionReference<Message> | undefined;
 
   /** Reference to available chats in the database. */
@@ -101,7 +101,7 @@ export class ChatService {
       const groupedM = this.groupMessages(messages);
       console.log(groupedM);
 
-      this.messages = messages;
+      this.messages = groupedM;
     });
   }
 

@@ -9,14 +9,17 @@
 
 <ion-content>
   <div #messagesContainer id="messages-conatiner">
-    <div *ngFor="let message of chatService.messages"
-        [ngClass]="[ 'message', isSent(message) ? 'sent' : 'recieved' ]"
-        >
-      {{ message.text }}
-      <div class="message-timestamp">
-        {{ formatTimestamp(message.createdAt) }}
+    <ng-container *ngFor="let entry of chatService.messages | keyvalue">
+      Date = {{ entry.key }} <br>
+      <div *ngFor="let message of entry.value"
+          [ngClass]="[ 'message', isSent(message) ? 'sent' : 'recieved' ]"
+          >
+        {{ message.text }}
+        <div class="message-timestamp">
+          {{ formatTimestamp(message.createdAt) }}
+        </div>
       </div>
-    </div>
+    </ng-container>
   </div>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
