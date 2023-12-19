@@ -50,7 +50,27 @@ export class ChatPage implements OnInit {
     this.text = '';
   }
 
-  isSent = (m: Message) => m.uid === this.authService.user?.uid;
+
+  /**
+   * Determines whether a given message should be marked as being sent by the
+   * current user.
+   *
+   * @param m   a message
+   * @returns   whether this message should be marked as being sent by the
+   * current uesr.
+   */
+  isSent(m: Message): boolean {
+    // Determine whether the message was sent by the client.
+    const isClientMessage = m.uid === this.chatService.clientId;
+    // If the current use is an admin then all messages sent by client should be
+    // marked as recieved; and if the current use is a client then all messages
+    // sent by client should be marked as sent.
+    const isSentMessage = this.authService.userInfo?.Role === 'admin'
+      ? !isClientMessage
+      : isClientMessage;
+
+    return isSentMessage
+  }
 
   formatTimestamp = (t: Timestamp) => t.toDate()
     .toISOString()
