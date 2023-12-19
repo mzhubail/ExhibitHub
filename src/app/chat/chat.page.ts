@@ -73,7 +73,7 @@ export class ChatPage implements OnInit {
   }
 
   formatTimestamp = (t: Timestamp) => t.toDate()
-    .toISOString()
+    .toLocaleTimeString()
     .match(/\d+:\d+/)
     ?.[0];
 }
