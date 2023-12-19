@@ -21,6 +21,15 @@ export interface ChatSurrogate {
 }
 
 
+/**
+ * Each index is a date and its values are all the messages in that date
+ *
+ * Note that we do guarantee dates to be stored as they all are strings.
+ * See https://stackoverflow.com/questions/5525795/does-javascript-guarantee-object-property-order
+ */
+type GroupedMessages = { [date: string]: Message[]; };
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -88,8 +97,29 @@ export class ChatService {
       const messages = doc
         .docs
         .map(x => x.data()) as Message[];
+
+      const groupedM = this.groupMessages(messages);
+      console.log(groupedM);
+
       this.messages = messages;
     });
+  }
+
+
+  private groupMessages(messages: Message[]) {
+    const out: GroupedMessages = {};
+    messages.forEach(m => {
+      const date = m.createdAt
+        .toDate()
+        .toLocaleDateString();
+
+      if (date in out) {
+        out[date].push(m);
+      } else {
+        out[date] = [m];
+      }
+    });
+    return out;
   }
 
 
