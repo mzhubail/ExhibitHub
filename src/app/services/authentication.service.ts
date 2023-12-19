@@ -51,7 +51,7 @@ export class AuthenticationService {
 
   // User related variables
   user!: User | null;
-  userRole!: string | null;
+  userInfo!: UserInfo | null;
 
   constructor(
     public firestore: Firestore,
@@ -79,9 +79,12 @@ export class AuthenticationService {
               'corresponding userInfo for the user is stored in ' +
               '\'User Information\' with the same id as the current user id.'
             );
+          } else {
+            this.userInfo = userInfo;
+
+            if (this.router.url === '/log-in')
+              this.redirectUser();
           }
-          else
-            this.userRole = userInfo.Role;
         })
     });
 
@@ -103,15 +106,6 @@ export class AuthenticationService {
   signIn(email: string, password: string) {
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
-      .then((credentials) => {
-        let userID = credentials.user.uid;
-        this.getRole(userID).then(role => {
-          if (role === undefined)
-            throw new Error('Undefined role');
-          else
-            this.router.navigateByUrl('/' + role);
-        });
-      })
       .catch(() => {
         this.generalAlert(
           'Wrong Credentials',
@@ -191,6 +185,12 @@ export class AuthenticationService {
   }
 
 
+  /** Redirect user to the interface corresponding to his role. */
+  private redirectUser() {
+    const role = this.userInfo?.Role ?? '';
+    this.navCtrl.navigateForward('/' + role);
+  }
+
 
 
   async checkDuplicate(email: string): Promise<boolean> {
@@ -216,29 +216,6 @@ export class AuthenticationService {
     return x.data() as UserInfo | null;
   }
 
-
-  // Note both getRole functions will be removed
-  // Why wanna remove them?? 
-  // One of them has been edited based on auth, Good? or Better Idea?
-
-
-  async getRole(userID: string): Promise<DocumentData | undefined> {
-    const userDoc = doc(this.firestore, "Users Information", userID);
-    const userSnapshot = await getDoc(userDoc);
-    const userData = userSnapshot.data();
-  
-    if (userData) {
-      // Ensure that the 'role' property exists in the userData object
-      if ('Role' in userData) {
-        return userData['Role'];
-      }
-    }
-  
-    return undefined;
-  }
-  
-
-  
 
 
   async getRoleByEmail(userEmail: string): Promise<string | undefined> {
