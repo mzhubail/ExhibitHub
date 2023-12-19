@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CollectionReference, Firestore, Timestamp, Unsubscribe, addDoc, collection, collectionData, collectionGroup, doc, getDocs, onSnapshot, orderBy, query, serverTimestamp, setDoc } from '@angular/fire/firestore';
-import { AuthenticationService } from '../authentication.service';
+import { AuthenticationService } from './authentication.service';
 
 export interface Message {
   id?: string;
