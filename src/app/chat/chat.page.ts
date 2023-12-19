@@ -27,10 +27,10 @@ export class ChatPage implements OnInit {
     // grabbed automatically from the auth service.
 
     // Get the id of the client, if any
-    let uid = this.activatedRoute.snapshot.paramMap.get('id');
+    let clientId = this.activatedRoute.snapshot.paramMap.get('id');
 
     // Ensures messages collection reference is initialized properly
-    this.chatService.initializeMessages(uid);
+    this.chatService.initializeMessages(clientId);
   }
 
   ionViewWillLeave() {

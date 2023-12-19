@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CollectionReference, Firestore, Timestamp, Unsubscribe, addDoc, collection, collectionData, collectionGroup, doc, getDocs, onSnapshot, orderBy, query, serverTimestamp, setDoc } from '@angular/fire/firestore';
+import { CollectionReference, Firestore, Timestamp, Unsubscribe, addDoc, collection, collectionData, collectionGroup, doc, getDocs, onSnapshot, orderBy, query, serverTimestamp, setDoc, updateDoc } from '@angular/fire/firestore';
 import { AuthenticationService } from './authentication.service';
 
 export interface Message {
@@ -34,6 +34,16 @@ export class ChatService {
   /** Unsubscribe from listening to messages */
   unsubscribe: Unsubscribe | undefined;
 
+  /**
+   * Represents the id of the client, which will be either (A) initialized to
+   * the current user for clients only, or (B) initialized to the client we want
+   * to view the chat of, if the current user is admin.
+   *
+   * All firestore opartions should rely on this id.
+   */
+  clientId!: string;
+
+
   constructor(
     public authService: AuthenticationService,
     public db: Firestore,
@@ -57,12 +67,14 @@ export class ChatService {
       return;
     }
 
-    const _uid = uid ?? this.authService.user.uid;
+    this.clientId = uid ?? this.authService.user.uid;
+
+    console.log(`Initializing with ${uid}`);
 
     this.messagesRef =
       collection(
         this.authService.UserCollection,
-        _uid,
+        this.clientId,
         'messages'
       ) as CollectionReference<Message>;
 
@@ -93,9 +105,9 @@ export class ChatService {
   async sendMessage(text: string) {
     console.log(serverTimestamp());
 
-    const uid = this.authService.user?.uid,
+    const senderId = this.authService.user?.uid,
       username = this.authService.username;
-    if (!uid || !username)
+    if (!senderId || !username)
       return;
 
     if (!this.messagesRef) {
@@ -111,18 +123,25 @@ export class ChatService {
     await addDoc(
       this.messagesRef,
       {
-        uid: uid,
+        uid: senderId,
         text: text,
         createdAt: serverTimestamp(),
       },
     );
 
-    // Ensure that the chat was added to the list of chats
-    const chatDoc = doc(this.chatsRef, uid);
-    setDoc(chatDoc, {
-      username: username,
-      lastMessageText: text,
-    });
+    // Get the current chat
+    const chatDoc = doc(this.chatsRef, this.clientId);
+
+    if (this.clientId === senderId) {
+      setDoc(chatDoc, {
+        username: username,
+        lastMessageText: text,
+      });
+    } else {
+      updateDoc(chatDoc, {
+        lastMessageText: text,
+      });
+    }
   }
 
 
