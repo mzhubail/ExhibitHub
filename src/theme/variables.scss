@@ -90,6 +90,8 @@ ion-thumbnail {
 .event-card {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 .event-card-img ion-avatar {
@@ -106,8 +108,10 @@ ion-thumbnail {
 }
 
 .event-card-text {
-  font-size: 0.8rem;
-  font-weight: 500;
+  ion-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
 
   ion-icon {
     margin-right: 1vw;
