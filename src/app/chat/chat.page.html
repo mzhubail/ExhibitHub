@@ -10,7 +10,9 @@
 <ion-content>
   <div #messagesContainer id="messages-conatiner">
     <ng-container *ngFor="let entry of chatService.messages | keyvalue">
-      Date = {{ entry.key }} <br>
+      <div class="date-container">
+        {{ entry.key }}
+      </div>
       <div *ngFor="let message of entry.value"
           [ngClass]="[ 'message', isSent(message) ? 'sent' : 'recieved' ]"
           >
