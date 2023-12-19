@@ -1,16 +1,11 @@
 // @ts-nocheck
 import { Injectable } from '@angular/core';
-import { Firestore } from '@angular/fire/firestore';
-
-// AngularFire
 import {
+  Firestore,
   collection,
   collectionData,
   CollectionReference,
   DocumentReference,
-} from '@angular/fire/firestore';
-
-import {
   getDocs,
   doc,
   deleteDoc,
@@ -19,24 +14,10 @@ import {
   setDoc,
   addDoc,
   query,
-} from '@angular/fire/firestore';
-
-import { DocumentData } from 'firebase/firestore';
-
-
-import {
-  getDocs,
-  doc,
-  deleteDoc,
-  updateDoc,
-  docData,
-  setDoc,
-  addDoc,
-  query,
+  DocumentData,
 } from '@angular/fire/firestore';
 
 import { Observable, map, switchMap, of } from 'rxjs';
-import { Firestore } from 'firebase/firestore';
 
 //exhibitor (client) interface
 export interface Exhabitor {
@@ -57,20 +38,6 @@ export interface Reservation {
   start_date: Date;
   end_date: Date;
   status: string; //(approved/rejected/pending)
-}
-
-//event interface
-export interface Event {
-  id: string;
-  reeservationID: string; //foreign key from reservation collection
-  name: string;
-  description: string;
-  poster: string;
-  date: Date;
-  time: string;
-  duration: number;
-  prefferedColor: string;
-  others: string; //made it for pdf file link (needs discussion, may be deleted later)
 }
 
 @Injectable({
@@ -138,8 +105,6 @@ export class FBService {
   //   return deleteDoc(doc(this.firestore, 'Members', member.id));
   // }
 
-
-
   public reservations$: Observable<any[]>;
   public filteredReservations$: Observable<any[]>;
   public halls$: Observable<any[]>;
@@ -159,8 +124,6 @@ export class FBService {
     }) as Observable<any[]>;
     this.filteredHalls$ = this.halls$;
   }
-
-
 
   // Chosen by the client
   start_date: Date = new Date();
@@ -228,13 +191,4 @@ export class FBService {
 
     return startDate1 < endDate2 && endDate1 > startDate2;
   }
-
-
-
-
-
-
-
 }
-
-

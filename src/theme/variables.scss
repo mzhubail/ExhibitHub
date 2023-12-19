@@ -101,8 +101,17 @@ ion-thumbnail {
 .event-card-content {
   margin: auto;
 }
-.event-card-content-element {
+.event-card-title {
   padding: 5px 0;
+}
+
+.event-card-text {
+  font-size: 0.8rem;
+  font-weight: 500;
+
+  ion-icon {
+    margin-right: 1vw;
+  }
 }
 
 ion-list {
@@ -143,4 +152,35 @@ ion-header {
       text-transform: uppercase;
     }
   }
+}
+
+ion-radio::part(container) {
+  width: 20px;
+  height: 20px;
+
+  border-radius: 4px;
+  border: 2px solid #ddd;
+}
+
+ion-radio::part(mark) {
+  background: none;
+  transition: none;
+  transform: none;
+  border-radius: 0;
+}
+
+ion-radio.radio-checked::part(container) {
+  background: var(--ion-color-primary);
+  border-color: transparent;
+}
+
+ion-radio.radio-checked::part(mark) {
+  width: 6px;
+  height: 10px;
+
+  border-width: 0px 2px 2px 0px;
+  border-style: solid;
+  border-color: #fff;
+
+  transform: rotate(45deg);
 }
