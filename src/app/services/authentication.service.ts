@@ -53,6 +53,12 @@ export class AuthenticationService {
   user!: User | null;
   userInfo!: UserInfo | null;
 
+  get username() {
+    return (this.userInfo)
+      ? this.userInfo.First_Name + ' ' + this.userInfo.Last_Name
+      : null;
+  }
+
   constructor(
     public firestore: Firestore,
     public auth: Auth,

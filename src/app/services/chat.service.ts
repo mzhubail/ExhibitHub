@@ -16,6 +16,8 @@ export interface Message {
  */
 export interface ChatSurrogate {
   id?: string;
+  username: string;
+  lastMessageText: string;
 }
 
 
@@ -82,9 +84,11 @@ export class ChatService {
    */
   async sendMessage(text: string) {
     console.log(serverTimestamp());
-    if (!this.authService.user)
+
+    const uid = this.authService.user?.uid,
+      username = this.authService.username;
+    if (!uid || !username)
       return;
-    const uid = this.authService.user.uid;
 
     if (!this.messagesRef) {
       console.error(
@@ -107,7 +111,10 @@ export class ChatService {
 
     // Ensure that the chat was added to the list of chats
     const chatDoc = doc(this.chatsRef, uid);
-    setDoc(chatDoc, {});
+    setDoc(chatDoc, {
+      username: username,
+      lastMessageText: text,
+    });
   }
 
 
