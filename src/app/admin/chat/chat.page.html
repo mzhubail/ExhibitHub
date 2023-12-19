@@ -9,6 +9,7 @@
     <ion-item
         *ngFor="let chat of chats"
         button="true"
+        routerLink="/chat/{{chat.id}}"
         detail="true"
         >
       <ion-label>

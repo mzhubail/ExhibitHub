@@ -42,19 +42,27 @@ export class ChatService {
       collection(db, 'chats') as CollectionReference<ChatSurrogate>;
   }
 
+
   /**
    * Initializes messagesRef and updates the listener accordingly.
+   *
+   * If no `uid` was given, the method will grab the user id of the currently
+   * logged in user.
+   *
+   * @param uid user id of the client
    */
-  initializeMessages() {
+  initializeMessages(uid: string | null) {
     if (!this.authService.user) {
       this.authService.redirectUser()
       return;
     }
 
+    const _uid = uid ?? this.authService.user.uid;
+
     this.messagesRef =
       collection(
         this.authService.UserCollection,
-        this.authService.user.uid,
+        _uid,
         'messages'
       ) as CollectionReference<Message>;
 
