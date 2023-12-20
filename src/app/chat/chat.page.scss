@@ -18,6 +18,8 @@
 
   margin-bottom: 0.4rem;
 
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
   &.sent {
     background-color: yellowgreen;
     border-radius: $message-border-radius $message-border-radius $message-border-radius 0rem;
