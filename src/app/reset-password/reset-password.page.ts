@@ -45,12 +45,26 @@ check(){
 }
 
 resetPasswordEmail(email:string){
-  // is it working?
-  this.authSrv.resetPasswordEmail(email);
+  // Check if the email is within auth accounts
+  this.authSrv.checkEmailExists(email).then((ans)=>{
+    if(ans){
+      this.authSrv.resetPasswordEmail(email);
+    }
+    else{
+      this.authSrv.generalAlert('Invalid Email','Email does not exist !', ['OK']);
+    }
+  });
 }
 
   loginInEmail(email:string) {
-       this.authSrv.signInEmail(email);
+    this.authSrv.checkEmailExists(email).then((ans)=>{
+      if(ans){
+        this.authSrv.signInEmail(email);
+      }
+      else{
+        this.authSrv.generalAlert('Invalid Email','Email does not exist !', ['OK']);
+      }
+    });
   }
 
 
