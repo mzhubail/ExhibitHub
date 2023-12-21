@@ -178,6 +178,7 @@ export class AuthenticationService {
     this.auth.updateCurrentUser(user)
       .then(() => {
         // Do something
+        this.redirectUser();
       })
       .catch(err => {
         console.error(err);
@@ -292,7 +293,7 @@ export class AuthenticationService {
       .then(() => {
         this.generalAlert(
           'Success',
-          'A password reset link has been sent to your email successfully ✅'+user_email,
+          'A password reset link has been sent to your email ' + user_email  + ' successfully ✅',
           [
             {
               text: 'OK',

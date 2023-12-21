@@ -38,7 +38,7 @@ import {
 import { Observable, map, switchMap, of } from 'rxjs';
 import { Firestore } from 'firebase/firestore';
 
-//exhabitor (client) interface
+//exhibitor (client) interface
 export interface Exhabitor {
   id: string;
   name: string;
@@ -50,7 +50,7 @@ export interface Exhabitor {
 //reservation interface
 export interface Reservation {
   id: string;
-  exhabitorID: string; //foriegn key from exhabitor collection
+  exhabitorID: string; //foreign key from exhibitor collection
   name: string;
   description: string;
   location: string; // Should be changed to hall (Better Description), also the filtering considered it as "hall" not "location"
@@ -62,7 +62,7 @@ export interface Reservation {
 //event interface
 export interface Event {
   id: string;
-  reeservationID: string; //foriegn key from reservation collection
+  reeservationID: string; //foreign key from reservation collection
   name: string;
   description: string;
   poster: string;
