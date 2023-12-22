@@ -188,3 +188,23 @@ ion-radio.radio-checked::part(mark) {
 
   transform: rotate(45deg);
 }
+
+.profile-avatar {
+  background-color: #333333;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  line-height: 120px;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.profile-avatar-title {
+  color: white;
+  font-size: 1.9rem;
+}
+
+.profile-avatar-text {
+  font-size: 1rem;
+  color: #000000;
+}

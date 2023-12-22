@@ -5,6 +5,7 @@ import { FormComponent, InputComponent } from './input-components.component';
 import { CardsSliderComponent } from './cards-slider.component';
 import { GallerySliderComponent } from './gallery-slider.component';
 import { AboutUsComponent } from './about-us.component';
+import { AccountPageComponentComponent } from './account-page-component.component';
 
 var components = [
   InputComponent,
@@ -12,6 +13,7 @@ var components = [
   GallerySliderComponent,
   CardsSliderComponent,
   AboutUsComponent,
+  AccountPageComponentComponent,
 ];
 
 @NgModule({
