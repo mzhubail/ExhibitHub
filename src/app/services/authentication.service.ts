@@ -24,6 +24,7 @@ import {
   sendPasswordResetEmail,
   onAuthStateChanged,
   User,
+  fetchSignInMethodsForEmail,
 } from '@angular/fire/auth';
 
 import { Router } from '@angular/router';
@@ -177,6 +178,7 @@ export class AuthenticationService {
     this.auth.updateCurrentUser(user)
       .then(() => {
         // Do something
+        this.redirectUser();
       })
       .catch(err => {
         console.error(err);
@@ -291,7 +293,7 @@ export class AuthenticationService {
       .then(() => {
         this.generalAlert(
           'Success',
-          'A password reset link has been sent to your email successfully ✅',
+          'A password reset link has been sent to your email ' + user_email  + ' successfully ✅',
           [
             {
               text: 'OK',
@@ -318,6 +320,23 @@ export class AuthenticationService {
         console.log(error);
       });
   }
+
+
+  // Check if the email exists within auth accounts
+  async checkEmailExists(email: string): Promise<boolean> {
+    try {
+      const auth = getAuth();
+      const methods = await fetchSignInMethodsForEmail(auth, email);
+      
+      // If methods array has length > 0, email exists
+      return methods.length > 0;
+    } catch (error) {
+      console.error('Error checking email existence:', error);
+      return false; // Return false in case of any errors
+    }
+  }
+
+
 
 
   // updatePassword() {
