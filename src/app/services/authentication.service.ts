@@ -286,7 +286,16 @@ export class AuthenticationService {
         console.log(error);
       });
   }
-
+  getUserID(): string {
+    const user = getAuth().currentUser;
+    let x: string = ''; // Default value (Will not be used)
+    
+    if (user && 'uid' in user) {
+      x = user.uid; 
+    }
+  
+    return x; // user id
+  }
 
   resetPasswordEmail(user_email: string) {
     sendPasswordResetEmail(getAuth(), user_email, this.actionCodeSettings)

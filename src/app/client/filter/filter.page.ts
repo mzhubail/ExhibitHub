@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ClientServiceService } from '../../services/client-service.service';
-
+import { ReservationService } from 'src/app/services/reservation.service';
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.page.html',
@@ -8,7 +7,7 @@ import { ClientServiceService } from '../../services/client-service.service';
 })
 export class FilterPage implements OnInit {
 
-  constructor(public client:ClientServiceService) { }
+  constructor(public reservation:ReservationService) { }
 
   ngOnInit() {
   }

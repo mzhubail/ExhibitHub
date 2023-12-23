@@ -13,11 +13,11 @@
       <ion-label>Create Reservation</ion-label>
     </ion-list-header>
 
-    <form [formGroup]="reservationsForm" (ngSubmit)="AddReservation()">
+    <form [formGroup]="reservationsForm" (ngSubmit)="AddReservation(reservationsForm)">
       <ion-item>
         <ion-label position="stacked"
           ><ion-card-subtitle
-            >Name (Name of what??)</ion-card-subtitle
+            >Name</ion-card-subtitle
           ></ion-label
         >
         <ion-input label="" placeholder="Enter name" formControlName="name">
@@ -42,7 +42,7 @@
             displayFormat="YYYY-MM-DD"
             id="datetime-start"
             presentation="date"
-            (ionChange)="this.FBService.start_date_changed($event)"
+            (ionChange)="this.reservation.start_date_changed($event)"
           ></ion-datetime>
         </ng-template>
       </ion-modal>
@@ -53,7 +53,7 @@
             displayFormat="YYYY-MM-DD"
             id="datetime-end"
             presentation="date"
-            (ionChange)="this.FBService.end_date_changed($event)"
+            (ionChange)="this.reservation.end_date_changed($event)"
           ></ion-datetime>
         </ng-template>
       </ion-modal>
@@ -96,7 +96,7 @@
           <ion-radio-group formControlName="hall">
             <ion-item
               lines="none"
-              *ngFor="let hall of FBService.filteredHalls$|async"
+              *ngFor="let hall of reservation.filteredHalls$|async"
             >
               <ion-radio value="{{hall.id}}" labelPlacement="end">
                 Hall {{hall.id}}
