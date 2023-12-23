@@ -104,6 +104,14 @@ const routes: Routes = [
     path: 'show-event-draft',
     loadChildren: () => import('./show-event-draft/show-event-draft.module').then( m => m.ShowEventDraftPageModule)
   },
+  {
+    path: 'chat',
+    loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule)
+  },
+  {
+    path: 'chat/:id',
+    loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule)
+  },
   // {
   //   path: 'chat',
   //   loadChildren: () => import('./client/chat/chat.module').then( m => m.ChatPageModule)

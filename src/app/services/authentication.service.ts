@@ -54,6 +54,12 @@ export class AuthenticationService {
   user!: User | null;
   userInfo!: UserInfo | null;
 
+  get username() {
+    return (this.userInfo)
+      ? this.userInfo.First_Name + ' ' + this.userInfo.Last_Name
+      : null;
+  }
+
   constructor(
     public firestore: Firestore,
     public auth: Auth,
@@ -187,8 +193,11 @@ export class AuthenticationService {
   }
 
 
-  /** Redirect user to the interface corresponding to his role. */
-  private redirectUser() {
+  /**
+   * Redirect user to the interface corresponding to his role, or to '/' in case
+   * the user has no role.
+   */
+  public redirectUser() {
     const role = this.userInfo?.Role ?? '';
     this.navCtrl.navigateForward('/' + role);
   }
