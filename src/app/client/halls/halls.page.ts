@@ -32,6 +32,8 @@ export class HallsPage implements OnInit {
     this.hallInfo = hall;
   }
 
+  hallColor = (id: string) =>
+    id === this.hallInfo.id ? 'beige' : '#AB916B';
 }
 
 
