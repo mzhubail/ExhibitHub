@@ -8,7 +8,7 @@
     <ion-list-header>
       <ion-label>Upcoming Events</ion-label>
     </ion-list-header>
-    <div routerLink="/event-details" *ngFor="let e of exploreEvents.events">
+    <div routerLink="/event-details" *ngFor="let e of eventsService.events">
       <ion-card class="event-card">
         <ion-col class="event-card-img">
           <ion-avatar>

@@ -36,7 +36,7 @@ export interface Event {
 @Injectable({
   providedIn: 'root',
 })
-export class ExploreEvents {
+export class EventsService {
   public events: Event[] = [];
   EventsCollection: CollectionReference<Event>;
 
