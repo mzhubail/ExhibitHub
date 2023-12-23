@@ -1,27 +1,17 @@
-//@ts-nocheck
 import { Injectable } from '@angular/core';
+
 // AngularFire
 import {
+  CollectionReference,
   Firestore,
   collection,
   collectionData,
-  CollectionReference,
-  DocumentReference,
 } from '@angular/fire/firestore';
 import {
   getDocs,
   getDoc,
   doc,
-  deleteDoc,
-  snapshot,
-  updateDoc,
-  docData,
-  setDoc,
-  where,
-  addDoc,
-  query,
 } from '@angular/fire/firestore';
-import { DocumentData } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 
 export interface Hall {
@@ -38,15 +28,18 @@ export interface Hall {
   providedIn: 'root',
 })
 export class HallService {
-  // public hall$: Observable<Hall[]>;
-  public hallData: Hall;
-
+  public hallsRef;
   public halls$: Observable<Hall[]>;
-
-  public halls: any = [];
+  halls!: Hall[];
 
   constructor(public firestore: Firestore) {
-    this.getHalls();
+    this.hallsRef =
+      collection(firestore, 'halls') as CollectionReference<Hall>;
+    this.halls$ = collectionData(this.hallsRef, { idField: 'id' });
+
+    this.halls$.subscribe(halls => {
+      this.halls = halls;
+    })
   }
 
   // updateCourse(course: Course): Promise<DocumentReference> {
@@ -57,22 +50,22 @@ export class HallService {
   //   })
   // }
 
-  async getHall(hallID: string) {
-    let docSnap = await getDoc(doc(this.firestore, 'halls', hallID));
-    let hallData = docSnap.data();
-    // console.log(hallData); working showng the data
-    return hallData;
-  }
+  // async getHall(hallID: string) {
+  //   let docSnap = await getDoc(doc(this.firestore, 'halls', hallID));
+  //   let hallData = docSnap.data();
+  //   // console.log(hallData); working showng the data
+  //   return hallData;
+  // }
 
   //   getHalls(hall: Hall): Promise<DocumentReference>{
   //   const q = query(collection(this.firestore, 'halls'));
   //   this.halls$$ = collectionData(q, { idField: 'id' }) as Observable<Hall[]>;
   // }
-  async getHalls() {
-    const querySnapshot = await getDocs(collection(this.firestore, 'halls'));
-    querySnapshot.forEach((doc) => {
-      console.log(doc.id, ' => ', doc.data());
-      this.halls.push(doc.data());
-    });
-  }
+  // async getHalls() {
+  //   const querySnapshot = await getDocs(collection(this.firestore, 'halls'));
+  //   querySnapshot.forEach((doc) => {
+  //     console.log(doc.id, ' => ', doc.data());
+  //     this.halls.push(doc.data());
+  //   });
+  // }
 }
