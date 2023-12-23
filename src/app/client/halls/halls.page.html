@@ -5,6 +5,8 @@
 </ion-header>
 
 <ion-content>
+    <ng-container *ngIf="hallInfo !== undefined">
+
     <ion-item>
         <ion-button slot="end" routerLink="/filter" fill="clear">
             <ion-icon name="filter"></ion-icon>
@@ -323,4 +325,6 @@
         <ion-button fill="clear " slot="start">Gallery</ion-button>
         <ion-button slot="end">Pick a date</ion-button>
     </ion-item>
+
+    </ng-container>
 </ion-content>

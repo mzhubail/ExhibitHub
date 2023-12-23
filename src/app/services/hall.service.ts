@@ -42,6 +42,11 @@ export class HallService {
     })
   }
 
+  findHallById(hallId: string) {
+    return this.halls.find(hall => hall.id === hallId);
+  }
+
+
   // updateCourse(course: Course): Promise<DocumentReference> {
   //   return updateDoc(doc(this.firestore, 'Courses', course.id),{
   //       id?: course.id,
