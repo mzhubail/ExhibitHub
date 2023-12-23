@@ -1,5 +1,5 @@
-//@ts-nocheck
 import { Component, OnInit } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import { Hall, HallService } from 'src/app/services/hall.service';
 
 @Component({
@@ -8,30 +8,32 @@ import { Hall, HallService } from 'src/app/services/hall.service';
   styleUrls: ['./halls.page.scss'],
 })
 export class HallsPage implements OnInit {
-  hallInfo: Hall = {};
+  // This will be set as soon as halls are retrieved from the database
+  hallInfo!: Hall;
 
   constructor(public service: HallService) { 
     
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    // firstValueFrom is a way to wait to wait for only the first time halls$
+    // recieves data (updates are not relevant, for executing this.show(data)).
+    await firstValueFrom(this.service.halls$)
     this.showData('1'); // Call showData() with default elementId '1' when the page loads
-
-  }
-   showData(elementId: string) {
-    //  this.hallInfo = this.service.getHall(elementId);
-     //  console.log(this.hallInfo);
-       this.service.getHall(elementId)
-    .then((hallInfo) => {
-      this.hallInfo = hallInfo;
-      console.log(this.hallInfo);
-    })
-    .catch((error) => {
-      console.error('Error retrieving hall data:', error);
-    });
-
   }
 
+
+  showData(elementId: string) {
+    const hall = this.service.findHallById(elementId);
+    if (!hall) {
+      console.error(`Failed to retrieve hall info for hall.id = ${elementId}`);
+      return;
+    }
+    this.hallInfo = hall;
+  }
+
+  hallColor = (id: string) =>
+    id === this.hallInfo.id ? 'beige' : '#AB916B';
 }
 
 
