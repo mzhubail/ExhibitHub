@@ -7,17 +7,146 @@
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding">
-  <!-- <ion-item> -->
 
-  <div #rectangle class="rectangle">
-    <p>  
-      {{type}} {{currentX}}
-        </p>
-  </div>
-   
+  <ng-container>
+    <ion-item>
+      <ion-label>Theme color</ion-label>
+      <ion-icon *ngFor="let color of colorsList" color="{{color}}" name="ellipse" (click)="pickColor(color)"></ion-icon>
+    </ion-item>
+
+  </ng-container>
+
+  <ion-list>
+    <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
+
+      <ion-item [color]="mycolor" #item0 id="0" (click)="showId(item0)">
+        <ion-input [color]="mycolor" class="custom-title" [(ngModel)]="title" placeholder="Event Title"></ion-input>
+        <ion-reorder slot="end"></ion-reorder>
+      </ion-item>
+
+      <ion-item #item1 id="1" (click)="showId(item1)">
+        <input type="file" id="imageInput" accept="image/*" style="display: none" (change)="handleImageUpload($event)">
+        <img id="uploadedImage" (click)="triggerImageUpload()" src="assets/upload.png" alt="">
+        <ion-reorder slot="end"></ion-reorder>
+      </ion-item>
+
+      <ion-item #item2 id="2" (click)="showId(item2)">
+        <label for=""></label>
+        <ion-input [(ngModel)]="price" placeholder="Event Description"></ion-input>
+        <ion-reorder slot="end"></ion-reorder>
+      </ion-item>
+
+
+      <ion-item #item3 id="3" (click)="showId(item3)">
+        <ion-button slot="end" class="ion-no-margin" [color]="mycolor">Book a Ticket</ion-button>
+        <ion-icon [color]="mycolor" class="ion-margin-end" name="cash-outline"></ion-icon>
+        <ion-input [(ngModel)]="price" placeholder="Price in BD"></ion-input>
+        <ion-reorder slot="end"></ion-reorder>
+      </ion-item>
+      <ion-item #item4 id="4" (click)="showId(item4)">
+        <ion-grid>
+          <ion-row>
+            <ion-label class="ion-float-left ion-padding ion-text-center">Add your event
+              agenda:</ion-label>
+          </ion-row>
+          <ion-row class="agenda-white">
+            <ng-container color="primary">
+              <ion-grid>
+                <ion-row>
+                  <ion-col>
+                    <ion-input placeholder="Date" [(ngModel)]="date" (click)="toggleDatePicker()"></ion-input>
+                  </ion-col>
+                  <ion-col>
+                    <ion-input placeholder="Time" [(ngModel)]="time" (click)="toggleDatePicker()"></ion-input>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-input placeholder="activities description" [(ngModel)]="description"></ion-input>
+                </ion-row>
+              </ion-grid>
+            </ng-container>
+          </ion-row>
+          <ion-row class="agenda-color" *ngFor="let div of divs">
+            <ng-container>
+              <ion-grid>
+                <ion-row>
+                  <ion-col>
+                    <ion-input placeholder="Date" value="{{div.date}}"></ion-input>
+                  </ion-col>
+                  <ion-col>
+                    <ion-input placeholder="Time" value="{{div.time}}"></ion-input>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-input placeholder="activities description" value="{{div.description}}"></ion-input>
+                </ion-row>
+              </ion-grid>
+            </ng-container>
+          </ion-row>
+          <ion-row class="ion-justify-content-center ion-align-items-center">
+            <ion-button size="large" shape="round" size="small" fill="clear" (click)="addDiv()">
+              <ion-icon [color]="mycolor" size="large" name="add-circle-outline"></ion-icon>
+            </ion-button>
+          </ion-row>
+        </ion-grid>
+        <ion-datetime placeholder="Select Date" [(ngModel)]="selectedDate" [hidden]="!isDatePickerOpen"
+          format="DD/MM/YYYY HH:mm" (ionCancel)="toggleDatePicker()" (ionChange)="toggleDatePicker()">
+        </ion-datetime>
+        <ion-reorder slot="end"></ion-reorder>
+      </ion-item>
+    </ion-reorder-group>
+  </ion-list>
+  <!-- try uplad image -->
+  <ion-button routerLink="/show-event-draft" (click)="createEventDesing()" expand="block">publish Event</ion-button>
 
 
 
 
-  <ion-button routerLink="/show-event-draft"> show in other page</ion-button>
+
 </ion-content>
+
+
+
+
+<!-- </ion-content>
+<ion-grid>
+  <ion-row>
+    <ng-container color="primary">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-input placeholder="Date" [(ngModel)]="date" (click)="toggleDatePicker()"></ion-input>
+          </ion-col>
+          <ion-col>
+            <ion-input placeholder="Time" [(ngModel)]="time" (click)="toggleDatePicker()"></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-input placeholder="activities description" [(ngModel)]="description"></ion-input>
+        </ion-row>
+      </ion-grid>
+    </ng-container>
+  </ion-row>
+  <ion-row>
+    <ng-container color="primary" *ngFor="let div of divs">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-input placeholder="Date" value="{{div.date}}"></ion-input>
+          </ion-col>
+          <ion-col>
+            <ion-input placeholder="Time" value="{{div.time}}"></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-input placeholder="activities description" value="{{div.description}}"></ion-input>
+        </ion-row>
+      </ion-grid>
+    </ng-container>
+  </ion-row>
+  <ion-row>
+    <ion-button shape="round" size="small" fill="outline" (click)="addDiv()">
+      <ion-icon name="add"></ion-icon>
+    </ion-button>
+  </ion-row>
+</ion-grid> -->

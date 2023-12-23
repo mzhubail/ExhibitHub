@@ -1,26 +1,37 @@
-// @ts-nocheck
 import { Injectable } from '@angular/core';
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CustomePageService {
+  // constracor
+  constructor() {}
+  itemOrderArray: { id: string; position: number }[] = [];
+  agendas: { date: Date; time: Date; description: string }[] = [];
 
-  xx: any;
-  yy: any;
-
-  color: any;
-  constructor() { 
-    this.takeIndex(); 
+  showItemOrder(itemOrder: any[]) {
+    this.itemOrderArray = itemOrder;
+    // console.log(this.itemOrderArray);
   }
 
-  takeIndex(x: any, y: any) {
-    console.log(x + " " + y)
-    this.xx = x;
-    this.yy = y;
-    this.color = "warning";
+  showAgenda(agenda: any) {
+    let item = agenda;
+    // console.log(this.agendas);
+    this.agendas = item;
   }
+}
 
-
- 
+export interface EventDesign {
+  id: string;
+  eventID: string;
+  color: string;
+  title: string;
+  image: string;
+  eventDescription: string;
+  price: number;
+  agenda: {
+    date: string;
+    time: string;
+    description: string;
+  };
+  itemsOrder: any[];
 }
