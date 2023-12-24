@@ -48,6 +48,7 @@ export interface EventDesign {
   agenda: {
     date: string;
     time: string;
+    // end date
     description: string;
   }[];
   itemsOrder: {
