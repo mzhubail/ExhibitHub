@@ -53,7 +53,7 @@ export class AuthenticationService {
   userInfo!: UserInfo | null;
 
   get username() {
-    return this.userInfo
+    return (this.userInfo)
       ? this.userInfo.First_Name + ' ' + this.userInfo.Last_Name
       : null;
   }
@@ -189,6 +189,7 @@ export class AuthenticationService {
         this.router.navigateByUrl('/log-in');
       });
   }
+
 
   /**
    * Redirect user to the interface corresponding to his role, or to '/' in case

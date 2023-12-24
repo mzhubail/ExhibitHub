@@ -1,0 +1,95 @@
+#messages-conatiner {
+  padding: 1rem;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: flex-start;
+
+}
+
+.message {
+  $message-border-radius: 0.65rem;
+
+  min-width: 30%;
+  max-width: 55%;
+  color: black;
+  padding: 0.3rem 0.6rem;
+
+  margin-bottom: 0.4rem;
+
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+  &.sent {
+    background-color: yellowgreen;
+    border-radius: $message-border-radius $message-border-radius $message-border-radius 0rem;
+  }
+
+  &.recieved {
+    margin-left: auto;
+
+    background-color: lightblue;
+    border-radius: $message-border-radius $message-border-radius 0rem $message-border-radius;
+  }
+}
+
+#input-container {
+  height: 50px;
+
+  background-color: var(--ion-tab-bar-background);
+
+  padding-left: 0.7rem;
+
+  display: flex;
+  flex-direction: row;
+
+
+  ion-button {
+    margin: 0;
+    --border-radius: 0;
+  }
+}
+
+// TODO: only display button when the messages can't fit in the display
+ion-fab {
+  margin: 0 1.2rem 1rem 0;
+}
+
+.message-timestamp {
+  color: darkslateblue;
+  text-align: right;
+  font-size: 0.7rem;
+  padding-top: 0.2rem;
+  user-select: none;
+}
+
+.date-container {
+  $color: dimgray;
+
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+
+  color: $color;
+  padding: 1rem 0;
+  opacity: 50%;
+  font-size: 0.8rem;
+
+  &:before,
+  &:after {
+    content: "";
+    flex: 1 1;
+    border-bottom: 1px solid $color;
+    margin: auto;
+  }
+
+  &:before {
+    margin-right: 10px
+  }
+
+  &:after {
+    margin-left: 10px
+  }
+}

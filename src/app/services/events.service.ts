@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Injectable } from '@angular/core';
 // AngularFire
 import {
@@ -37,20 +36,19 @@ export interface Event {
 @Injectable({
   providedIn: 'root',
 })
-export class ExploreEvents {
-  // public hall$: Observable<Hall[]>;
-  public eventData: Event;
-  public events: any = [];
-  public events$: Observable<Event[]>;
-  EventsCollection: CollectionReference<DocumentData>;
+export class EventsService {
+  public events: Event[] = [];
+  EventsCollection: CollectionReference<Event>;
 
   constructor(public firestore: Firestore) {
-    this.EventsCollection = collection(this.firestore, 'Events');
+    this.EventsCollection =
+      collection(this.firestore, 'Events') as CollectionReference<Event>;
     this.getEvents();
   }
 
-  async getEvents() {
-    const querySnapshot = await getDocs(collection(this.firestore, 'Events'));
+  private async getEvents() {
+    const querySnapshot = await getDocs(this.EventsCollection);
+
     querySnapshot.forEach((doc) => {
       this.events.push(doc.data());
       console.log(doc.data());
