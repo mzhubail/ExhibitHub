@@ -55,6 +55,18 @@ export class CreateReservationPage implements OnInit {
         end_date:end_date,
         status:'pending',
       };
+
+     let today:string = new Date().toISOString().split('T')[0]; 
+      //  check if in the past 
+      if(start_date>end_date){
+          this.reservation.generalAlert('Invalid Range','The start date cannot be after the end date.',['OK']);
+          return;
+      }
+      else if(start_date<today||end_date<today){
+        this.reservation.generalAlert('Invalid Range','The dates cannot be in the past.',['OK']);
+        return;
+      }
+
       this.reservation.addReservation(this.newReservation)
         .then((res) => {
           this.reservation.generalAlert("Success",'Your reservation request has been sent successfully',['OK']);

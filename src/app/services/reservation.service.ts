@@ -33,7 +33,6 @@ export class ReservationService {
   constructor(public alertCtrl: AlertController, public firestore: Firestore) {
     this.getReservations();
     this.getHalls();
-    this.getReservationsCopy();
   }
 
 
@@ -67,16 +66,6 @@ export class ReservationService {
     this.end_date = new Date(event.detail.value);
     this.filterHalls(); // Call filterHalls() when end_date changes
   }
-
-
-  async getReservationsCopy() { // copy array 
-        const querySnapshot = await getDocs(
-          collection(this.firestore, 'Reservations')
-        );
-        querySnapshot.forEach((doc:any) => {
-          this.CurrentReservations.push(doc.data());
-        });
-      }
     
 
       // Create Data in FireStore with Add()
@@ -84,108 +73,6 @@ export class ReservationService {
         return addDoc(collection(this.firestore, 'Reservations'), reservation);
       }
 
-
-
-
-  // start
-  highlightedDates = (isoString: any) => {
-    const currentDate = new Date(isoString);
-    const reservedDates = this.CurrentReservations.reduce((acc, res) => {
-      const start = new Date(res.start_date);
-      const end = new Date(res.end_date);
-      while (start <= end) {
-        const dateString = start.toISOString().split('T')[0];
-        acc.add(dateString);
-        start.setDate(start.getDate() + 1);
-      }
-      return acc;
-    }, new Set());
-    const isReserved = reservedDates.has(
-      currentDate.toISOString().split('T')[0]
-    );
-    return {
-      textColor: '#ffffff',
-      backgroundColor: isReserved ? 'red' : 'green',
-    };
-  };
-
-  datePickerOptions = {
-    highlightedDates: this.highlightedDates,
-  };
-
-  getSixMonthRange(fromDate: Date): { start: Date; end: Date } {
-    const start = new Date(fromDate.getFullYear(), fromDate.getMonth(), 1);
-    const end = new Date(fromDate.getFullYear(), fromDate.getMonth() + 6, 0);
-    return { start: start, end: end };
-  }
-
-  generateCalendarStatusArray(
-    existingReservations: any[],
-    fromDate: Date
-  ): { date: Date; isReserved: boolean }[] {
-    const { start, end } = this.getSixMonthRange(fromDate);
-    const calendarStatusArray: { date: Date; isReserved: boolean }[] = [];
-    const currentDate = new Date(start);
-    while (currentDate <= end) {
-      let isReserved = false;
-      for (const reservation of existingReservations) {
-        if (
-          currentDate >= new Date(reservation.start_date) &&
-          currentDate <= new Date(reservation.end_date)
-        ) {
-          isReserved = true;
-          break;
-        }
-      }
-      calendarStatusArray.push({ date: new Date(currentDate), isReserved });
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
-    return calendarStatusArray;
-  }
-
-
-  // not sure 
-  check_conflict(
-    chosenStartDate: Date,
-    chosenEndDate: Date,
-    existingReservations:Reservation[]
-  ){
-        for (const reservation of existingReservations) {
-          const reservationStartDate = new Date(reservation.start_date);
-          const reservationEndDate = new Date(reservation.end_date);
-
-          const doesOverlap =
-            chosenStartDate <= reservationEndDate &&
-            chosenEndDate >= reservationStartDate;
-
-          if (doesOverlap) {
-            return true;
-          }
-        }
-        return false;
-  }
-
-
-  dates_checker() {
-    // check for past also
-    const chosenStartDate = new Date(this.start_date);
-    const chosenEndDate = new Date(this.end_date);
-    let conflict = this.check_conflict(
-      chosenStartDate,
-      chosenEndDate,
-      this.CurrentReservations
-    );
-    if (conflict)
-      this.generalAlert(
-        'Conflict Alert',
-        'The chosen start and end dates conflict with existing reservations.',
-        ['OK']
-      );
-    else console.log('Dates conflict cannot be checked');
-  }
-
-
-  
 
   async generalAlert(
     header: string,
