@@ -98,11 +98,31 @@ const routes: Routes = [
   },
   {
     path: 'hall-info/:id',
-    loadChildren: () => import('./admin/hall-info/hall-info.module').then( m => m.HallInfoPageModule)
+    loadChildren: () =>
+      import('./admin/hall-info/hall-info.module').then(
+        (m) => m.HallInfoPageModule
+      ),
   },
   {
     path: 'show-event-draft',
-    loadChildren: () => import('./show-event-draft/show-event-draft.module').then( m => m.ShowEventDraftPageModule)
+    loadChildren: () =>
+      import('./show-event-draft/show-event-draft.module').then(
+        (m) => m.ShowEventDraftPageModule
+      ),
+  },
+  {
+    path: 'my-details/:id',
+    loadChildren: () =>
+      import('./my-details/my-details.module').then(
+        (m) => m.MyDetailsPageModule
+      ),
+  },
+  {
+    path: 'change-password',
+    loadChildren: () =>
+      import('./change-password/change-password.module').then(
+        (m) => m.ChangePasswordPageModule
+      ),
   },
   // {
   //   path: 'chat',

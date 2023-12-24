@@ -23,6 +23,7 @@ import {
 } from '@angular/fire/firestore';
 import { DocumentData, where } from 'firebase/firestore';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 export interface UserInfo {
   UserId?: string;
@@ -55,12 +56,18 @@ export interface UserInfo {
       </ion-row>
 
       <ion-list class="ion-margin">
-        <ion-item class="ion-margin-vertical">
+        <ion-item
+          class="ion-margin-vertical"
+          (click)="redirectToMyDetails(this.userId)"
+        >
           <ion-icon slot="start" name="person-circle-outline"></ion-icon>
           <ion-label>My Details</ion-label>
           <ion-icon slot="end" name="chevron-forward"></ion-icon>
         </ion-item>
-        <ion-item class="ion-margin-vertical">
+        <ion-item
+          class="ion-margin-vertical"
+          (click)="redirectToChangePassword()"
+        >
           <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
           <ion-label>Change Password</ion-label>
           <ion-icon slot="end" name="chevron-forward"></ion-icon>
@@ -82,7 +89,8 @@ export class AccountPageComponentComponent implements OnInit {
 
   constructor(
     public firestore: Firestore,
-    public authServ: AuthenticationService
+    public authServ: AuthenticationService,
+    public router: Router
   ) {
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
@@ -122,6 +130,14 @@ export class AccountPageComponentComponent implements OnInit {
     } else {
       console.log('User not found!');
     }
+  }
+
+  redirectToChangePassword() {
+    this.router.navigateByUrl('/change-password');
+  }
+
+  redirectToMyDetails(uid: string) {
+    this.router.navigate(['/my-details', uid]);
   }
 
   ngOnInit() {}
