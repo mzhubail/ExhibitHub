@@ -1,6 +1,4 @@
-// @ts-nocheck
 import { AlertController } from '@ionic/angular';
-import { Firestore } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
 import {
   Firestore,
@@ -21,31 +19,21 @@ import {
 
 import { Observable, map, switchMap, of } from 'rxjs';
 
-
-
 @Injectable({
   providedIn: 'root',
 })
 export class ReservationService {
+  CurrentReservations: Reservation[] = [];
+  public reservations$!: Observable<Reservation[]>;
+  public filteredReservations$!: Observable<Reservation[]>;
+  public halls$!: Observable<any[]>;
+  public filteredHalls$!: Observable<any[]>;
+  
 
-  public reservations$: Observable<any[]>;
-  public filteredReservations$: Observable<any[]>;
-  public halls$: Observable<any[]>;
-  public filteredHalls$: Observable<any[]>;
-
-
-  constructor(
-    public alertCtrl: AlertController,
-    public firestore: Firestore,
-  ) {
+  constructor(public alertCtrl: AlertController, public firestore: Firestore) {
     this.getReservations();
     this.getHalls();
-  }
-
-  
-  // Create Data in Firestore with Add()
-  addReservation(reservation): Promise<DocumentReference> {
-    return addDoc(collection(this.firestore, 'Reservations'), reservation);
+    this.getReservationsCopy();
   }
 
 
@@ -54,7 +42,9 @@ export class ReservationService {
     this.reservations$ = collectionData(queryCollection, {
       idField: 'id',
     }) as Observable<any[]>;
+    this.filteredReservations$ = this.reservations$;
   }
+
 
   async getHalls() {
     const queryCollection = query(collection(this.firestore, 'halls'));
@@ -63,7 +53,6 @@ export class ReservationService {
     }) as Observable<any[]>;
     this.filteredHalls$ = this.halls$;
   }
-
 
   // Chosen by the client
   start_date: Date = new Date();
@@ -80,14 +69,30 @@ export class ReservationService {
   }
 
 
-  // Show the reserved dates
+  async getReservationsCopy() { // copy array 
+        const querySnapshot = await getDocs(
+          collection(this.firestore, 'Reservations')
+        );
+        querySnapshot.forEach((doc:any) => {
+          this.CurrentReservations.push(doc.data());
+        });
+      }
+    
+
+      // Create Data in FireStore with Add()
+      addReservation(reservation:Reservation): Promise<DocumentReference> {
+        return addDoc(collection(this.firestore, 'Reservations'), reservation);
+      }
+
+
+
+
+  // start
   highlightedDates = (isoString: any) => {
     const currentDate = new Date(isoString);
-
     const reservedDates = this.CurrentReservations.reduce((acc, res) => {
-      const start = new Date(res.startDate);
-      const end = new Date(res.endDate);
-
+      const start = new Date(res.start_date);
+      const end = new Date(res.end_date);
       while (start <= end) {
         const dateString = start.toISOString().split('T')[0];
         acc.add(dateString);
@@ -95,11 +100,9 @@ export class ReservationService {
       }
       return acc;
     }, new Set());
-
     const isReserved = reservedDates.has(
       currentDate.toISOString().split('T')[0]
     );
-
     return {
       textColor: '#ffffff',
       backgroundColor: isReserved ? 'red' : 'green',
@@ -127,8 +130,8 @@ export class ReservationService {
       let isReserved = false;
       for (const reservation of existingReservations) {
         if (
-          currentDate >= new Date(reservation.startDate) &&
-          currentDate <= new Date(reservation.endDate)
+          currentDate >= new Date(reservation.start_date) &&
+          currentDate <= new Date(reservation.end_date)
         ) {
           isReserved = true;
           break;
@@ -140,25 +143,49 @@ export class ReservationService {
     return calendarStatusArray;
   }
 
+
+  // not sure 
   check_conflict(
     chosenStartDate: Date,
     chosenEndDate: Date,
-    existingReservations: any[]
-  ) {
-    for (const reservation of existingReservations) {
-      const reservationStartDate = new Date(reservation.startDate);
-      const reservationEndDate = new Date(reservation.endDate);
+    existingReservations:Reservation[]
+  ){
+        for (const reservation of existingReservations) {
+          const reservationStartDate = new Date(reservation.start_date);
+          const reservationEndDate = new Date(reservation.end_date);
 
-      const doesOverlap =
-        chosenStartDate <= reservationEndDate &&
-        chosenEndDate >= reservationStartDate;
+          const doesOverlap =
+            chosenStartDate <= reservationEndDate &&
+            chosenEndDate >= reservationStartDate;
 
-      if (doesOverlap) {
-        return true;
-      }
-    }
-    return false;
+          if (doesOverlap) {
+            return true;
+          }
+        }
+        return false;
   }
+
+
+  dates_checker() {
+    // check for past also
+    const chosenStartDate = new Date(this.start_date);
+    const chosenEndDate = new Date(this.end_date);
+    let conflict = this.check_conflict(
+      chosenStartDate,
+      chosenEndDate,
+      this.CurrentReservations
+    );
+    if (conflict)
+      this.generalAlert(
+        'Conflict Alert',
+        'The chosen start and end dates conflict with existing reservations.',
+        ['OK']
+      );
+    else console.log('Dates conflict cannot be checked');
+  }
+
+
+  
 
   async generalAlert(
     header: string,
@@ -175,26 +202,8 @@ export class ReservationService {
     await alert.present();
   }
 
-  fake_submit() {
-    const chosenStartDate = new Date(this.start_date);
-    const chosenEndDate = new Date(this.end_date);
-    let conflict = this.check_conflict(
-      chosenStartDate,
-      chosenEndDate,
-      this.CurrentReservations
-    );
-    if (conflict)
-      this.generalAlert(
-        'Conflict Alert',
-        'The chosen start and end dates conflict with existing reservations.',
-        ['OK']
-      );
-    else console.log('Whatever');
-  }
-
-
-  // written by the client 
-  capacity: number;
+  // written by the client
+  capacity!: number;
 
   filterHalls() {
     if (!this.reservations$) {

@@ -43,6 +43,7 @@
             id="datetime-start"
             presentation="date"
             (ionChange)="this.reservation.start_date_changed($event)"
+            [highlightedDates]="reservation.datePickerOptions.highlightedDates"
           ></ion-datetime>
         </ng-template>
       </ion-modal>
@@ -54,6 +55,7 @@
             id="datetime-end"
             presentation="date"
             (ionChange)="this.reservation.end_date_changed($event)"
+            [highlightedDates]="reservation.datePickerOptions.highlightedDates"
           ></ion-datetime>
         </ng-template>
       </ion-modal>
