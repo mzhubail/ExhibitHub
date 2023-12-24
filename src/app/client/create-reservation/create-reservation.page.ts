@@ -12,8 +12,8 @@ export class CreateReservationPage implements OnInit {
   newReservation: Reservation = {} as Reservation;
   reservationsForm: FormGroup = new FormGroup({});
 
-  constructor(public reservation:ReservationService, public FormBuilder: FormBuilder, public authSrv:AuthenticationService) {
-    this.reservationsForm = FormBuilder.group({
+  constructor(public reservation:ReservationService, public formBuilder: FormBuilder, public authSrv:AuthenticationService) {
+    this.reservationsForm = formBuilder.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
       hall: ['', Validators.required],
@@ -36,6 +36,16 @@ export class CreateReservationPage implements OnInit {
 //   end_date: Date;
 //   status: string; //(approved/rejected/pending)
 // }
+
+empty(){
+  this.reservationsForm = this.formBuilder.group({
+    name: ['', Validators.required],
+    description: ['', Validators.required],
+    hall: ['', Validators.required],
+    start_date: [this.reservation.start_date],
+    end_date: [this.reservation.end_date],
+  });
+}
 
   AddReservation(res:any) {
     if (this.reservationsForm.valid) {
@@ -69,6 +79,7 @@ export class CreateReservationPage implements OnInit {
 
       this.reservation.addReservation(this.newReservation)
         .then((res) => {
+         this.empty();
           this.reservation.generalAlert("Success",'Your reservation request has been sent successfully',['OK']);
         })
         .catch((err) => {
