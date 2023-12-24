@@ -78,14 +78,13 @@ export class SignUpPage implements OnInit {
     });
   }
 
-  ngOnInit() { }
-
+  ngOnInit() {}
 
   register(formInformation: any) {
     // check if mismatch. then check the validation as a whole
 
     let email = formInformation.get('email').value;
-    let phone = this.parsePhoneNumber( formInformation.get('phone').value );
+    let phone = this.parsePhoneNumber(formInformation.get('phone').value);
     let first_name = formInformation.get('first_name').value;
     let last_name = formInformation.get('last_name').value;
     let pass = formInformation.get('password').value;
@@ -94,12 +93,12 @@ export class SignUpPage implements OnInit {
 
     if (!this.signup.valid || phone === undefined) {
       this.authSrv.generalAlert(
-        'INVALID DATA ❌',
+        'INVALID DATA',
         'Please check the entered data and make sure you fill all the form',
         ['OK']
       );
     } else if (pass !== confirm_pass) {
-      this.authSrv.generalAlert('MISMATCH ❌', 'Make sure passwords match', [
+      this.authSrv.generalAlert('MISMATCH', 'Make sure passwords match', [
         'OK',
       ]);
     } else {
@@ -107,22 +106,20 @@ export class SignUpPage implements OnInit {
     }
   }
 
-
   /* Phone regular expression
    * with optional country code and whitespaces, and number capture
    */
   phoneRegex = /^((00 ?|\+)973 ?)?(?<num>(3\d|66)\d{6})$/;
 
-
   /* Attempts to parse phone number */
   parsePhoneNumber(numberString: string): string | undefined {
-    const match = numberString.match(/^((00 ?|\+)973 ?)?(?<num>(3\d|66)\d{6})$/);
-    if (match == null)
-      return;
+    const match = numberString.match(
+      /^((00 ?|\+)973 ?)?(?<num>(3\d|66)\d{6})$/
+    );
+    if (match == null) return;
 
-    const parsedNumber = match.groups?.['num']
+    const parsedNumber = match.groups?.['num'];
     console.log('Parsed', numberString, 'as', parsedNumber);
     return parsedNumber;
   }
-
 }

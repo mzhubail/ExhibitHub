@@ -31,16 +31,14 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 
-
 export interface UserInfo {
-  id?: string,
-  Email: string,
-  First_Name: string,
-  Last_Name: string,
-  Phone: string,
-  Role: string,
+  id?: string;
+  Email: string;
+  First_Name: string;
+  Last_Name: string;
+  Phone: string;
+  Role: string;
 }
-
 
 @Injectable({
   providedIn: 'root',
@@ -67,36 +65,35 @@ export class AuthenticationService {
     public alertCtrl: AlertController,
     public navCtrl: NavController
   ) {
-    this.UserCollection =
-      collection(this.firestore, 'Users Information') as CollectionReference<UserInfo>;
+    this.UserCollection = collection(
+      this.firestore,
+      'Users Information'
+    ) as CollectionReference<UserInfo>;
 
-    auth.onAuthStateChanged(user => {
+    auth.onAuthStateChanged((user) => {
       // Set user
       this.user = user;
-      if (this.user === null)
-        return;
+      if (this.user === null) return;
       console.log('Logged in with user', this.user.email);
 
       // Get userRole
-      this.getUserInfo(this.user.uid)
-        .then(userInfo => {
-          if (!userInfo) {
-            console.error(
-              'User role was not retrieved correctly.\n\n Make sure that the ' +
+      this.getUserInfo(this.user.uid).then((userInfo) => {
+        if (!userInfo) {
+          console.error(
+            'User role was not retrieved correctly.\n\n Make sure that the ' +
               'corresponding userInfo for the user is stored in ' +
-              '\'User Information\' with the same id as the current user id.'
-            );
-          } else {
-            this.userInfo = userInfo;
+              "'User Information' with the same id as the current user id."
+          );
+        } else {
+          this.userInfo = userInfo;
 
-            if (this.router.url === '/log-in')
-              this.redirectUser();
-          }
-        })
+          if (this.router.url === '/log-in') this.redirectUser();
+        }
+      });
     });
 
     this.actionCodeSettings = {
-      url: 'http://localhost:8100/log-in', // important  
+      url: 'http://localhost:8100/log-in', // important
       handleCodeInApp: true,
       iOS: {
         bundleId: 'com.example.ios',
@@ -106,20 +103,17 @@ export class AuthenticationService {
         installApp: true,
         minimumVersion: '12',
       },
-      dynamicLinkDomain: 'mobileammz.page.link',  // important  
+      dynamicLinkDomain: 'mobileammz.page.link', // important
     };
   }
 
   signIn(email: string, password: string) {
     const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, password)
-      .catch(() => {
-        this.generalAlert(
-          'Wrong Credentials',
-          'Incorrect Email or Password ❌',
-          ['OK']
-        );
-      });
+    signInWithEmailAndPassword(auth, email, password).catch(() => {
+      this.generalAlert('Wrong Credentials', 'Incorrect Email or Password', [
+        'OK',
+      ]);
+    });
   }
 
   signUp(
@@ -132,7 +126,9 @@ export class AuthenticationService {
   ) {
     this.checkDuplicate(email).then((isDuplicate) => {
       if (isDuplicate) {
-        this.generalAlert('Duplicate', 'The email entered already exists', ['OK']);
+        this.generalAlert('Duplicate', 'The email entered already exists', [
+          'OK',
+        ]);
       } else {
         createUserWithEmailAndPassword(getAuth(), email, password).then(
           (userCredential) => {
@@ -150,20 +146,22 @@ export class AuthenticationService {
               .then(() => {
                 this.generalAlert(
                   'Success',
-                  'Your account has been created successfully ✅',
-                  [{
-                    text: 'OK',
-                    handler: () => {
-                      this.logInUser(user);
+                  'Your account has been created successfully',
+                  [
+                    {
+                      text: 'OK',
+                      handler: () => {
+                        this.logInUser(user);
+                      },
                     },
-                  }]
+                  ]
                 );
               })
               .catch(() => {
                 user.delete().then(() => {
                   this.generalAlert(
                     'Fail',
-                    'Sorry, your account cannot be created. Try again later ❌',
+                    'Sorry, your account cannot be created. Try again later',
                     ['OK']
                   );
                 });
@@ -174,19 +172,19 @@ export class AuthenticationService {
     });
   }
 
-
   /**
    * This is to be used to sign in a user when he is first created.
    *
    * @param user The new User
    */
   private logInUser(user: User) {
-    this.auth.updateCurrentUser(user)
+    this.auth
+      .updateCurrentUser(user)
       .then(() => {
         // Do something
         this.redirectUser();
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
         this.router.navigateByUrl('/log-in');
       });
@@ -202,20 +200,17 @@ export class AuthenticationService {
     this.navCtrl.navigateForward('/' + role);
   }
 
-
-
   async checkDuplicate(email: string): Promise<boolean> {
     const userQuery = query(
       collection(this.firestore, 'Users Information'),
-      where('Email', '==', email));
+      where('Email', '==', email)
+    );
 
-    return getDocs(userQuery)
-      .then((querySnapshot: any) => {
-        const numberOfDocs = querySnapshot.size;
-        return numberOfDocs > 0 ? true : false;
-      });
+    return getDocs(userQuery).then((querySnapshot: any) => {
+      const numberOfDocs = querySnapshot.size;
+      return numberOfDocs > 0 ? true : false;
+    });
   }
-
 
   /**
    * @param userID Identifier of a user
@@ -227,8 +222,6 @@ export class AuthenticationService {
     return x.data() as UserInfo | null;
   }
 
-
-
   async getRoleByEmail(userEmail: string): Promise<string | undefined> {
     let role;
     const userQuery = query(
@@ -236,7 +229,7 @@ export class AuthenticationService {
       where('Email', '==', userEmail),
       limit(1)
     );
-    const querySnapshot = await getDocs(userQuery)
+    const querySnapshot = await getDocs(userQuery);
 
     querySnapshot.forEach((doc: any) => {
       role = doc.data()['Role'];
@@ -244,7 +237,6 @@ export class AuthenticationService {
 
     return role;
   }
-
 
   signOut() {
     // use it wherever it necessary
@@ -254,11 +246,9 @@ export class AuthenticationService {
         this.navCtrl.navigateBack('/log-in');
       })
       .catch(() => {
-        this.generalAlert(
-          'Fail',
-          'Sorry, there is a problem signing you out ❌',
-          ['OK']
-        );
+        this.generalAlert('Fail', 'Sorry, there is a problem signing you out', [
+          'OK',
+        ]);
       });
   }
 
@@ -267,7 +257,7 @@ export class AuthenticationService {
       .then(() => {
         this.generalAlert(
           'Success',
-          'A sign in link sent to your email successfully ✅',
+          'A sign in link sent to your email successfully',
           [
             {
               text: 'OK',
@@ -281,8 +271,8 @@ export class AuthenticationService {
       })
       .catch((error) => {
         this.generalAlert(
-          'Sending Fail', // free firebase has limited sign in quota 
-          'Sorry, something wrong happen. Try again later. ❌',
+          'Sending Fail', // free firebase has limited sign in quota
+          'Sorry, something wrong happen. Try again later.',
           [
             {
               text: 'OK',
@@ -296,18 +286,19 @@ export class AuthenticationService {
       });
   }
 
-
   resetPasswordEmail(user_email: string) {
     sendPasswordResetEmail(getAuth(), user_email, this.actionCodeSettings)
       .then(() => {
         this.generalAlert(
           'Success',
-          'A password reset link has been sent to your email ' + user_email  + ' successfully ✅',
+          'A password reset link has been sent to your email ' +
+            user_email +
+            ' successfully',
           [
             {
               text: 'OK',
               handler: () => {
-                // nothing 
+                // nothing
               },
             },
           ]
@@ -316,7 +307,7 @@ export class AuthenticationService {
       .catch((error) => {
         this.generalAlert(
           'Error',
-          'Sorry, something went wrong while sending the reset password email. ❌',
+          'Sorry, something went wrong while sending the reset password email.',
           [
             {
               text: 'OK',
@@ -330,13 +321,12 @@ export class AuthenticationService {
       });
   }
 
-
   // Check if the email exists within auth accounts
   async checkEmailExists(email: string): Promise<boolean> {
     try {
       const auth = getAuth();
       const methods = await fetchSignInMethodsForEmail(auth, email);
-      
+
       // If methods array has length > 0, email exists
       return methods.length > 0;
     } catch (error) {
@@ -344,9 +334,6 @@ export class AuthenticationService {
       return false; // Return false in case of any errors
     }
   }
-
-
-
 
   // updatePassword() {
   //   const auth = getAuth();

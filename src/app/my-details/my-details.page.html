@@ -1,0 +1,105 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-list-header> <ion-label> My Details </ion-label></ion-list-header>
+
+    <form [formGroup]="DetailsForm" (ngSubmit)="changeDetails()">
+      <ion-item>
+        <ion-label position="stacked">
+          <ion-card-subtitle>First name</ion-card-subtitle>
+        </ion-label>
+        <ion-input
+          label=""
+          formControlName="first_name"
+          style="padding-left: 3rem"
+          type="text"
+        ></ion-input>
+      </ion-item>
+
+      <!-- errors of first name -->
+      <ion-note
+        color="danger"
+        class="error-message"
+        *ngIf="DetailsForm.controls['first_name'].invalid && DetailsForm.controls['first_name'].touched"
+      >
+        <ion-icon name="alert-outline" color="danger"></ion-icon>
+        <span *ngIf="DetailsForm.controls['first_name'].hasError('required')"
+          >First name is required.</span
+        >
+        <span *ngIf="DetailsForm.controls['first_name'].hasError('pattern')"
+          >First name must contain 3 to 20 characters .</span
+        >
+      </ion-note>
+
+      <ion-item>
+        <ion-label position="stacked">
+          <ion-card-subtitle>Last Name</ion-card-subtitle>
+        </ion-label>
+        <ion-input
+          label=""
+          formControlName="last_name"
+          style="padding-left: 3rem"
+          type="text"
+        ></ion-input>
+      </ion-item>
+
+      <!-- errors of last name -->
+      <ion-note
+        color="danger"
+        class="error-message"
+        *ngIf="DetailsForm.controls['last_name'].invalid && DetailsForm.controls['last_name'].touched"
+      >
+        <ion-icon name="alert-outline" color="danger"></ion-icon>
+        <span *ngIf="DetailsForm.controls['last_name'].hasError('required')"
+          >Last name is required.</span
+        >
+        <span *ngIf="DetailsForm.controls['last_name'].hasError('pattern')"
+          >Last name must contain 3 to 20 characters .</span
+        >
+      </ion-note>
+
+      <ion-item>
+        <ion-label position="stacked">
+          <ion-card-subtitle>Phone Number</ion-card-subtitle>
+        </ion-label>
+
+        <ion-input
+          label=""
+          formControlName="phone"
+          style="padding-left: 3rem"
+          type="text"
+        ></ion-input>
+      </ion-item>
+
+      <!-- errors of phone number -->
+      <ion-note
+        color="danger"
+        class="error-message"
+        *ngIf="DetailsForm.controls['phone'].invalid && DetailsForm.controls['phone'].touched"
+      >
+        <ion-icon name="alert-outline" color="danger"></ion-icon>
+        <span *ngIf="DetailsForm.controls['phone'].hasError('required')"
+          >Phone number is required.</span
+        >
+        <span *ngIf="DetailsForm.controls['phone'].hasError('pattern')"
+          >Phone number must follow the Bahraini format.</span
+        >
+      </ion-note>
+      <ion-button
+        [class.disabled]="!DetailsForm.valid"
+        [disabled]="!DetailsForm.valid"
+        type="submit"
+        class="ion-margin"
+        expand="block"
+        >Save Changes</ion-button
+      >
+    </form>
+  </ion-list>
+</ion-content>
