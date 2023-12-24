@@ -8,6 +8,18 @@ export class CustomePageService {
   itemOrderArray: { id: string; position: number }[] = [];
   agendas: { date: Date; time: Date; description: string }[] = [];
 
+  eventDesign: EventDesign = {
+    id: '',
+    reservationID: '',
+    color: '',
+    title: '',
+    image: '',
+    eventDescription: '',
+    price: 0,
+    agenda: [],
+    itemsOrder: [],
+  };
+
   showItemOrder(itemOrder: any[]) {
     this.itemOrderArray = itemOrder;
     // console.log(this.itemOrderArray);
@@ -18,11 +30,16 @@ export class CustomePageService {
     // console.log(this.agendas);
     this.agendas = item;
   }
+
+  addNewCustomEvent(customEventData: EventDesign) {
+    console.log(customEventData);
+    this.eventDesign = customEventData;
+  }
 }
 
 export interface EventDesign {
   id: string;
-  eventID: string;
+  reservationID: string; // from URL
   color: string;
   title: string;
   image: string;
@@ -32,6 +49,9 @@ export interface EventDesign {
     date: string;
     time: string;
     description: string;
-  };
-  itemsOrder: any[];
+  }[];
+  itemsOrder: {
+    id: string;
+    position: number;
+  }[];
 }

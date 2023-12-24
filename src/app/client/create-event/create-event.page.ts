@@ -1,4 +1,10 @@
-import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { GestureController } from '@ionic/angular';
 import { ItemReorderEventDetail } from '@ionic/angular';
 import { IonItem } from '@ionic/angular';
@@ -17,7 +23,8 @@ interface ItemsIndex {
   templateUrl: './create-event.page.html',
   styleUrls: ['./create-event.page.scss'],
 })
-export class CreateEventPage implements AfterViewInit {
+export class CreateEventPage implements OnInit {
+  reservationID: string = ''; //from url
   colorsList: string[] = ['danger', 'success', 'warning', 'medium'];
   itemsIndex: ItemsIndex[] = [
     {
@@ -44,9 +51,24 @@ export class CreateEventPage implements AfterViewInit {
 
   customEvent: EventDesign[] = [];
   // stop here want to save data
-  mycolor!: string;
+  mycolor: string = 'medium';
   title!: string;
+  image!: 'upload.png';
   price!: number;
+  eventDescription: string = '';
+
+  // from the service
+  eventDesign: EventDesign = {
+    id: '',
+    reservationID: '',
+    color: '',
+    title: '',
+    image: '',
+    eventDescription: '',
+    price: 0,
+    agenda: [],
+    itemsOrder: [],
+  };
 
   @ViewChild('item0')
   item0!: IonItem;
@@ -68,10 +90,11 @@ export class CreateEventPage implements AfterViewInit {
     private gestureCtrl: GestureController,
     public custPage: CustomePageService
   ) {}
+  ngOnInit() {}
 
-  ngAfterViewInit(): void {
-    throw new Error('Method not implemented.');
-  }
+  // ngAfterViewInit(): void {
+  //   throw new Error('Method not implemented.');
+  // }
 
   handleReorder(ev: CustomEvent<ItemReorderEventDetail>) {
     const movedItem = this.itemsIndex[ev.detail.from];
@@ -85,6 +108,7 @@ export class CreateEventPage implements AfterViewInit {
 
     ev.detail.complete();
     this.custPage.showItemOrder(newIndexArray);
+    this.itemsIndex = newIndexArray;
   }
 
   showId(item: IonItem) {
@@ -130,13 +154,13 @@ export class CreateEventPage implements AfterViewInit {
     };
 
     this.divs.push(newDiv);
-    console.log(this.divs);
+    // console.log(this.divs);
 
     this.date = '';
     this.time = '';
     this.description = '';
 
-    this.custPage.showAgenda(this.divs);
+    // this.custPage.showAgenda(this.divs); note: i this working but i will push at the end
   }
 
   triggerImageUpload(): void {
@@ -169,5 +193,20 @@ export class CreateEventPage implements AfterViewInit {
     this.mycolor = color;
   }
 
-  createEventDesing() {}
+  createEventDesing() {
+    // save to service
+    // Assign values to eventDesign instance
+    this.eventDesign.reservationID = this.reservationID;
+    this.eventDesign.color = this.mycolor;
+    this.eventDesign.title = this.title;
+    this.eventDesign.eventDescription = this.eventDescription;
+    this.eventDesign.price = this.price;
+    this.eventDesign.image = this.image;
+    this.eventDesign.agenda = this.divs;
+    this.eventDesign.itemsOrder = this.itemsIndex.map((item) => ({
+      id: item.id,
+      position: parseInt(item.index, 10), // Parse the index string to a number
+    }));
+    this.custPage.addNewCustomEvent(this.eventDesign);
+  }
 }

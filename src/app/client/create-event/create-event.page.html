@@ -13,9 +13,7 @@
       <ion-label>Theme color</ion-label>
       <ion-icon *ngFor="let color of colorsList" color="{{color}}" name="ellipse" (click)="pickColor(color)"></ion-icon>
     </ion-item>
-
   </ng-container>
-
   <ion-list>
     <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
 
@@ -32,7 +30,7 @@
 
       <ion-item #item2 id="2" (click)="showId(item2)">
         <label for=""></label>
-        <ion-input [(ngModel)]="price" placeholder="Event Description"></ion-input>
+        <ion-input [(ngModel)]="eventDescription" placeholder="Event Description"></ion-input>
         <ion-reorder slot="end"></ion-reorder>
       </ion-item>
 
