@@ -21,20 +21,24 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+
+    <div *ngIf="((reservations$) | async)?.length === 0">
+        <ion-note>No reservations tell now!</ion-note>
+    </div>
+
+    <div class="loading-container" *ngIf="(reservations$ | async)===undefined||(reservations$ | async)===null">
+        <ion-label> Loading halls please wait... </ion-label>
+        <ion-spinner name="circular"></ion-spinner>
+    </div>
+
     <div *ngIf="reservations$ | async">
         <div [ngSwitch]="selectedSegment">
             <!-------------------------------------------- Pending list ------------------------------------------->
 
             <ion-list *ngSwitchCase="'pending'">
                 <span *ngFor="let reservation of reservations$ | async">
-                    <div *ngIf="reservation.status==='pending'" routerLink="/request-details">
+                    <div *ngIf="reservation.status==='pending'" [routerLink]="['/request-details', reservation.id]" >
                         <ion-card class="event-card">
-                            <ion-col class="event-card-img">
-                                <ion-avatar>
-                                    <!-- event image here??  -->
-                                    <ion-img src="assets/IMG_2275.jpg"></ion-img>
-                                </ion-avatar>
-                            </ion-col>
 
                             <ion-col class="event-card-content">
                                 <ion-card-content>
@@ -62,14 +66,8 @@
 
             <ion-list *ngSwitchCase="'approved'">
                 <span *ngFor="let reservation of reservations$ | async">
-                    <div *ngIf="reservation.status==='approved'" routerLink="/request-details">
+                    <div *ngIf="reservation.status==='approved'" [routerLink]="['/request-details', reservation.id]">
                         <ion-card class="event-card">
-                            <ion-col class="event-card-img">
-                                <ion-avatar>
-                                    <!-- event image here??  -->
-                                    <ion-img src="assets/IMG_2275.jpg"></ion-img>
-                                </ion-avatar>
-                            </ion-col>
 
                             <ion-col class="event-card-content">
                                 <ion-card-content>
@@ -97,14 +95,8 @@
 
             <ion-list *ngSwitchCase="'rejected'">
                 <span *ngFor="let reservation of reservations$ | async">
-                    <div *ngIf="reservation.status==='rejected'" routerLink="/request-details">
+                    <div *ngIf="reservation.status==='rejected'" [routerLink]="['/request-details', reservation.id]">
                         <ion-card class="event-card">
-                            <ion-col class="event-card-img">
-                                <ion-avatar>
-                                    <!-- event image here??  -->
-                                    <ion-img src="assets/IMG_2275.jpg"></ion-img>
-                                </ion-avatar>
-                            </ion-col>
 
                             <ion-col class="event-card-content">
                                 <ion-card-content>

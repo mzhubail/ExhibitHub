@@ -20,4 +20,8 @@ export class RequestsPage implements OnInit {
       console.log(this.reservations$);
     });
   }
+
+
+
+
 }

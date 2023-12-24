@@ -65,7 +65,7 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'request-details',
+    path: 'request-details/:id',
     loadChildren: () =>
       import('./admin/request-details/request-details.module').then(
         (m) => m.RequestDetailsPageModule

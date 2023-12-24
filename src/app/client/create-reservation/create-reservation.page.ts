@@ -75,6 +75,7 @@ empty(){
       else if(start_date<today||end_date<today){
         this.reservation.generalAlert('Invalid Range','The dates cannot be in the past.',['OK']);
         return;
+        // else if more than the availability give an alert  
       }
 
       this.reservation.addReservation(this.newReservation)
