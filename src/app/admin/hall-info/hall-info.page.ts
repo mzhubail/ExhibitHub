@@ -1,9 +1,9 @@
-//@ts-nocheck
-import { Component, OnInit, ViewChild,ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HallService, Hall } from 'src/app/services/hall.service';
 
 import { FormControlName, FormBuilder, FormGroup, Validators, Validator } from '@angular/forms';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-hall-info',
@@ -11,7 +11,7 @@ import { FormControlName, FormBuilder, FormGroup, Validators, Validator } from '
   styleUrls: ['./hall-info.page.scss'],
 })
 export class HallInfoPage implements OnInit {
-  hallInfo: Hall = {};
+  hallInfo!: Hall;
 
   HallForm: FormGroup;
   
@@ -19,6 +19,7 @@ export class HallInfoPage implements OnInit {
     public service: HallService,
     public ActRouter: ActivatedRoute,
     public formbuilder: FormBuilder,
+    public navController: NavController,
   ) {
     this.HallForm! = formbuilder.group({
       username: ['',
@@ -40,24 +41,20 @@ export class HallInfoPage implements OnInit {
 
   ngOnInit() {
     let id = this.ActRouter.snapshot.paramMap.get('id');
-    this.showData(id);
+    if (id === null) {
+      this.navController.navigateRoot('/');
+      return;
+    }
+
+    const hall = this.service.findHallById(id);
+    if (!hall) {
+      this.navController.navigateRoot('/');
+      return;
+    }
+
+    this.hallInfo = hall;
+    console.log(this.hallInfo);
   }
 
-  showData(id: string) {
-    this.service
-      .getHall(id)
-      .then((hallInfo) => {
-        this.hallInfo = hallInfo;
-        console.log(this.hallInfo);
-      })
-      .catch((error) => {
-        console.error('Error retrieving hall data:', error);
-      });
-  }
 
-
-  UpdateHallInfo(val){
-   if ( this.HallForm.valid )
-	alert('edited succefully ' + val.username);
- }
 }

@@ -1,252 +1,260 @@
-// @ts-nocheck
-import { AlertController } from '@ionic/angular';
-import { FBService } from '../fb.service';
-import { Firestore } from '@angular/fire/firestore';
+// // @ts-nocheck
+// import { AlertController } from '@ionic/angular';
+// import { Firestore } from '@angular/fire/firestore';
+// import { Injectable } from '@angular/core';
+// import {
+//   Firestore,
+//   collection,
+//   collectionData,
+//   CollectionReference,
+//   DocumentReference,
+//   getDocs,
+//   doc,
+//   deleteDoc,
+//   updateDoc,
+//   docData,
+//   setDoc,
+//   addDoc,
+//   query,
+//   DocumentData,
+// } from '@angular/fire/firestore';
+// @Injectable({
+//   providedIn: 'root',
+// })
+// export class ClientServiceService {
 
-@Injectable({
-  providedIn: 'root',
-})
-export class ClientServiceService {
-  constructor(
-    public alertCtrl: AlertController,
-    public fb: FBService,
-    public firestore: Firestore
-  ) {
-    this.getReservations();
-    this.getHalls();
-  }
+//   public reservations$: Observable<any[]>;
+//   public filteredReservations$: Observable<any[]>;
+//   public halls$: Observable<any[]>;
+//   public filteredHalls$: Observable<any[]>;
 
-  // This retrieved from the database
-  CurrentReservations: any[] = [
-    {
-      startDate: new Date('2023-12-01'),
-      endDate: new Date('2023-12-05'),
-    },
-    {
-      startDate: new Date('2023-12-10'),
-      endDate: new Date('2023-12-23'),
-    },
-  ];
 
-  // Chosen by the client
-  startDate: Date = new Date();
-  endDate: Date = new Date();
+//   constructor(
+//     public alertCtrl: AlertController,
+//     public firestore: Firestore
+//   ) {
+//     this.getReservations();
+//     this.getHalls();
+//   }
 
-  startDateChanged(event: any) {
-    this.startDate = event.detail.value;
-    console.log(this.startDate);
-  }
 
-  endDateChanged(event: any) {
-    this.endDate = event.detail.value;
-    console.log(this.endDate);
-  }
+//   // Chosen by the client
+//   startDate: Date = new Date();
+//   endDate: Date = new Date();
 
-  // Show the reserved dates
-  highlightedDates = (isoString: any) => {
-    const currentDate = new Date(isoString);
+//   startDateChanged(event: any) {
+//     this.startDate = event.detail.value;
+//     console.log(this.startDate);
+//   }
 
-    const reservedDates = this.CurrentReservations.reduce((acc, res) => {
-      const start = new Date(res.startDate);
-      const end = new Date(res.endDate);
+//   endDateChanged(event: any) {
+//     this.endDate = event.detail.value;
+//     console.log(this.endDate);
+//   }
 
-      while (start <= end) {
-        const dateString = start.toISOString().split('T')[0];
-        acc.add(dateString);
-        start.setDate(start.getDate() + 1);
-      }
-      return acc;
-    }, new Set());
+//   // Show the reserved dates
+//   highlightedDates = (isoString: any) => {
+//     const currentDate = new Date(isoString);
 
-    const isReserved = reservedDates.has(
-      currentDate.toISOString().split('T')[0]
-    );
+//     const reservedDates = this.CurrentReservations.reduce((acc, res) => {
+//       const start = new Date(res.startDate);
+//       const end = new Date(res.endDate);
 
-    return {
-      textColor: '#ffffff',
-      backgroundColor: isReserved ? 'red' : 'green',
-    };
-  };
+//       while (start <= end) {
+//         const dateString = start.toISOString().split('T')[0];
+//         acc.add(dateString);
+//         start.setDate(start.getDate() + 1);
+//       }
+//       return acc;
+//     }, new Set());
 
-  datePickerOptions = {
-    highlightedDates: this.highlightedDates,
-  };
+//     const isReserved = reservedDates.has(
+//       currentDate.toISOString().split('T')[0]
+//     );
 
-  getSixMonthRange(fromDate: Date): { start: Date; end: Date } {
-    const start = new Date(fromDate.getFullYear(), fromDate.getMonth(), 1);
-    const end = new Date(fromDate.getFullYear(), fromDate.getMonth() + 6, 0);
-    return { start: start, end: end };
-  }
+//     return {
+//       textColor: '#ffffff',
+//       backgroundColor: isReserved ? 'red' : 'green',
+//     };
+//   };
 
-  generateCalendarStatusArray(
-    existingReservations: any[],
-    fromDate: Date
-  ): { date: Date; isReserved: boolean }[] {
-    const { start, end } = this.getSixMonthRange(fromDate);
-    const calendarStatusArray: { date: Date; isReserved: boolean }[] = [];
-    const currentDate = new Date(start);
-    while (currentDate <= end) {
-      let isReserved = false;
-      for (const reservation of existingReservations) {
-        if (
-          currentDate >= new Date(reservation.startDate) &&
-          currentDate <= new Date(reservation.endDate)
-        ) {
-          isReserved = true;
-          break;
-        }
-      }
-      calendarStatusArray.push({ date: new Date(currentDate), isReserved });
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
-    return calendarStatusArray;
-  }
+//   datePickerOptions = {
+//     highlightedDates: this.highlightedDates,
+//   };
 
-  check_conflict(
-    chosenStartDate: Date,
-    chosenEndDate: Date,
-    existingReservations: any[]
-  ) {
-    for (const reservation of existingReservations) {
-      const reservationStartDate = new Date(reservation.startDate);
-      const reservationEndDate = new Date(reservation.endDate);
+//   getSixMonthRange(fromDate: Date): { start: Date; end: Date } {
+//     const start = new Date(fromDate.getFullYear(), fromDate.getMonth(), 1);
+//     const end = new Date(fromDate.getFullYear(), fromDate.getMonth() + 6, 0);
+//     return { start: start, end: end };
+//   }
 
-      const doesOverlap =
-        chosenStartDate <= reservationEndDate &&
-        chosenEndDate >= reservationStartDate;
+//   generateCalendarStatusArray(
+//     existingReservations: any[],
+//     fromDate: Date
+//   ): { date: Date; isReserved: boolean }[] {
+//     const { start, end } = this.getSixMonthRange(fromDate);
+//     const calendarStatusArray: { date: Date; isReserved: boolean }[] = [];
+//     const currentDate = new Date(start);
+//     while (currentDate <= end) {
+//       let isReserved = false;
+//       for (const reservation of existingReservations) {
+//         if (
+//           currentDate >= new Date(reservation.startDate) &&
+//           currentDate <= new Date(reservation.endDate)
+//         ) {
+//           isReserved = true;
+//           break;
+//         }
+//       }
+//       calendarStatusArray.push({ date: new Date(currentDate), isReserved });
+//       currentDate.setDate(currentDate.getDate() + 1);
+//     }
+//     return calendarStatusArray;
+//   }
 
-      if (doesOverlap) {
-        return true;
-      }
-    }
-    return false;
-  }
+//   check_conflict(
+//     chosenStartDate: Date,
+//     chosenEndDate: Date,
+//     existingReservations: any[]
+//   ) {
+//     for (const reservation of existingReservations) {
+//       const reservationStartDate = new Date(reservation.startDate);
+//       const reservationEndDate = new Date(reservation.endDate);
 
-  async generalAlert(
-    header: string,
-    message: string,
-    buttons: any,
-    inputs?: any
-  ) {
-    const alert = await this.alertCtrl.create({
-      header: header,
-      message: message,
-      buttons: buttons,
-      inputs: inputs,
-    });
-    await alert.present();
-  }
+//       const doesOverlap =
+//         chosenStartDate <= reservationEndDate &&
+//         chosenEndDate >= reservationStartDate;
 
-  fake_submit() {
-    const chosenStartDate = new Date(this.startDate);
-    const chosenEndDate = new Date(this.endDate);
-    let conflict = this.check_conflict(
-      chosenStartDate,
-      chosenEndDate,
-      this.CurrentReservations
-    );
-    if (conflict)
-      this.generalAlert(
-        'Conflict Alert',
-        'The chosen start and end dates conflict with existing reservations.',
-        ['OK']
-      );
-    else console.log('Whatever');
-  }
+//       if (doesOverlap) {
+//         return true;
+//       }
+//     }
+//     return false;
+//   }
 
-  public reservations$: Observable<any[]>;
-  public filteredReservations$: Observable<any[]>;
-  public halls$: Observable<any[]>;
-  public filteredHalls$: Observable<any[]>;
+//   async generalAlert(
+//     header: string,
+//     message: string,
+//     buttons: any,
+//     inputs?: any
+//   ) {
+//     const alert = await this.alertCtrl.create({
+//       header: header,
+//       message: message,
+//       buttons: buttons,
+//       inputs: inputs,
+//     });
+//     await alert.present();
+//   }
 
-  async getReservations() {
-    const queryCollection = query(collection(this.firestore, 'Reservations'));
-    this.reservations$ = collectionData(queryCollection, {
-      idField: 'id',
-    }) as Observable<any[]>;
-  }
+//   fake_submit() {
+//     const chosenStartDate = new Date(this.startDate);
+//     const chosenEndDate = new Date(this.endDate);
+//     let conflict = this.check_conflict(
+//       chosenStartDate,
+//       chosenEndDate,
+//       this.CurrentReservations
+//     );
+//     if (conflict)
+//       this.generalAlert(
+//         'Conflict Alert',
+//         'The chosen start and end dates conflict with existing reservations.',
+//         ['OK']
+//       );
+//     else console.log('Whatever');
+//   }
 
-  async getHalls() {
-    const queryCollection = query(collection(this.firestore, 'halls'));
-    this.halls$ = collectionData(queryCollection, {
-      idField: 'id',
-    }) as Observable<any[]>;
-    this.filteredHalls$ = this.halls$;
-  }
 
-  // ngModel is enough
-  capacity: number;
 
-  // Chosen by the client
-  start_date: Date = new Date();
-  end_date: Date = new Date();
+//   async getReservations() {
+//     const queryCollection = query(collection(this.firestore, 'Reservations'));
+//     this.reservations$ = collectionData(queryCollection, {
+//       idField: 'id',
+//     }) as Observable<any[]>;
+//     this.filteredReservations$ = this.reservations$;
+//   }
 
-  start_date_changed(event: any) {
-    this.start_date = new Date(event.detail.value);
-    this.filterHalls(); // Call filterHalls() when start_date changes
-  }
+//   async getHalls() {
+//     const queryCollection = query(collection(this.firestore, 'halls'));
+//     this.halls$ = collectionData(queryCollection, {
+//       idField: 'id',
+//     }) as Observable<any[]>;
+//     this.filteredHalls$ = this.halls$;
+//   }
 
-  end_date_changed(event: any) {
-    this.end_date = new Date(event.detail.value);
-    this.filterHalls(); // Call filterHalls() when end_date changes
-  }
+//   // ngModel is enough
+//   capacity: number;
 
-  filterHalls() {
-    if (!this.reservations$) {
-      return;
-    }
-    this.filteredHalls$ = this.halls$;
-    const start = this.start_date.toISOString().split('T')[0];
-    const end = this.end_date.toISOString().split('T')[0];
-    console.log(start);
-    console.log(end);
+//   // Chosen by the client
+//   start_date: Date = new Date();
+//   end_date: Date = new Date();
 
-    this.halls$
-      .pipe(
-        switchMap((halls) =>
-          this.reservations$.pipe(
-            map((reservations) => {
-              return halls.filter((hall) => {
-                const reservationsForHall = reservations.filter(
-                  (reservation) => reservation.hall === hall.id
-                );
-                const hasReservation = reservationsForHall.some((reservation) =>
-                  this.checkDateRangeOverlap(
-                    start,
-                    end,
-                    reservation.start_date,
-                    reservation.end_date
-                  )
-                );
-                let capacity_set = true;
-                if (this.capacity > 0) {
-                  capacity_set = parseFloat(hall.capacity) >= this.capacity;
-                  console.log(hall.capacity);
-                  console.log(parseFloat(hall.capacity) >= this.capacity);
-                }
-                return !hasReservation && capacity_set;
-              });
-            })
-          )
-        )
-      )
-      .subscribe((filteredHalls) => {
-        console.log(filteredHalls);
-        this.filteredHalls$ = of(filteredHalls);
-      });
-  }
+//   start_date_changed(event: any) {
+//     this.start_date = new Date(event.detail.value);
+//     this.filterHalls(); // Call filterHalls() when start_date changes
+//   }
 
-  checkDateRangeOverlap(
-    start1: string,
-    end1: string,
-    start2: string,
-    end2: string
-  ): boolean {
-    const startDate1 = new Date(start1);
-    const endDate1 = new Date(end1);
-    const startDate2 = new Date(start2);
-    const endDate2 = new Date(end2);
+//   end_date_changed(event: any) {
+//     this.end_date = new Date(event.detail.value);
+//     this.filterHalls(); // Call filterHalls() when end_date changes
+//   }
 
-    return startDate1 < endDate2 && endDate1 > startDate2;
-  }
-}
+//   filterHalls() {
+//     if (!this.reservations$) {
+//       return;
+//     }
+//     this.filteredHalls$ = this.halls$;
+//     const start = this.start_date.toISOString().split('T')[0];
+//     const end = this.end_date.toISOString().split('T')[0];
+//     console.log(start);
+//     console.log(end);
+
+//     this.halls$
+//       .pipe(
+//         switchMap((halls) =>
+//           this.reservations$.pipe(
+//             map((reservations) => {
+//               return halls.filter((hall) => {
+//                 const reservationsForHall = reservations.filter(
+//                   (reservation) => reservation.hall === hall.id
+//                 );
+//                 const hasReservation = reservationsForHall.some((reservation) =>
+//                   this.checkDateRangeOverlap(
+//                     start,
+//                     end,
+//                     reservation.start_date,
+//                     reservation.end_date
+//                   )
+//                 );
+//                 let capacity_set = true;
+//                 if (this.capacity > 0) {
+//                   capacity_set = parseFloat(hall.capacity) >= this.capacity;
+//                   console.log(hall.capacity);
+//                   console.log(parseFloat(hall.capacity) >= this.capacity);
+//                 }
+//                 return !hasReservation && capacity_set;
+//               });
+//             })
+//           )
+//         )
+//       )
+//       .subscribe((filteredHalls) => {
+//         console.log(filteredHalls);
+//         this.filteredHalls$ = of(filteredHalls);
+//       });
+//   }
+
+//   checkDateRangeOverlap(
+//     start1: string,
+//     end1: string,
+//     start2: string,
+//     end2: string
+//   ): boolean {
+//     const startDate1 = new Date(start1);
+//     const endDate1 = new Date(end1);
+//     const startDate2 = new Date(start2);
+//     const endDate2 = new Date(end2);
+
+//     return startDate1 < endDate2 && endDate1 > startDate2;
+//   }
+// }

@@ -1,5 +1,26 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title> Chat </ion-title>
+    <ion-title> Chats </ion-title>
   </ion-toolbar>
 </ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item
+        *ngFor="let chat of chats"
+        button="true"
+        routerLink="/chat/{{chat.id}}"
+        detail="true"
+        >
+      <ion-label>
+        <ion-text> <strong>
+          {{ chat.username }}
+        </strong> </ion-text>
+        <br>
+        <ion-note color="medium" class="ion-text-wrap">
+          {{ chat.lastMessageText }}
+        </ion-note>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

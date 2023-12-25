@@ -1,9 +1,7 @@
 <ion-header>
     <ion-toolbar>
         <ion-title slot="start"> Requests </ion-title>
-        <ion-label slot="end">
-            Admin
-        </ion-label>
+        <ion-label slot="end"> Admin </ion-label>
     </ion-toolbar>
     <!-------------------------------------------- Segment buttons ------------------------------------------->
     <div>
@@ -23,147 +21,104 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-    <div [ngSwitch]="selectedSegment">
-        <!-------------------------------------------- Pending list ------------------------------------------->
 
-        <ion-list *ngSwitchCase="'pending'">
-            <div routerLink="/request-details">
-                <ion-card class="event-card">
-                    <ion-col class="event-card-img">
-                        <ion-avatar>
-                            <ion-img src="assets/IMG_2275.jpg"></ion-img>
-                        </ion-avatar>
-                    </ion-col>
+    <div *ngIf="((reservations$) | async)?.length === 0">
+        <ion-note>No reservations tell now!</ion-note>
+    </div>
 
-                    <ion-col class="event-card-content">
-                        <ion-card-content>
-                            <h3 class="event-card-content-element">
-                                Requested Date: <br />
-                                <b> 23 Nov - 26 Nov 2023</b>
-                            </h3>
-                            <h3 class="event-card-content-element">
-                                Event name: <br />
-                                <b> Jewellary Arabia</b>
-                            </h3>
-                            <h3 class="event-card-content-element">
-                                Request Status: <b>Pending</b>
-                            </h3>
-                        </ion-card-content>
-                    </ion-col>
-                </ion-card>
-            </div>
+    <div class="loading-container" *ngIf="(reservations$ | async)===undefined||(reservations$ | async)===null">
+        <ion-label> Loading halls please wait... </ion-label>
+        <ion-spinner name="circular"></ion-spinner>
+    </div>
 
-            <div>
-                <ion-card class="event-card">
-                    <ion-col class="event-card-img">
-                        <ion-avatar>
-                            <ion-img src="assets/IMG_2275.jpg"></ion-img>
-                        </ion-avatar>
-                    </ion-col>
+    <div *ngIf="reservations$ | async">
+        <div [ngSwitch]="selectedSegment">
+            <!-------------------------------------------- Pending list ------------------------------------------->
 
-                    <ion-col class="event-card-content">
-                        <ion-card-content>
-                            <h3 class="event-card-content-element">
-                                Requested Date: <br />
-                                <b> 23 Nov - 26 Nov 2023</b>
-                            </h3>
-                            <h3 class="event-card-content-element">
-                                Event name: <br />
-                                <b> Jewellary Arabia</b>
-                            </h3>
-                            <h3 class="event-card-content-element">
-                                Request Status: <b>Pending</b>
-                            </h3>
-                        </ion-card-content>
-                    </ion-col>
-                </ion-card>
-            </div>
+            <ion-list *ngSwitchCase="'pending'">
+                <span *ngFor="let reservation of reservations$ | async">
+                    <div *ngIf="reservation.status==='pending'" [routerLink]="['/request-details', reservation.id]" >
+                        <ion-card class="event-card">
 
-            <div>
-                <ion-card class="event-card">
-                    <ion-col class="event-card-img">
-                        <ion-avatar>
-                            <ion-img src="assets/IMG_2275.jpg"></ion-img>
-                        </ion-avatar>
-                    </ion-col>
+                            <ion-col class="event-card-content">
+                                <ion-card-content>
+                                    <h3 class="event-card-content-element">
+                                        Requested Date: <br />
+                                        <b>{{reservation.start_date}} <br />
+                                            to ➡️ <br />{{reservation.end_date}}
+                                        </b>
+                                    </h3>
+                                    <h3 class="event-card-content-element">
+                                        Event name: <br />
+                                        <b> {{reservation.name}}</b>
+                                    </h3>
+                                    <h3 class="event-card-content-element">
+                                        Request Status: <b>{{reservation.status}}</b>
+                                    </h3>
+                                </ion-card-content>
+                            </ion-col>
+                        </ion-card>
+                    </div>
+                </span>
+            </ion-list>
 
-                    <ion-col class="event-card-content">
-                        <ion-card-content>
-                            <h3 class="event-card-content-element">
-                                Requested Date: <br />
-                                <b> 23 Nov - 26 Nov 2023</b>
-                            </h3>
-                            <h3 class="event-card-content-element">
-                                Event name: <br />
-                                <b> Jewellary Arabia</b>
-                            </h3>
-                            <h3 class="event-card-content-element">
-                                Request Status: <b>Pending</b>
-                            </h3>
-                        </ion-card-content>
-                    </ion-col>
-                </ion-card>
-            </div>
-        </ion-list>
+            <!-------------------------------------------- Approved list ------------------------------------------->
 
-        <!-------------------------------------------- Approved list ------------------------------------------->
+            <ion-list *ngSwitchCase="'approved'">
+                <span *ngFor="let reservation of reservations$ | async">
+                    <div *ngIf="reservation.status==='approved'" [routerLink]="['/request-details', reservation.id]">
+                        <ion-card class="event-card">
 
-        <ion-list *ngSwitchCase="'approved'">
-            <div routerLink="/request-details">
-                <ion-card class="event-card">
-                    <ion-col class="event-card-img">
-                        <ion-avatar>
-                            <ion-img src="assets/IMG_2275.jpg"></ion-img>
-                        </ion-avatar>
-                    </ion-col>
+                            <ion-col class="event-card-content">
+                                <ion-card-content>
+                                    <h3 class="event-card-content-element">
+                                        Requested Date: <br />
+                                        <b>{{reservation.start_date}} <br />
+                                            to ➡️ <br />{{reservation.end_date}}
+                                        </b>
+                                    </h3>
+                                    <h3 class="event-card-content-element">
+                                        Event name: <br />
+                                        <b> {{reservation.name}}</b>
+                                    </h3>
+                                    <h3 class="event-card-content-element">
+                                        Request Status: <b>{{reservation.status}}</b>
+                                    </h3>
+                                </ion-card-content>
+                            </ion-col>
+                        </ion-card>
+                    </div>
+                </span>
+            </ion-list>
 
-                    <ion-col class="event-card-content">
-                        <ion-card-content>
-                            <h3 class="event-card-content-element">
-                                Requested Date: <br />
-                                <b> 23 Nov - 26 Nov 2023</b>
-                            </h3>
-                            <h3 class="event-card-content-element">
-                                Event name: <br />
-                                <b> Jewellary Arabia</b>
-                            </h3>
-                            <h3 class="event-card-content-element">
-                                Request Status: <b>Approved</b>
-                            </h3>
-                        </ion-card-content>
-                    </ion-col>
-                </ion-card>
-            </div>
-        </ion-list>
+            <!-------------------------------------------- Rejected list ------------------------------------------->
 
-        <!-------------------------------------------- Rejected list ------------------------------------------->
+            <ion-list *ngSwitchCase="'rejected'">
+                <span *ngFor="let reservation of reservations$ | async">
+                    <div *ngIf="reservation.status==='rejected'" [routerLink]="['/request-details', reservation.id]">
+                        <ion-card class="event-card">
 
-        <ion-list *ngSwitchCase="'rejected'">
-            <div routerLink="/request-details">
-                <ion-card class="event-card">
-                    <ion-col class="event-card-img">
-                        <ion-avatar>
-                            <ion-img src="assets/IMG_2275.jpg"></ion-img>
-                        </ion-avatar>
-                    </ion-col>
-
-                    <ion-col class="event-card-content">
-                        <ion-card-content>
-                            <h3 class="event-card-content-element">
-                                Requested Date: <br />
-                                <b> 23 Nov - 26 Nov 2023</b>
-                            </h3>
-                            <h3 class="event-card-content-element">
-                                Event name: <br />
-                                <b> Jewellary Arabia</b>
-                            </h3>
-                            <h3 class="event-card-content-element">
-                                Request Status: <b>Rejected</b>
-                            </h3>
-                        </ion-card-content>
-                    </ion-col>
-                </ion-card>
-            </div>
-        </ion-list>
+                            <ion-col class="event-card-content">
+                                <ion-card-content>
+                                    <h3 class="event-card-content-element">
+                                        Requested Date: <br />
+                                        <b>{{reservation.start_date}} <br />
+                                            to ➡️ <br />{{reservation.end_date}}
+                                        </b>
+                                    </h3>
+                                    <h3 class="event-card-content-element">
+                                        Event name: <br />
+                                        <b> {{reservation.name}}</b>
+                                    </h3>
+                                    <h3 class="event-card-content-element">
+                                        Request Status: <b>{{reservation.status}}</b>
+                                    </h3>
+                                </ion-card-content>
+                            </ion-col>
+                        </ion-card>
+                    </div>
+                </span>
+            </ion-list>
+        </div>
     </div>
 </ion-content>

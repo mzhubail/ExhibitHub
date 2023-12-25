@@ -1,11 +1,11 @@
-<!-- <ion-header>
-  <ion-toolbar color="white">
+<ion-header>
+  <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title color="primary">Hall Information</ion-title>
   </ion-toolbar>
-</ion-header> -->
+</ion-header>
 
 
 <ion-content [fullscreen]="true">
@@ -14,17 +14,10 @@
       <ion-title size="large">hall-info</ion-title>
     </ion-toolbar>
   </ion-header>
+
   <div class="gallery">
     <img class="image" src="/assets/hall.PNG" alt="">
   </div>
-
-  <ion-grid>
-    <ion-row class="small-image">
-      <ion-col><img src="/assets/hall.PNG" alt=""></ion-col>
-      <ion-col><img src="/assets/hall.PNG" alt=""></ion-col>
-      <ion-col><img src="/assets/hall.PNG" alt=""></ion-col>
-    </ion-row>
-  </ion-grid>
 
 
   <ion-card>
@@ -35,7 +28,7 @@
       {{hallInfo.description}}
       <ion-item>
         <ion-label>SQM(M^2):do we need it? </ion-label>
-        <ion-label>{{ service.hallData.capacity }}</ion-label>
+        <ion-label>{{ hallInfo.capacity }}</ion-label>
       </ion-item>
       <ion-item>
         <ion-label>Capacity:</ion-label>
