@@ -13,6 +13,10 @@ import {
   EventDesign,
 } from 'src/app/services/custome-page.service';
 
+import { Storage, ref, uploadString } from '@angular/fire/storage';
+
+
+
 interface ItemsIndex {
   id: string;
   index: string;
@@ -96,7 +100,8 @@ export class CreateEventPage implements OnInit {
 
   constructor(
     private gestureCtrl: GestureController,
-    public custPage: CustomePageService
+    public custPage: CustomePageService,
+    public storage: Storage,
   ) {}
   ngOnInit() {}
 
@@ -200,6 +205,21 @@ export class CreateEventPage implements OnInit {
 
     reader.readAsDataURL(file);
   }
+
+
+  uploadImage() {
+    if (!this.pickedImageData)
+      return;
+
+    const imageId = Math.floor(Math.random() * 100000000000).toString(36);
+    const imageRef = ref(this.storage, 'images/' + imageId);
+
+    uploadString(imageRef, this.pickedImageData, 'data_url')
+      .then((snapshot) => {
+        console.log('Uploaded a base64 string!', snapshot);
+      });
+  }
+
 
   pickColor(color: string) {
     this.mycolor = color;
