@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Storage, ref, uploadString } from '@angular/fire/storage';
 
+import { Storage, getDownloadURL, ref, uploadString } from '@angular/fire/storage';
 
 @Injectable({
   providedIn: 'root',
@@ -55,6 +55,17 @@ export class CustomePageService {
     console.log(imageId);
 
     return uploadString(imageRef, imageData, 'data_url')
+  }
+
+
+  /**
+   * Returns the image URL for the given image path
+   * @param imagePath the full path of the poster
+   * @returns A `Promise` that resolves with the download URL for this image.
+   */
+  getPosterURL(imagePath: string) {
+    const imageRef = ref(this.storage, imagePath);
+    return getDownloadURL(imageRef)
   }
 }
 
