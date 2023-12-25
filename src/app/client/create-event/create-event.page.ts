@@ -13,8 +13,6 @@ import {
   EventDesign,
 } from 'src/app/services/custome-page.service';
 
-import { Storage, ref, uploadString } from '@angular/fire/storage';
-
 
 
 interface ItemsIndex {
@@ -100,8 +98,7 @@ export class CreateEventPage implements OnInit {
 
   constructor(
     private gestureCtrl: GestureController,
-    public custPage: CustomePageService,
-    public storage: Storage,
+    public custPage: CustomePageService
   ) {}
   ngOnInit() {}
 
@@ -207,16 +204,17 @@ export class CreateEventPage implements OnInit {
   }
 
 
+  /** Upload picked image to firebase storage */
   uploadImage() {
     if (!this.pickedImageData)
       return;
 
-    const imageId = Math.floor(Math.random() * 100000000000).toString(36);
-    const imageRef = ref(this.storage, 'images/' + imageId);
-
-    uploadString(imageRef, this.pickedImageData, 'data_url')
+    this.custPage.uploadPoster(this.pickedImageData)
       .then((snapshot) => {
-        console.log('Uploaded a base64 string!', snapshot);
+        console.log(
+          `Uploaded a base64 string to ${snapshot.metadata.fullPath}!`,
+          snapshot
+        );
       });
   }
 

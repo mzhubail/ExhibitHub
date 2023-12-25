@@ -1,10 +1,15 @@
 import { Injectable } from '@angular/core';
+import { Storage, ref, uploadString } from '@angular/fire/storage';
+
+
 @Injectable({
   providedIn: 'root',
 })
 export class CustomePageService {
-  // constracor
-  constructor() {}
+  constructor(
+    public storage: Storage,
+  ) {}
+
   itemOrderArray: { id: string; position: number }[] = [];
   agendas: { date: Date; time: Date; description: string }[] = [];
 
@@ -34,6 +39,22 @@ export class CustomePageService {
   addNewCustomEvent(customEventData: EventDesign) {
     console.log(customEventData);
     this.eventDesign = customEventData;
+  }
+
+
+  /**
+   * Uploads an image to firebase storage.
+   *
+   * @param imageData   Image encoded as base64-encoded url to upload
+   * @returns  A Promise containing an UploadResult
+   */
+  uploadPoster(imageData: string) {
+    const imageId = Math.floor(Math.random() * 100000000000).toString(36);
+    const imageRef = ref(this.storage, 'posters/' + imageId);
+
+    console.log(imageId);
+
+    return uploadString(imageRef, imageData, 'data_url')
   }
 }
 
