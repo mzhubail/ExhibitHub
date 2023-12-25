@@ -9,9 +9,11 @@ import { GestureController } from '@ionic/angular';
 import { ItemReorderEventDetail } from '@ionic/angular';
 import { IonItem } from '@ionic/angular';
 import {
+  Agenda,
   CustomePageService,
   EventDesign,
 } from 'src/app/services/custome-page.service';
+
 
 
 
@@ -135,7 +137,12 @@ export class CreateEventPage implements OnInit {
   date: any;
   time: any;
   description: string = '';
-  public divs: any[] = [];
+  public divs: Partial<Agenda>[] = [{
+    time: undefined,
+    date: undefined,
+    description: '',
+  }];
+
 
   toggleDatePicker() {
     this.isDatePickerOpen = !this.isDatePickerOpen;
@@ -209,13 +216,25 @@ export class CreateEventPage implements OnInit {
   }
 
 
+  attemptedToContinue = false;
+
   async createEventDesing() {
+    this.attemptedToContinue = true;
     // save to service
     // Assign values to eventDesign instance
+
+    for (let div of this.divs)
+      if (
+        div.title === undefined ||
+        div.date === undefined ||
+        div.time === undefined
+      )
+        return;
 
     // Upload picked image to firebase storage
     if (!this.pickedImageData)
       return;
+
 
     const snapshot = await this.custPage.uploadPoster(this.pickedImageData);
     this.eventDesign.image = snapshot.metadata.fullPath;
@@ -226,7 +245,7 @@ export class CreateEventPage implements OnInit {
     this.eventDesign.title = this.title;
     this.eventDesign.eventDescription = this.eventDescription;
     this.eventDesign.price = this.price;
-    this.eventDesign.agenda = this.divs;
+    this.eventDesign.agenda = (this.divs as unknown) as Agenda[];
     this.eventDesign.itemsOrder = this.itemsIndex.map((item) => ({
       id: item.id,
       position: parseInt(item.index, 10), // Parse the index string to a number

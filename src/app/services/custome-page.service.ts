@@ -69,6 +69,14 @@ export class CustomePageService {
   }
 }
 
+export interface Agenda {
+  title: string;
+  date: string;
+  time: string;
+  // end date
+  description: string;
+}
+
 export interface EventDesign {
   id: string;
   reservationID: string; // from URL
@@ -77,12 +85,7 @@ export interface EventDesign {
   image: string;
   eventDescription: string;
   price: number;
-  agenda: {
-    date: string;
-    time: string;
-    // end date
-    description: string;
-  }[];
+  agenda: Agenda[];
   itemsOrder: {
     id: string;
     position: number;

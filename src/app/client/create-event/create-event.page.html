@@ -47,40 +47,86 @@
             <ion-label class="ion-float-left ion-padding ion-text-center">Add your event
               agenda:</ion-label>
           </ion-row>
-          <ion-row class="agenda-white">
-            <ng-container color="primary">
-              <ion-grid>
-                <ion-row>
-                  <ion-col>
-                    <ion-input placeholder="Date" [(ngModel)]="date" (click)="toggleDatePicker()" aria-label=""></ion-input>
-                  </ion-col>
-                  <ion-col>
-                    <ion-input placeholder="Time" [(ngModel)]="time" (click)="toggleDatePicker()" aria-label=""></ion-input>
-                  </ion-col>
-                </ion-row>
-                <ion-row>
-                  <ion-input placeholder="activities description" [(ngModel)]="description" aria-label=""></ion-input>
-                </ion-row>
-              </ion-grid>
-            </ng-container>
-          </ion-row>
-          <ion-row class="agenda-color" *ngFor="let div of divs">
-            <ng-container>
-              <ion-grid>
-                <ion-row>
-                  <ion-col>
-                    <ion-input placeholder="Date" value="{{div.date}}" aria-label=""></ion-input>
-                  </ion-col>
-                  <ion-col>
-                    <ion-input placeholder="Time" value="{{div.time}}" aria-label=""></ion-input>
-                  </ion-col>
-                </ion-row>
-                <ion-row>
-                  <ion-input placeholder="activities description" value="{{div.description}}" aria-label=""></ion-input>
-                </ion-row>
-              </ion-grid>
-            </ng-container>
-          </ion-row>
+          <ng-container class="agenda-color" *ngFor="let div of divs; let divindex = index">
+            <!-- Title Input -->
+            <ion-item lines="none">
+              <ion-input label="Title" placeholder="Your agenda title"
+                  [(ngModel)]="div.title"
+                  >
+              </ion-input>
+            </ion-item>
+
+            <!-- Date Input -->
+            <ion-item lines="none">
+              <ion-label>
+                <ion-text> Date </ion-text>
+              </ion-label>
+              <ion-datetime-button
+                date-target="true"
+                datetime="date-{{divindex}}"
+                color="primary"
+                class="ion-text-center"
+              ></ion-datetime-button>
+
+              <ion-modal [keepContentsMounted]="true">
+                <ng-template>
+                  <ion-datetime
+                    displayFormat="YYYY-MM-DD"
+                    id="date-{{divindex}}"
+                    presentation="date"
+                    [(ngModel)]="div.date"
+                  ></ion-datetime>
+                </ng-template>
+              </ion-modal>
+            </ion-item>
+
+            <ion-note lines="none" class="error-message"
+                *ngIf="div.date === undefined && attemptedToContinue"
+                >
+              <ion-icon name="alert-outline" color="danger"></ion-icon>
+              <span> Date is required </span>
+            </ion-note>
+
+            <!-- Time Input -->
+            <ion-item lines="none">
+              <ion-label>
+                <ion-text> Time </ion-text>
+              </ion-label>
+              <ion-datetime-button
+                time-target="true"
+                datetime="time-{{divindex}}"
+                color="primary"
+                class="ion-text-center"
+              ></ion-datetime-button>
+
+              <ion-modal [keepContentsMounted]="true">
+                <ng-template>
+                  <ion-datetime
+                    displayFormat="YYYY-MM-DD"
+                    id="time-{{divindex}}"
+                    presentation="time"
+                    [(ngModel)]="div.time"
+                  ></ion-datetime>
+                </ng-template>
+              </ion-modal>
+            </ion-item>
+
+            <ion-note lines="none" class="error-message"
+                *ngIf="div.date === undefined && attemptedToContinue"
+                >
+              <ion-icon name="alert-outline" color="danger"></ion-icon>
+              <span> Time is required </span>
+            </ion-note>
+
+            <!-- Description Input -->
+            <ion-item lines="none">
+              <ion-input label="Description" placeholder="Your agenda description"
+                  [(ngModel)]="div.description"
+                  >
+              </ion-input>
+            </ion-item>
+
+          </ng-container>
           <ion-row class="ion-justify-content-center ion-align-items-center">
             <ion-button size="large" shape="round" size="small" fill="clear" (click)="addDiv()">
               <ion-icon [color]="mycolor" size="large" name="add-circle-outline"></ion-icon>
@@ -94,8 +140,7 @@
       </ion-item>
     </ion-reorder-group>
   </ion-list>
-  <!-- try uplad image -->
-  <ion-button routerLink="/show-event-draft" (click)="createEventDesing()" expand="block">publish Event</ion-button>
+  <ion-button (click)="createEventDesing()" expand="block">publish Event</ion-button>
 
 
 
