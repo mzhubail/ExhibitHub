@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { AuthenticationService } from '../services/authentication.service';
 import { Injectable } from '@angular/core';
+import { NavController } from '@ionic/angular';
+
 import {
   Firestore,
   collection,
@@ -31,12 +33,25 @@ export interface UserInfo {
   LastName?: string;
   Email?: string;
   PhoneNumber?: string;
+  Role?: string;
 }
 
 @Component({
   selector: 'account-page-component',
   template: `
-    <div class="more-page">
+    <!-- <div *ngIf="(user$ | async).length === 0">
+      <ion-note>No reservations till now!</ion-note>
+    </div> -->
+
+    <div
+      class="loading-container"
+      *ngIf="(user$ | async) === undefined || (user$ | async) === null"
+    >
+      <ion-label> Loading your information please wait... </ion-label>
+      <ion-spinner name="circular"></ion-spinner>
+    </div>
+
+    <div class="more-page" *ngIf="user$ | async">
       <ion-row class="ion-margin d-flex flex-column align-items-center">
         <div class="profile-avatar">
           <!-- (first letter of user's first and last name) -->
@@ -72,6 +87,15 @@ export interface UserInfo {
           <ion-label>Change Password</ion-label>
           <ion-icon slot="end" name="chevron-forward"></ion-icon>
         </ion-item>
+        <ion-item
+          *ngIf="user.length > 0 && this.user[0].Role === 'client'"
+          class="ion-margin-vertical"
+          (click)="redirectToChat(this.userId)"
+        >
+          <ion-icon slot="start" name="chatbubble-outline"></ion-icon>
+          <ion-label>Chat</ion-label>
+          <ion-icon slot="end" name="chevron-forward"></ion-icon>
+        </ion-item>
         <ion-item class="ion-margin-vertical" (click)="this.authServ.signOut()">
           <ion-icon slot="start" name="log-out-outline"></ion-icon>
           <ion-label>Sign Out</ion-label>
@@ -86,6 +110,7 @@ export class AccountPageComponentComponent implements OnInit {
   FullNameInitials: string = ''; //avatar letters
 
   public user: UserInfo[] = [];
+  user$!: Observable<UserInfo[]>;
 
   constructor(
     public firestore: Firestore,
@@ -100,6 +125,7 @@ export class AccountPageComponentComponent implements OnInit {
         const uid = user.uid;
         this.userId = user.uid;
         this.getUserInformation(uid);
+        this.getUsers();
         console.log('User information', this.user);
 
         // ...
@@ -108,6 +134,11 @@ export class AccountPageComponentComponent implements OnInit {
         // ...
       }
     });
+  }
+
+  async getUsers() {
+    const q = query(collection(this.firestore, 'User Information'));
+    this.user$ = collectionData(q, { idField: 'id' }) as Observable<UserInfo[]>;
   }
 
   async getUserInformation(userID: string) {
@@ -126,6 +157,7 @@ export class AccountPageComponentComponent implements OnInit {
         LastName: userData['Last_Name'],
         Email: userData['Email'],
         PhoneNumber: userData['Phone'],
+        Role: userData['Role'],
       });
     } else {
       console.log('User not found!');
@@ -138,6 +170,10 @@ export class AccountPageComponentComponent implements OnInit {
 
   redirectToMyDetails(uid: string) {
     this.router.navigate(['/my-details', uid]);
+  }
+
+  redirectToChat(uid: string) {
+    this.router.navigate(['/chat', uid]);
   }
 
   ngOnInit() {}
