@@ -204,34 +204,28 @@ export class CreateEventPage implements OnInit {
   }
 
 
-  /** Upload picked image to firebase storage */
-  uploadImage() {
-    if (!this.pickedImageData)
-      return;
-
-    this.custPage.uploadPoster(this.pickedImageData)
-      .then((snapshot) => {
-        console.log(
-          `Uploaded a base64 string to ${snapshot.metadata.fullPath}!`,
-          snapshot
-        );
-      });
-  }
-
-
   pickColor(color: string) {
     this.mycolor = color;
   }
 
-  createEventDesing() {
+
+  async createEventDesing() {
     // save to service
     // Assign values to eventDesign instance
+
+    // Upload picked image to firebase storage
+    if (!this.pickedImageData)
+      return;
+
+    const snapshot = await this.custPage.uploadPoster(this.pickedImageData);
+    this.eventDesign.image = snapshot.metadata.fullPath;
+
+
     this.eventDesign.reservationID = this.reservationID;
     this.eventDesign.color = this.mycolor;
     this.eventDesign.title = this.title;
     this.eventDesign.eventDescription = this.eventDescription;
     this.eventDesign.price = this.price;
-    this.eventDesign.image = this.image;
     this.eventDesign.agenda = this.divs;
     this.eventDesign.itemsOrder = this.itemsIndex.map((item) => ({
       id: item.id,
