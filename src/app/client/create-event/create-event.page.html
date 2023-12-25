@@ -42,11 +42,14 @@
         <ion-reorder slot="end"></ion-reorder>
       </ion-item>
       <ion-item #item4 id="4" (click)="showId(item4)">
-        <ion-grid>
-          <ion-row>
-            <ion-label class="ion-float-left ion-padding ion-text-center">Add your event
-              agenda:</ion-label>
-          </ion-row>
+        <div>
+          <ion-item>
+            <ion-label>
+              Add your event agenda:
+            </ion-label>
+          </ion-item>
+
+          <!-- Agenda -->
           <ng-container class="agenda-color" *ngFor="let div of divs; let divindex = index">
             <!-- Title Input -->
             <ion-item lines="none">
@@ -119,7 +122,7 @@
             </ion-note>
 
             <!-- Description Input -->
-            <ion-item lines="none">
+            <ion-item>
               <ion-input label="Description" placeholder="Your agenda description"
                   [(ngModel)]="div.description"
                   >
@@ -127,15 +130,15 @@
             </ion-item>
 
           </ng-container>
-          <ion-row class="ion-justify-content-center ion-align-items-center">
-            <ion-button size="large" shape="round" size="small" fill="clear" (click)="addDiv()">
-              <ion-icon [color]="mycolor" size="large" name="add-circle-outline"></ion-icon>
-            </ion-button>
-          </ion-row>
-        </ion-grid>
-        <ion-datetime placeholder="Select Date" [(ngModel)]="selectedDate" [hidden]="!isDatePickerOpen"
-          format="DD/MM/YYYY HH:mm" (ionCancel)="toggleDatePicker()" (ionChange)="toggleDatePicker()">
-        </ion-datetime>
+
+          <ion-item>
+            <div style="width: 100%; display: flex; justify-content: center;">
+              <ion-button size="large" shape="round" size="small" fill="clear" (click)="addDiv()">
+                <ion-icon [color]="mycolor" size="large" name="add-circle-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </ion-item>
+        </div>
         <ion-reorder slot="end"></ion-reorder>
       </ion-item>
     </ion-reorder-group>

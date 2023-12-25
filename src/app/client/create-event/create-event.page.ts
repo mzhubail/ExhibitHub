@@ -160,24 +160,14 @@ export class CreateEventPage implements OnInit {
   }
 
   addDiv() {
-    let dateValue = this.date;
-    let timeValue = this.time;
-    let descriptionValue = this.description;
-
     const newDiv = {
-      date: dateValue,
-      time: timeValue,
-      description: descriptionValue,
+      date: undefined,
+      time: undefined,
+      description: '',
+      title: '',
     };
 
     this.divs.push(newDiv);
-    // console.log(this.divs);
-
-    this.date = '';
-    this.time = '';
-    this.description = '';
-
-    // this.custPage.showAgenda(this.divs); note: i this working but i will push at the end
   }
 
 
