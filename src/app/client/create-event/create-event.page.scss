@@ -1,5 +1,45 @@
-.rectangle {
-  width: 230px;
-  height: 100px;
-  background: rgba(0, 0, 255, 0.5);
+
+// .agenda{
+//   border: 1px dashed gray;
+//   display: block;
+//   border: 1px solid red;
+//   flex: 1;
+// }
+
+// .add-agenda{
+//   background-color: antiquewhite;
+//    margin: 5px;
+//    border: 1px solid yellow;
+//     flex: 1;
+// }
+
+// .agenda-container {
+//   display: flex;
+//   flex-direction: column;
+//   border: 1px solid red;
+// }
+
+// .agenda-item {
+//   margin-bottom: 10px; 
+//   border: 1px solid green;
+// }
+
+ion-title{
+  font-size: 2em;
+}
+
+.agenda-white {
+  border: 1px dashed rgb(209, 205, 205);
+  background-color: white;
+}
+.agenda-color{
+    background-color: #dedede;
+  // background-color: var(--mycolor);
+  margin-top: 5px;
+  
+}
+
+.custom-title{
+  font-size: 2em;
+   text-align: center;
 }
