@@ -74,22 +74,6 @@ export class CreateEventPage implements OnInit {
     itemsOrder: [],
   };
 
-  @ViewChild('item0')
-  item0!: IonItem;
-  @ViewChild('item1')
-  item1!: IonItem;
-  @ViewChild('item2')
-  item2!: IonItem;
-  @ViewChild('item3')
-  item3!: IonItem;
-  @ViewChild('item4')
-  item4!: IonItem;
-
-  // @ViewChild('item0') item0!: ElementRef;
-  // @ViewChild('item1') item1!: ElementRef;
-  // @ViewChild('item2') item2!: ElementRef;
-  // @ViewChild('item3') item3!: ElementRef;
-  // @ViewChild('item4') item4!: ElementRef;
 
   // Image Upload related
   @ViewChild('fileInput') imageInputElem!: ElementRef<HTMLInputElement>;
@@ -104,9 +88,6 @@ export class CreateEventPage implements OnInit {
   ) {}
   ngOnInit() {}
 
-  // ngAfterViewInit(): void {
-  //   throw new Error('Method not implemented.');
-  // }
 
   handleReorder(ev: CustomEvent<ItemReorderEventDetail>) {
     const movedItem = this.itemsIndex[ev.detail.from];
@@ -123,41 +104,17 @@ export class CreateEventPage implements OnInit {
     this.itemsIndex = newIndexArray;
   }
 
-  showId(item: IonItem) {
-    // const itemId = item.el.id;
-    // console.log('Clicked item ID:', itemId);
-  }
-  // showId(item: ElementRef) {
-  //   const itemId = item.nativeElement.id;
-  //   console.log('Clicked item ID:', itemId);
-  // }
 
-  public isDatePickerOpen = false;
-  public selectedDate: any;
-  date: any;
-  time: any;
-  description: string = '';
+  showId(item: IonItem) {
+    // Do nothing
+  }
+
+
   public divs: Partial<Agenda>[] = [{
     time: undefined,
     date: undefined,
     description: '',
   }];
-
-
-  toggleDatePicker() {
-    this.isDatePickerOpen = !this.isDatePickerOpen;
-    if (this.selectedDate) {
-      const dateObject = new Date(this.selectedDate);
-      this.date = dateObject.toISOString().split('T')[0];
-
-      const timeObject = new Date(this.selectedDate);
-      const hours = timeObject.getHours().toString().padStart(2, '0');
-      const minutes = timeObject.getMinutes().toString().padStart(2, '0');
-      this.time = `${hours}:${minutes}`;
-    } else {
-      this.selectedDate = '';
-    }
-  }
 
   addDiv() {
     const newDiv = {
