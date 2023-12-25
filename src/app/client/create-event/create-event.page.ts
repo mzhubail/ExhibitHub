@@ -218,8 +218,10 @@ export class CreateEventPage implements OnInit {
         div.title === undefined ||
         div.date === undefined ||
         div.time === undefined
-      )
+      ) {
+        console.error('Missing data in', div);
         return;
+      }
 
     // Upload picked image to firebase storage
     if (!this.pickedImageData)
