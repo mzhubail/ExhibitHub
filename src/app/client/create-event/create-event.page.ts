@@ -89,7 +89,9 @@ export class CreateEventPage implements OnInit {
 
   // Image Upload related
   @ViewChild('fileInput') imageInputElem!: ElementRef<HTMLInputElement>;
-  @ViewChild('uploadedImage') imageElem!: ElementRef<HTMLImageElement>;
+  @ViewChild('imageElem') imageElem!: ElementRef<HTMLImageElement>;
+  /** Image data, stored as Base64-encoded data, with Data-URL declaration. */
+  pickedImageData: string | undefined;
 
 
   constructor(
@@ -171,12 +173,13 @@ export class CreateEventPage implements OnInit {
 
 
   /** Open the file picker for image upload */
-  triggerImageUpload(): void {
+  triggerImagePicker(): void {
     this.imageInputElem.nativeElement.click();
   }
 
 
-  handleImageUpload(): void {
+  /** Triggered when the user picks an image */
+  handleImageChange(): void {
     const file = this.imageInputElem.nativeElement.files?.[0];
     if (!file)
       return;
@@ -185,15 +188,16 @@ export class CreateEventPage implements OnInit {
     reader.onload = e => {
       if (!e.target)
         return;
-      const uploadedImageSrc = e.target.result;
-      if (uploadedImageSrc === null || uploadedImageSrc instanceof ArrayBuffer) {
+
+      const selectedImageSrc = e.target.result;
+      if (selectedImageSrc === null || selectedImageSrc instanceof ArrayBuffer) {
         console.log('I recieved a format I don\'t know how to deal with');
         return;
       }
 
-      const imageElement = this.imageElem.nativeElement;
-      imageElement.src = uploadedImageSrc;
+      this.pickedImageData = selectedImageSrc;
     };
+
     reader.readAsDataURL(file);
   }
 

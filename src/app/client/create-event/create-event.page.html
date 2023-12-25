@@ -23,8 +23,8 @@
       </ion-item>
 
       <ion-item #item1 id="1" (click)="showId(item1)">
-        <input type="file" #fileInput accept="image/*" style="display: none" (change)="handleImageUpload()">
-        <img #uploadedImage (click)="triggerImageUpload()" src="assets/upload.png" alt="">
+        <input type="file" #fileInput accept="image/*" style="display: none" (change)="handleImageChange()">
+        <img #imageElem (click)="triggerImagePicker()" [src]="pickedImageData ?? 'assets/upload.png'" alt="">
         <ion-reorder slot="end"></ion-reorder>
       </ion-item>
 
