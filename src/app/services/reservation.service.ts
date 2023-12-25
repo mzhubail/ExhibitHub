@@ -18,7 +18,7 @@ import {
   DocumentData,
 } from '@angular/fire/firestore';
 
-import { Observable, map, switchMap, of } from 'rxjs';
+import { Observable, map, switchMap, of, debounceTime } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -34,6 +34,7 @@ export class ReservationService {
   constructor(public alertCtrl: AlertController, public firestore: Firestore) {
     this.getReservations();
     this.getHalls();
+    this.countReservationsBasedOnStatus();
   }
 
 
@@ -159,9 +160,44 @@ export class ReservationService {
     return hall.data();
   }
 
+   searchReservations(event:any){
+      const searchTerm = event.target.value.toLowerCase().trim();
+      if (!searchTerm) {
+        this.filteredReservations$ = this.reservations$; // If search term is empty, return all activities
+        return; // exit
+      }
+      this.filteredReservations$ = this.reservations$.pipe(
+        debounceTime(300), 
+        map((reservations) => {
+          return reservations.filter((reservation) =>
+            reservation.name.toLowerCase().includes(searchTerm)
+          );
+        })
+      );
+  }
 
 
-}
+  pendingCount$!:Observable<number>;
+  rejectedCount$!:Observable<number>;
+  approvedCount$!:Observable<number>;
+  countReservationsBasedOnStatus() {
+    this.pendingCount$ = this.filteredReservations$.pipe(
+      map(reservations => reservations.filter(reservation => reservation.status === 'pending').length)
+    );
+
+    this.rejectedCount$ = this.filteredReservations$.pipe(
+      map(reservations => reservations.filter(reservation => reservation.status === 'rejected').length)
+    );
+
+    this.approvedCount$ = this.filteredReservations$.pipe(
+      map(reservations => reservations.filter(reservation => reservation.status === 'approved').length)
+    );
+  }
+
+
+  }
+
+
 
 // exhibitor (client) interface
 export interface Exhibitor {
