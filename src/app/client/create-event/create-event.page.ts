@@ -242,4 +242,13 @@ export class CreateEventPage implements OnInit {
     }));
     this.custPage.addNewCustomEvent(this.eventDesign);
   }
+
+
+  titleIsValid = (t: string | undefined) =>
+    t !== undefined && t.length > 4 && t.length < 20;
+
+  descriptionIsValid = (d: string | undefined) =>
+    (d === undefined || d.length === 0)
+      ? true
+      : d.length > 4 && d.length < 100;
 }

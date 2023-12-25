@@ -59,6 +59,14 @@
               </ion-input>
             </ion-item>
 
+            <ion-note lines="none" class="error-message"
+                *ngIf="!titleIsValid(div.title) && attemptedToContinue"
+                >
+              <ion-icon name="alert-outline" color="danger"></ion-icon>
+              <span> Title is not valid </span>
+            </ion-note>
+
+
             <!-- Date Input -->
             <ion-item lines="none">
               <ion-label>
@@ -128,6 +136,13 @@
                   >
               </ion-input>
             </ion-item>
+
+            <ion-note lines="none" class="error-message"
+                *ngIf="!descriptionIsValid(div.description) && attemptedToContinue"
+                >
+              <ion-icon name="alert-outline" color="danger"></ion-icon>
+              <span> Description is not valid </span>
+            </ion-note>
 
           </ng-container>
 
