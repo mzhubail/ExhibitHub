@@ -71,8 +71,8 @@ export class CustomePageService {
 export interface Agenda {
   title: string;
   date: string;
-  time: string;
-  // end date
+  startTime: string;
+  endTime: string;
   description: string;
 }
 

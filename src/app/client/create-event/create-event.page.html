@@ -101,14 +101,14 @@
               <span> Date is required </span>
             </ion-note>
 
-            <!-- Time Input -->
+            <!-- Start Time Input -->
             <ion-item lines="none">
               <ion-label>
-                <ion-text> Time </ion-text>
+                <ion-text> Start Time </ion-text>
               </ion-label>
               <ion-datetime-button
                 time-target="true"
-                datetime="time-{{divindex}}"
+                datetime="start-time-{{divindex}}"
                 color="primary"
                 class="ion-text-center"
               ></ion-datetime-button>
@@ -117,19 +117,50 @@
                 <ng-template>
                   <ion-datetime
                     displayFormat="YYYY-MM-DD"
-                    id="time-{{divindex}}"
+                    id="start-time-{{divindex}}"
                     presentation="time"
-                    [(ngModel)]="div.time"
+                    [(ngModel)]="div.startTime"
                   ></ion-datetime>
                 </ng-template>
               </ion-modal>
             </ion-item>
 
             <ion-note lines="none" class="error-message"
-                *ngIf="div.time === undefined && attemptedToContinue"
+                *ngIf="div.startTime === undefined && attemptedToContinue"
                 >
               <ion-icon name="alert-outline" color="danger"></ion-icon>
-              <span> Time is required </span>
+              <span> Start Time is required </span>
+            </ion-note>
+
+            <!-- End Time Input -->
+            <ion-item lines="none">
+              <ion-label>
+                <ion-text> End Time </ion-text>
+              </ion-label>
+              <ion-datetime-button
+                time-target="true"
+                datetime="end-time-{{divindex}}"
+                color="primary"
+                class="ion-text-center"
+              ></ion-datetime-button>
+
+              <ion-modal [keepContentsMounted]="true">
+                <ng-template>
+                  <ion-datetime
+                    displayFormat="YYYY-MM-DD"
+                    id="end-time-{{divindex}}"
+                    presentation="time"
+                    [(ngModel)]="div.endTime"
+                  ></ion-datetime>
+                </ng-template>
+              </ion-modal>
+            </ion-item>
+
+            <ion-note lines="none" class="error-message"
+                *ngIf="div.endTime === undefined && attemptedToContinue"
+                >
+              <ion-icon name="alert-outline" color="danger"></ion-icon>
+              <span> End Time is required </span>
             </ion-note>
 
             <!-- Description Input -->

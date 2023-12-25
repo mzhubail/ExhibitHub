@@ -132,7 +132,7 @@ export class CreateEventPage implements OnInit {
 
 
   public divs: Partial<Agenda>[] = [{
-    time: undefined,
+    startTime: undefined,
     date: undefined,
     description: '',
   }];
@@ -198,19 +198,29 @@ export class CreateEventPage implements OnInit {
       if (
         div.title === undefined ||
         div.date === undefined ||
-        div.time === undefined ||
+        div.startTime === undefined ||
+        div.endTime === undefined ||
         div.description === undefined
       ) {
         console.error('Missing data in', div);
         return;
       }
 
+      // If it doesn't work just delete it, don't give me a headache.
+      if (new Date(div.startTime) > new Date(div.endTime)) {
+        this.additionalMessages.push('Start time has to be before end time');
+        return;
+      }
+
       const newDate = div.date.split('T')[0];
-      const newTime = div.time.split('T')[1];
+      const newStartTime = div.startTime.split('T')[1];
+      const newEndTime = div.endTime.split('T')[1];
+
       newDivs.push({
         date: newDate,
         description: div.description,
-        time: newTime,
+        startTime: newStartTime,
+        endTime: newEndTime,
         title: div.title,
       });
     }
