@@ -8,6 +8,7 @@ import {
   DocumentReference,
   getDocs,
   doc,
+  getDoc,
   deleteDoc,
   updateDoc,
   docData,
@@ -91,11 +92,12 @@ export class ReservationService {
 
   // written by the client
   capacity!: number;
-
+  resetHall!:string|null;
   filterHalls() {
     if (!this.reservations$) {
       return;
     }
+    this.resetHall = null;
     this.filteredHalls$ = this.halls$;
     const start = this.start_date.toISOString().split('T')[0];
     const end = this.end_date.toISOString().split('T')[0];
@@ -150,6 +152,15 @@ export class ReservationService {
 
     return startDate1 < endDate2 && endDate1 > startDate2;
   }
+
+
+  async getHallByID(id:any){
+    let hall = await getDoc(doc(this.firestore,'halls',id))
+    return hall.data();
+  }
+
+
+
 }
 
 // exhibitor (client) interface

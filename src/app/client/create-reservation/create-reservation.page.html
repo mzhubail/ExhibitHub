@@ -13,12 +13,13 @@
       <ion-label>Create Reservation</ion-label>
     </ion-list-header>
 
-    <form [formGroup]="reservationsForm" (ngSubmit)="AddReservation(reservationsForm)">
+    <form
+      [formGroup]="reservationsForm"
+      (ngSubmit)="AddReservation(reservationsForm)"
+    >
       <ion-item>
         <ion-label position="stacked"
-          ><ion-card-subtitle
-            >Name</ion-card-subtitle
-          ></ion-label
+          ><ion-card-subtitle>Name</ion-card-subtitle></ion-label
         >
         <ion-input label="" placeholder="Enter name" formControlName="name">
         </ion-input>
@@ -88,12 +89,38 @@
         </ion-row>
       </ion-item>
 
+      <ion-label
+        *ngIf="(reservation.filteredHalls$|async)?.length!==0"
+        position="stacked"
+        ><ion-card-subtitle style="margin-left: 15px"
+          >Halls found</ion-card-subtitle
+        ></ion-label
+      >
+
+      <ion-label
+        *ngIf="(reservation.filteredHalls$|async)?.length===0"
+        position="stacked"
+        ><ion-card-subtitle style="margin-left: 15px" color="danger"
+          >There is no available hals for the specified
+          dates.</ion-card-subtitle
+        ></ion-label
+      >
+
+      <span
+        class="loading-container"
+        style="margin-left: 15px"
+        *ngIf="(reservation.filteredHalls$ | async)===undefined||(reservation.filteredHalls$ | async)===null"
+      >
+        <ion-label> Loading halls please wait... </ion-label>
+        <ion-spinner name="circular"></ion-spinner>
+      </span>
+
       <ion-item>
-        <ion-label position="stacked"
-          ><ion-card-subtitle>Halls found</ion-card-subtitle></ion-label
-        >
         <ion-row>
-          <ion-radio-group formControlName="hall">
+          <ion-radio-group
+            [(ngModel)]="reservation.resetHall"
+            formControlName="hall"
+          >
             <ion-item
               lines="none"
               *ngFor="let hall of reservation.filteredHalls$|async"
