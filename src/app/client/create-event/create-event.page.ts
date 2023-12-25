@@ -86,6 +86,12 @@ export class CreateEventPage implements OnInit {
   // @ViewChild('item2') item2!: ElementRef;
   // @ViewChild('item3') item3!: ElementRef;
   // @ViewChild('item4') item4!: ElementRef;
+
+  // Image Upload related
+  @ViewChild('fileInput') imageInputElem!: ElementRef<HTMLInputElement>;
+  @ViewChild('uploadedImage') imageElem!: ElementRef<HTMLImageElement>;
+
+
   constructor(
     private gestureCtrl: GestureController,
     public custPage: CustomePageService
@@ -163,30 +169,32 @@ export class CreateEventPage implements OnInit {
     // this.custPage.showAgenda(this.divs); note: i this working but i will push at the end
   }
 
+
+  /** Open the file picker for image upload */
   triggerImageUpload(): void {
-    const inputElement = document.getElementById('imageInput');
-    if (inputElement) {
-      inputElement.click();
-    }
+    this.imageInputElem.nativeElement.click();
   }
 
-  handleImageUpload(event: Event): void {
-    const inputElement = event.target as HTMLInputElement;
-    const file = inputElement.files?.[0];
 
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        const uploadedImageSrc = e.target.result;
-        const imageElement = document.getElementById(
-          'uploadedImage'
-        ) as HTMLImageElement;
-        if (imageElement) {
-          imageElement.src = uploadedImageSrc;
-        }
-      };
-      reader.readAsDataURL(file);
-    }
+  handleImageUpload(): void {
+    const file = this.imageInputElem.nativeElement.files?.[0];
+    if (!file)
+      return;
+
+    const reader = new FileReader();
+    reader.onload = e => {
+      if (!e.target)
+        return;
+      const uploadedImageSrc = e.target.result;
+      if (uploadedImageSrc === null || uploadedImageSrc instanceof ArrayBuffer) {
+        console.log('I recieved a format I don\'t know how to deal with');
+        return;
+      }
+
+      const imageElement = this.imageElem.nativeElement;
+      imageElement.src = uploadedImageSrc;
+    };
+    reader.readAsDataURL(file);
   }
 
   pickColor(color: string) {
