@@ -5,6 +5,7 @@ import {
   ViewChild,
   ElementRef,
 } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { GestureController } from '@ionic/angular';
 import { ItemReorderEventDetail } from '@ionic/angular';
 import { IonItem } from '@ionic/angular';
@@ -13,6 +14,7 @@ import {
   CustomePageService,
   EventDesign,
 } from 'src/app/services/custome-page.service';
+import { convertErrorsToMessage } from 'src/app/utilities';
 
 
 
@@ -58,13 +60,10 @@ export class CreateEventPage implements OnInit {
   mycolor: string = 'medium';
   title!: string;
   image!: 'upload.png';
-  price!: number;
   eventDescription: string = '';
 
   // from the service
   eventDesign: EventDesign = {
-    id: '',
-    reservationID: '',
     color: '',
     title: '',
     image: '',
@@ -81,11 +80,33 @@ export class CreateEventPage implements OnInit {
   /** Image data, stored as Base64-encoded data, with Data-URL declaration. */
   pickedImageData: string | undefined;
 
+  eventForm;
+
 
   constructor(
     private gestureCtrl: GestureController,
-    public custPage: CustomePageService
-  ) {}
+    public custPage: CustomePageService,
+    public formBuilder: FormBuilder,
+  ) {
+    this.eventForm = formBuilder.group({
+      title: ['', [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(30),
+      ]],
+      eventDescription: ['', [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(120),
+      ]],
+      price: [0, [
+        Validators.required,
+        Validators.min(20),
+        Validators.max(100),
+        Validators.pattern(/^\d+$/),
+      ]],
+    });
+  }
   ngOnInit() {}
 
 
@@ -167,34 +188,51 @@ export class CreateEventPage implements OnInit {
 
   async createEventDesing() {
     this.attemptedToContinue = true;
+    this.additionalMessages = [];
     // save to service
     // Assign values to eventDesign instance
+    const newDivs: Agenda[] = [];
 
-    for (let div of this.divs)
+    // Validate agenda and parse time and date
+    for (let div of this.divs) {
       if (
         div.title === undefined ||
         div.date === undefined ||
-        div.time === undefined
+        div.time === undefined ||
+        div.description === undefined
       ) {
         console.error('Missing data in', div);
         return;
       }
 
+      const newDate = div.date.split('T')[0];
+      const newTime = div.time.split('T')[1];
+      newDivs.push({
+        date: newDate,
+        description: div.description,
+        time: newTime,
+        title: div.title,
+      });
+    }
+
     // Upload picked image to firebase storage
-    if (!this.pickedImageData)
+    if (!this.pickedImageData) {
+      this.additionalMessages.push('You have to upload a poster');
       return;
-
-
+    }
     const snapshot = await this.custPage.uploadPoster(this.pickedImageData);
     this.eventDesign.image = snapshot.metadata.fullPath;
 
 
-    this.eventDesign.reservationID = this.reservationID;
+    // Attributes from the formGroup
+    let fromForm = this.eventForm.value;
+
+
     this.eventDesign.color = this.mycolor;
-    this.eventDesign.title = this.title;
-    this.eventDesign.eventDescription = this.eventDescription;
-    this.eventDesign.price = this.price;
-    this.eventDesign.agenda = (this.divs as unknown) as Agenda[];
+    this.eventDesign.title = fromForm.title as string;
+    this.eventDesign.eventDescription = fromForm.eventDescription as string;
+    this.eventDesign.price = fromForm.price as number;
+    this.eventDesign.agenda = (newDivs as unknown) as Agenda[];
     this.eventDesign.itemsOrder = this.itemsIndex.map((item) => ({
       id: item.id,
       position: parseInt(item.index, 10), // Parse the index string to a number
@@ -210,4 +248,20 @@ export class CreateEventPage implements OnInit {
     (d === undefined || d.length === 0)
       ? true
       : d.length > 4 && d.length < 100;
+
+
+  additionalMessages: string[] = [];
+  errorMessages() {
+    let m, messages = [...this.additionalMessages];
+    const { eventDescription, price, title }  = this.eventForm.controls;
+
+    if (m = convertErrorsToMessage('Event desctiption', eventDescription.errors))
+      messages.push(m);
+    if (m = convertErrorsToMessage('Price', price.errors))
+      messages.push(m);
+    if (m = convertErrorsToMessage('Title', title.errors))
+      messages.push(m);
+
+    return messages;
+  }
 }

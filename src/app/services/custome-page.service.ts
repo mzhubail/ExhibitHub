@@ -15,7 +15,6 @@ export class CustomePageService {
 
   eventDesign: EventDesign = {
     id: '',
-    reservationID: '',
     color: '',
     title: '',
     image: '',
@@ -78,8 +77,7 @@ export interface Agenda {
 }
 
 export interface EventDesign {
-  id: string;
-  reservationID: string; // from URL
+  id?: string;
   color: string;
   title: string;
   image: string;

@@ -18,7 +18,8 @@
     <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
 
       <ion-item [color]="mycolor" #item0 id="0" (click)="showId(item0)">
-        <ion-input [color]="mycolor" class="custom-title" [(ngModel)]="title" placeholder="Event Title" aria-label=""></ion-input>
+        <ion-input [color]="mycolor" class="custom-title" [formControl]="eventForm.controls.title" placeholder="Event Title"
+          aria-label=""></ion-input>
         <ion-reorder slot="end"></ion-reorder>
       </ion-item>
 
@@ -30,7 +31,8 @@
 
       <ion-item #item2 id="2" (click)="showId(item2)">
         <label for=""></label>
-        <ion-input [(ngModel)]="eventDescription" placeholder="Event Description" aria-label=""></ion-input>
+        <ion-input [formControl]="eventForm.controls.eventDescription" placeholder="Event Description"
+          aria-label=""></ion-input>
         <ion-reorder slot="end"></ion-reorder>
       </ion-item>
 
@@ -38,7 +40,8 @@
       <ion-item #item3 id="3" (click)="showId(item3)">
         <ion-button slot="end" class="ion-no-margin" [color]="mycolor">Book a Ticket</ion-button>
         <ion-icon [color]="mycolor" class="ion-margin-end" name="cash-outline"></ion-icon>
-        <ion-input [(ngModel)]="price" placeholder="Price in BD" aria-label=""></ion-input>
+        <ion-input [formControl]="eventForm.controls.price" placeholder="Price in BD" type="number" inputmode="numeric"
+          aria-label=""></ion-input>
         <ion-reorder slot="end"></ion-reorder>
       </ion-item>
       <ion-item #item4 id="4" (click)="showId(item4)">
@@ -158,6 +161,15 @@
       </ion-item>
     </ion-reorder-group>
   </ion-list>
+
+  <ion-note *ngIf="attemptedToContinue" class="error-message">
+    <ng-container *ngFor="let message of errorMessages();">
+      <ion-icon name="alert-outline" color="danger"></ion-icon>
+      {{ message }} <br>
+    </ng-container>
+  </ion-note>
+
+
   <ion-button (click)="createEventDesing()" expand="block">publish Event</ion-button>
 
 </ion-content>
