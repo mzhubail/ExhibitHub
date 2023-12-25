@@ -18,7 +18,7 @@
     <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
 
       <ion-item [color]="mycolor" #item0 id="0" (click)="showId(item0)">
-        <ion-input [color]="mycolor" class="custom-title" [(ngModel)]="title" placeholder="Event Title"></ion-input>
+        <ion-input [color]="mycolor" class="custom-title" [(ngModel)]="title" placeholder="Event Title" aria-label=""></ion-input>
         <ion-reorder slot="end"></ion-reorder>
       </ion-item>
 
@@ -30,7 +30,7 @@
 
       <ion-item #item2 id="2" (click)="showId(item2)">
         <label for=""></label>
-        <ion-input [(ngModel)]="eventDescription" placeholder="Event Description"></ion-input>
+        <ion-input [(ngModel)]="eventDescription" placeholder="Event Description" aria-label=""></ion-input>
         <ion-reorder slot="end"></ion-reorder>
       </ion-item>
 
@@ -38,7 +38,7 @@
       <ion-item #item3 id="3" (click)="showId(item3)">
         <ion-button slot="end" class="ion-no-margin" [color]="mycolor">Book a Ticket</ion-button>
         <ion-icon [color]="mycolor" class="ion-margin-end" name="cash-outline"></ion-icon>
-        <ion-input [(ngModel)]="price" placeholder="Price in BD"></ion-input>
+        <ion-input [(ngModel)]="price" placeholder="Price in BD" aria-label=""></ion-input>
         <ion-reorder slot="end"></ion-reorder>
       </ion-item>
       <ion-item #item4 id="4" (click)="showId(item4)">
@@ -52,14 +52,14 @@
               <ion-grid>
                 <ion-row>
                   <ion-col>
-                    <ion-input placeholder="Date" [(ngModel)]="date" (click)="toggleDatePicker()"></ion-input>
+                    <ion-input placeholder="Date" [(ngModel)]="date" (click)="toggleDatePicker()" aria-label=""></ion-input>
                   </ion-col>
                   <ion-col>
-                    <ion-input placeholder="Time" [(ngModel)]="time" (click)="toggleDatePicker()"></ion-input>
+                    <ion-input placeholder="Time" [(ngModel)]="time" (click)="toggleDatePicker()" aria-label=""></ion-input>
                   </ion-col>
                 </ion-row>
                 <ion-row>
-                  <ion-input placeholder="activities description" [(ngModel)]="description"></ion-input>
+                  <ion-input placeholder="activities description" [(ngModel)]="description" aria-label=""></ion-input>
                 </ion-row>
               </ion-grid>
             </ng-container>
@@ -69,14 +69,14 @@
               <ion-grid>
                 <ion-row>
                   <ion-col>
-                    <ion-input placeholder="Date" value="{{div.date}}"></ion-input>
+                    <ion-input placeholder="Date" value="{{div.date}}" aria-label=""></ion-input>
                   </ion-col>
                   <ion-col>
-                    <ion-input placeholder="Time" value="{{div.time}}"></ion-input>
+                    <ion-input placeholder="Time" value="{{div.time}}" aria-label=""></ion-input>
                   </ion-col>
                 </ion-row>
                 <ion-row>
-                  <ion-input placeholder="activities description" value="{{div.description}}"></ion-input>
+                  <ion-input placeholder="activities description" value="{{div.description}}" aria-label=""></ion-input>
                 </ion-row>
               </ion-grid>
             </ng-container>
