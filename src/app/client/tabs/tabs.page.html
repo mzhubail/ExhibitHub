@@ -1,21 +1,21 @@
 <ion-tabs>
-    <ion-tab-bar slot="bottom">
-        <ion-tab-button tab="home">
-            <ion-icon name="home"></ion-icon>
-            <ion-label>Home</ion-label>
-        </ion-tab-button>
-        <ion-tab-button tab="reservations">
-            <ion-icon name="calendar-number-sharp"></ion-icon>
-            <ion-label>Reservations</ion-label>
-        </ion-tab-button>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home">
+      <ion-icon name="home"></ion-icon>
+      <ion-label>Home</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="reservations">
+      <ion-icon name="calendar-number-sharp"></ion-icon>
+      <ion-label>Reservations</ion-label>
+    </ion-tab-button>
 
-        <ion-tab-button tab="halls">
-            <ion-icon name="business-sharp"></ion-icon>
-            <ion-label>Halls</ion-label>
-        </ion-tab-button>
-        <ion-tab-button (click)="navCtrl.navigateForward('/chat');">
-            <ion-icon name="chatbubble-sharp"></ion-icon>
-            <ion-label>Chat</ion-label>
-        </ion-tab-button>
-    </ion-tab-bar>
+    <ion-tab-button tab="halls">
+      <ion-icon name="business-sharp"></ion-icon>
+      <ion-label>Halls</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="chat">
+      <ion-icon name="menu"></ion-icon>
+      <ion-label>More</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
 </ion-tabs>

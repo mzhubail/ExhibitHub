@@ -3,3 +3,89 @@
     <ion-title> Reports </ion-title>
   </ion-toolbar>
 </ion-header>
+<ion-content>
+  <ion-card>
+    <!-- # of users card -->
+    <ion-card-content class="dashboard-container">
+      <div class="dashboard-title">
+        <ion-card-subtitle>Total Users</ion-card-subtitle>
+        <ion-card-title>20</ion-card-title>
+      </div>
+      <div>
+        <ion-icon size="large" name="person"></ion-icon>
+      </div>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <!-- # of reservations card -->
+    <ion-card-content class="dashboard-container">
+      <div class="dashboard-title">
+        <ion-card-subtitle>Total Reservations</ion-card-subtitle>
+        <ion-card-title>8</ion-card-title>
+      </div>
+      <div>
+        <ion-icon size="large" name="calendar-number"></ion-icon>
+      </div>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <!-- # of tickets card -->
+    <ion-card-content class="dashboard-container">
+      <div class="dashboard-title">
+        <ion-card-subtitle>Total tickets</ion-card-subtitle>
+        <ion-card-title>100</ion-card-title>
+      </div>
+      <div>
+        <ion-icon size="large" name="ticket"></ion-icon>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Active Users </ion-label>
+    </ion-list-header>
+    <ion-card>
+      <ion-card-content>
+        <ion-item>
+          <div class="d-flex align-items-center my-2">
+            <div class="profile-avatar-admin me-3">
+              <!-- (first letter of user's first and last name) -->
+              <ion-card-subtitle class="profile-avatar-title-admin">
+                AY</ion-card-subtitle
+              >
+            </div>
+            <div class="d-flex flex-column">
+              <ion-label class="profile-avatar-text-admin"
+                >Ahmed Yusuf</ion-label
+              >
+              <ion-text>user id</ion-text>
+            </div>
+          </div>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header>
+      <!-- reservations list -->
+      <ion-label> Reservations </ion-label>
+    </ion-list-header>
+    <ion-card>
+      <ion-card-content>
+        <ion-item>
+          <div class="d-flex align-items-center my-2">
+            <div class="d-flex flex-column">
+              <ion-label class="profile-avatar-text-admin"
+                >Reservation Name</ion-label
+              >
+              <ion-text>Reservation ID</ion-text>
+              <ion-text>Reservation Date</ion-text>
+            </div>
+          </div>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+</ion-content>
