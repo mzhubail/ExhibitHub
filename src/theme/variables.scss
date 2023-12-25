@@ -4,6 +4,7 @@
 /** Ionic CSS Variables **/
 
 :root {
+   --ion-color-red: red;
   /** primary **/
   --ion-color-primary: #ab916b;
   --ion-color-primary-rgb: 171, 145, 107;
@@ -67,6 +68,9 @@
   --ion-color-light-contrast-rgb: 0, 0, 0;
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
+
+  // Zeena: my Colors for custom page 
+ 
 }
 
 ion-content {
