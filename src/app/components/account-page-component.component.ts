@@ -39,7 +39,7 @@ import { Router } from '@angular/router';
 
         <ion-item
           class="ion-margin-vertical"
-          (click)="redirectToChat(this.userId)"
+          (click)="redirectToChat()"
           *ngIf="UserRole === 'client'"
         >
           <ion-icon slot="start" name="chatbubble-outline"></ion-icon>
@@ -89,8 +89,8 @@ export class AccountPageComponentComponent implements OnInit {
   redirectToMyDetails(uid: string) {
     this.router.navigate(['/my-details', uid]);
   }
-  redirectToChat(uid: string) {
-    this.router.navigate(['/chat', uid]);
+  redirectToChat() {
+    this.router.navigate(['/chat']);
   }
   ngOnInit() {}
 }
