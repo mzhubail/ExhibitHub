@@ -16,14 +16,14 @@
 
     <ion-modal [keepContentsMounted]="true">
         <ng-template>
-            <ion-datetime displayFormat="YYYY-MM-DD" (ionChange)="client.start_date_changed($event)"  id="datetime-start" presentation="date"
+            <ion-datetime displayFormat="YYYY-MM-DD" (ionChange)="reservation.start_date_changed($event)"  id="datetime-start" presentation="date"
                 ></ion-datetime>
         </ng-template>
     </ion-modal>
 
     <ion-modal [keepContentsMounted]="true">
         <ng-template>
-            <ion-datetime displayFormat="YYYY-MM-DD"  (ionChange)="client.end_date_changed($event)"  id="datetime-end" presentation="date"
+            <ion-datetime displayFormat="YYYY-MM-DD"  (ionChange)="reservation.end_date_changed($event)"  id="datetime-end" presentation="date"
                 ></ion-datetime>
         </ng-template>
     </ion-modal>
@@ -55,36 +55,16 @@
             </ion-col>
         </ion-row>
 
-        <!-- <ion-row>
-            <ion-col size="6">
-                <ion-card color="">
-                    <ion-input type="date" label="Start"> </ion-input>
-                </ion-card>
-            </ion-col>
-
-
-            
-            <ion-col size="6">
-                <ion-card color="">
-                    <ion-input type="date" label="End"> </ion-input>
-                </ion-card>
-            </ion-col>
-        </ion-row> -->
-
         <ion-row class="ion-text-center ion-padding">
-            <ion-input label="Capacity" [(ngModel)]="client.capacity" (ionInput)="client.filterHalls()" type="number" placeholder="Enter a capacity"></ion-input>
+            <ion-input label="Capacity" [(ngModel)]="reservation.capacity" (ionInput)="reservation.filterHalls()" type="number" placeholder="Enter a capacity"></ion-input>
         </ion-row>
         <ion-row class="ion-padding-start">
             <ion-label>Halls Found</ion-label>
         </ion-row>
+
         <ion-row  class="ion-padding">
-            <ion-button *ngFor="let hall of client.filteredHalls$ | async" class="ion-padding-end" color="secondary">Hall {{hall.id}}</ion-button>
-            <!-- <ion-button class="ion-padding-end" color="secondary">Hall1</ion-button>
-            <ion-button class="ion-padding-end" color="secondary">Hall2</ion-button>
-            <ion-button class="ion-padding-end" color="secondary">Hall3</ion-button>
-            <ion-button class="ion-padding-end" color="secondary">Hall4</ion-button>
-            <ion-button class="ion-padding-end" color="secondary">Hall5</ion-button> -->
-        </ion-row>
+            <ion-button  *ngFor="let hall of reservation.filteredHalls$ | async" class="ion-padding-end" color="secondary">Hall {{hall.id}}</ion-button>
+            </ion-row>
     </ion-grid>
     <ion-card>
         <ion-card-header>
