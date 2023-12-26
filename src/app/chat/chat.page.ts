@@ -3,6 +3,7 @@ import { ChatService, Message } from '../services/chat.service';
 import { Timestamp } from '@angular/fire/firestore';
 import { AuthenticationService } from '../services/authentication.service';
 import { ActivatedRoute } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-chat',
@@ -17,6 +18,7 @@ export class ChatPage implements OnInit {
     public chatService: ChatService,
     public authService: AuthenticationService,
     public activatedRoute: ActivatedRoute,
+    public alertController: AlertController,
   ) { }
 
   ngOnInit() { }
@@ -46,6 +48,19 @@ export class ChatPage implements OnInit {
   }
 
   async sendMessage() {
+    if (this.text === '')
+      return;
+
+    if (this.text.length > 120) {
+      const alert = await this.alertController.create({
+        header: 'Your message is too long',
+        message: 'Try splitting it into multiple shorter messages',
+        buttons: ['OK'],
+      })
+      alert.present();
+      return;
+    }
+
     await this.chatService.sendMessage(this.text);
     this.text = '';
   }
