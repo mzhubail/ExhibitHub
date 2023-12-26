@@ -1,6 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-searchbar placeholder="Search by event title" class="ion-margin-top"></ion-searchbar>
+    <ion-searchbar
+      placeholder="Search by event title"
+      class="ion-margin-top"
+    ></ion-searchbar>
+
+    <ion-title> Upcoming Events </ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding">
@@ -8,13 +13,17 @@
     <ion-list-header>
       <ion-label>Upcoming Events</ion-label>
     </ion-list-header>
+
+
     <div
       class="loading-container"
-      *ngIf="(this.eventsService.resAndEvents$ | async)===undefined||(this.eventsService.resAndEvents$| async)===null"
-    >
+      *ngIf="(this.eventsService.resAndEvents$ | async)===undefined||(this.eventsService.resAndEvents$| async)===null">
+
       <ion-label> Loading data please wait... </ion-label>
+      
       <ion-spinner name="circular"></ion-spinner>
     </div>
+
     <div *ngFor="let e of eventsService.resAndEvents$ | async">
       <ion-card
         class="event-card"

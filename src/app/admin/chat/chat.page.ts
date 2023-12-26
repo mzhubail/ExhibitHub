@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ChatService, ChatSurrogate } from 'src/app/services/chat.service';
 
 @Component({
@@ -12,6 +13,7 @@ export class ChatPage implements OnInit {
 
   constructor(
     public chatService: ChatService,
+    public authService: AuthenticationService,
   ) {
     // Listen to chats
     this.chats$ = this.chatService.getChats();
