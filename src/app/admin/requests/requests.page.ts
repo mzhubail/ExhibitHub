@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReservationService, Reservation } from '../../services/reservation.service';
 import { Observable } from 'rxjs';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 
 @Component({
@@ -12,7 +13,10 @@ export class RequestsPage implements OnInit {
   reservations$!: Observable<Reservation[]>;
   selectedSegment = 'pending';
 
-  constructor(private reservation: ReservationService) {}
+  constructor(
+    private reservation: ReservationService,
+    public authService: AuthenticationService,
+  ) {}
 
    ngOnInit() {
     this.reservation.getReservations().then(()=>{

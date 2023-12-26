@@ -1,6 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-title> Requests </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="authService.signOut()">
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
   <!-------------------------------------------- Segment buttons ------------------------------------------->
   <div>
