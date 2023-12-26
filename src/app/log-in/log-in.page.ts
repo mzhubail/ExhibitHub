@@ -46,6 +46,19 @@ export class LogInPage implements OnInit {
     }
   }
 
+  // Reset form when entering the page
+  ionViewWillEnter() {
+    this.loginForm = this.formBuilder.group({
+      email: ['', Validators.compose([Validators.required, Validators.email, Validators.pattern('^[\\w-\\.]+@([\\w-]+\.)+[\\w-]{2,4}$')])],
+      password: [
+        '',
+        Validators.compose([
+          Validators.required,
+        ]),
+      ],
+    });
+  }
+
   ngOnInit() { }
  
 
