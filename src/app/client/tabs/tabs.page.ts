@@ -7,7 +7,5 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['tabs.page.scss'],
 })
 export class TabsPage {
-  constructor(
-    public navCtrl: NavController,
-  ) {}
+  constructor() {}
 }

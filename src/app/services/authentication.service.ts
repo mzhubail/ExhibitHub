@@ -11,6 +11,7 @@ import {
   getDocs,
   setDoc,
   DocumentData,
+  collectionData,
 } from '@angular/fire/firestore';
 
 import {
@@ -30,6 +31,7 @@ import {
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
+import { Observable } from 'rxjs';
 
 export interface UserInfo {
   id?: string;
@@ -51,6 +53,7 @@ export class AuthenticationService {
   // User related variables
   user!: User | null;
   userInfo!: UserInfo | null;
+  users$!:Observable<UserInfo[]>
 
   get username() {
     return (this.userInfo)
@@ -65,10 +68,13 @@ export class AuthenticationService {
     public alertCtrl: AlertController,
     public navCtrl: NavController
   ) {
+
     this.UserCollection = collection(
       this.firestore,
       'Users Information'
     ) as CollectionReference<UserInfo>;
+
+   this.getUsers();
 
     auth.onAuthStateChanged((user) => {
       // Set user
@@ -348,40 +354,44 @@ export class AuthenticationService {
     }
   }
 
-  // updatePassword() {
-  //   const auth = getAuth();
-  //   const user = auth.currentUser;
-  //   const newPassword = 'new-password';
+  updatePassword(newPassword:string) {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if(user!==null)
+    updatePassword(user, newPassword).then(() => {
+    this.generalAlert(
+      'Success',
+      'Your password has been updated successfully ✅',
+      [
+        {
+          text: 'OK',
+          handler: () => {
+          },
+        },
+      ]
+    );
+  }).catch(()=>{
+    this.generalAlert(
+      'Fail',
+      'Your password cannot be updated currently, try again later ❌',
+      [
+        {
+          text: 'OK',
+          handler: () => {
+          },
+        },
+      ]
+    );
+  })
+}
 
-  //   updatePassword(user,newPassword).then(() => {
-  //   this.generalAlert(
-  //     'Success',
-  //     'Your password has been updated successfully ✅',
-  //     [
-  //       {
-  //         text: 'OK',
-  //         handler: () => {
-  //           this.router.navigateByUrl('/log-in');
-  //         },
-  //       },
-  //     ]
-  //   );
-  // })
-  // .catch(() => {
-  //   this.generalAlert(
-  //     'Fail',
-  //     'Sorry, cannot update your password currently. Try again later ❌',
-  //     [
-  //       {
-  //         text: 'OK',
-  //         handler: () => {
-  //           this.router.navigateByUrl('/log-in');
-  //         },
-  //       },
-  //     ]
-  //   );
-  // });
-  // }
+async getUsers() {
+  const queryCollection = query(collection(this.firestore, 'Users Information'));
+  this.users$ = collectionData(queryCollection, {
+    idField: 'id',
+  }) as Observable<UserInfo[]>;
+}
+
 
   async generalAlert(
     header: string,

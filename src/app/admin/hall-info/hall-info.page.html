@@ -7,24 +7,13 @@
   </ion-toolbar>
 </ion-header>
 
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">hall-info</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div class="gallery">
-    <img class="image" src="/assets/hall.PNG" alt="">
-  </div>
-
-
+<ion-content class="ion-padding">
   <ion-card>
-    <ion-card-header>
-      <ion-card-subtitle color="primary "> Hall {{hallInfo.id}} {{hallInfo.name}}</ion-card-subtitle>
-    </ion-card-header>
+    <img src="/assets/hall.PNG" alt="" />
     <ion-card-content>
+      <ion-card-subtitle color="primary ">
+        Hall {{hallInfo.id}} {{hallInfo.name}}</ion-card-subtitle
+      >
       {{hallInfo.description}}
       <ion-item>
         <ion-label>SQM(M^2):do we need it? </ion-label>
@@ -44,15 +33,11 @@
       </ion-item>
       <ion-item>
         <ion-label>Open to reserve ?</ion-label>
-
       </ion-item>
     </ion-card-content>
   </ion-card>
   <ion-button class="ion-margin" expand="block" type="submit">
-    Update</ion-button>
+    Update</ion-button
+  >
   <!-- form -->
-
-
-
-
 </ion-content>

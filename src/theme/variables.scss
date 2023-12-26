@@ -203,13 +203,45 @@ ion-radio.radio-checked::part(mark) {
   margin-top: 50px;
 }
 
+.profile-avatar-admin {
+  background-color: #333333;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+}
+
 .profile-avatar-title {
   color: white;
   font-size: 1.9rem;
+  text-transform: uppercase;
+}
+.profile-avatar-title-admin {
+  color: white;
+  font-size: 1.3rem;
   text-transform: uppercase;
 }
 
 .profile-avatar-text {
   font-size: 1rem;
   color: #000000;
+}
+.profile-avatar-text-admin {
+  font-weight: 500;
+}
+
+.dashboard-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dashboard-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+  ion-card-subtitle {
+    color: var(--ion-color-primary);
+  }
 }

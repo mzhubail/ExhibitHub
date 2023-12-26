@@ -8,96 +8,78 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-list>
-    <form
-      [formGroup]="reservationsForm"
-      (ngSubmit)="AddReservation(reservationsForm)"
-    >
-      <ion-item>
-        <ion-label position="stacked"
-          ><ion-card-subtitle>Name</ion-card-subtitle></ion-label
-        >
-        <ion-input label="" placeholder="Enter name" formControlName="name">
-        </ion-input>
-      </ion-item>
+  <form
+    [formGroup]="reservationsForm"
+    (ngSubmit)="AddReservation(reservationsForm)"
+  >
+    <ion-item>
+      <ion-input label="Name" placeholder="Enter name" formControlName="name">
+      </ion-input>
+    </ion-item>
 
-      <ion-item>
-        <ion-label position="stacked"
-          ><ion-card-subtitle>Description</ion-card-subtitle></ion-label
-        >
-        <ion-input
-          placeholder="Enter the description"
-          label=""
-          formControlName="description"
-        >
-        </ion-input>
-      </ion-item>
+    <ion-item>
+      <ion-input
+        placeholder="Enter the description"
+        label="Description"
+        formControlName="description"
+      >
+      </ion-input>
+    </ion-item>
 
-      <ion-modal [keepContentsMounted]="true">
-        <ng-template>
-          <ion-datetime
-            displayFormat="YYYY-MM-DD"
-            id="datetime-start"
-            presentation="date"
-            (ionChange)="this.reservation.start_date_changed($event)"
-          ></ion-datetime>
-        </ng-template>
-      </ion-modal>
+    <ion-modal [keepContentsMounted]="true">
+      <ng-template>
+        <ion-datetime
+          displayFormat="YYYY-MM-DD"
+          id="datetime-start"
+          presentation="date"
+          (ionChange)="this.reservation.start_date_changed($event)"
+        ></ion-datetime>
+      </ng-template>
+    </ion-modal>
 
-      <ion-modal [keepContentsMounted]="true">
-        <ng-template>
-          <ion-datetime
-            displayFormat="YYYY-MM-DD"
-            id="datetime-end"
-            presentation="date"
-            (ionChange)="this.reservation.end_date_changed($event)"
-          ></ion-datetime>
-        </ng-template>
-      </ion-modal>
+    <ion-modal [keepContentsMounted]="true">
+      <ng-template>
+        <ion-datetime
+          displayFormat="YYYY-MM-DD"
+          id="datetime-end"
+          presentation="date"
+          (ionChange)="this.reservation.end_date_changed($event)"
+        ></ion-datetime>
+      </ng-template>
+    </ion-modal>
 
-      <ion-item>
-        <ion-row>
-          <ion-col style="padding: 5px 0">
-            <ion-label position="stacked"
-              ><ion-card-subtitle>Start Date</ion-card-subtitle></ion-label
-            >
-            <ion-datetime-button
-              date-target="true"
-              datetime="datetime-start"
-              color="primary"
-              class="ion-text-center"
-            ></ion-datetime-button>
-          </ion-col>
-        </ion-row>
+    <ion-item>
+      <ion-label> Start Date </ion-label>
+      <ion-datetime-button
+        date-target="true"
+        datetime="datetime-start"
+        color="primary"
+        class="ion-text-center"
+      ></ion-datetime-button>
+    </ion-item>
 
-        <ion-row>
-          <ion-col style="padding: 5px 0">
-            <ion-label position="stacked"
-              ><ion-card-subtitle>End Date</ion-card-subtitle></ion-label
-            >
-            <ion-datetime-button
-              date-target="true"
-              datetime="datetime-end"
-              color="primary"
-              class="ion-text-center"
-            ></ion-datetime-button>
-          </ion-col>
-        </ion-row>
-      </ion-item>
+    <ion-item>
+      <ion-label> End Date </ion-label>
+      <ion-datetime-button
+        date-target="true"
+        datetime="datetime-end"
+        color="primary"
+        class="ion-text-center"
+      ></ion-datetime-button>
+    </ion-item>
+
+    <ion-item>
 
       <ion-label
         *ngIf="(reservation.filteredHalls$|async)?.length!==0"
-        position="stacked"
-        ><ion-card-subtitle style="margin-left: 15px"
-          >Halls found</ion-card-subtitle
-        ></ion-label
       >
+        Halls found
+      </ion-label>
 
       <ion-label
         *ngIf="(reservation.filteredHalls$|async)?.length===0"
-        position="stacked"
         ><ion-card-subtitle style="margin-left: 15px" color="danger"
-          >There is no available hals for the specified
+          >There are no available halls for the specified
           dates.</ion-card-subtitle
         ></ion-label
       >
@@ -111,29 +93,24 @@
         <ion-spinner name="circular"></ion-spinner>
       </span>
 
-      <ion-item>
-        <ion-row>
-          <ion-radio-group
-            [(ngModel)]="reservation.resetHall"
-            formControlName="hall"
-          >
-            <ion-item
-              lines="none"
-              *ngFor="let hall of reservation.filteredHalls$|async"
-            >
-              <ion-radio value="{{hall.id}}" labelPlacement="end">
-                Hall {{hall.id}}
-              </ion-radio>
-            </ion-item>
-          </ion-radio-group>
-        </ion-row>
-
-        <!-- <ion-input label="" formControlName="hall"> </ion-input> -->
-      </ion-item>
-
-      <ion-button class="ion-margin" expand="block" type="submit">
-        Create</ion-button
+      <ion-radio-group
+        [(ngModel)]="reservation.resetHall"
+        formControlName="hall"
       >
-    </form>
-  </ion-list>
+        <ion-item
+          lines="none"
+          *ngFor="let hall of reservation.filteredHalls$|async"
+        >
+          <ion-radio value="{{hall.id}}" labelPlacement="end">
+            Hall {{hall.id}}
+          </ion-radio>
+        </ion-item>
+      </ion-radio-group>
+
+    </ion-item>
+
+    <ion-button class="ion-margin" expand="block" type="submit">
+      Create</ion-button
+    >
+  </form>
 </ion-content>

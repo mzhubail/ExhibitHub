@@ -58,7 +58,7 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'event-details',
+    path: 'event-details/:id/:url',
     loadChildren: () =>
       import('./attendee/event-details/event-details.module').then(
         (m) => m.EventDetailsPageModule
@@ -133,6 +133,10 @@ const routes: Routes = [
     path: 'chat/:id',
     loadChildren: () =>
       import('./chat/chat.module').then((m) => m.ChatPageModule),
+  },
+  {
+    path: 'view-reservations',
+    loadChildren: () => import('./view-reservations/view-reservations.module').then( m => m.ViewReservationsPageModule)
   },
   // {
   //   path: 'chat',
