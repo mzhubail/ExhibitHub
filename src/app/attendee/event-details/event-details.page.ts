@@ -25,10 +25,16 @@ export class EventDetailsPage implements OnInit {
   event!: EventDesign; // 2
   imgURL!: string; // 3
 
+  // Zeena:
+  eventTitle: string = 'eventTitle';
+  poster: string = 'poster';
+  description: string = 'description';
+  price: string = 'price';
+  agenda: string = 'agenda';
+
   async ngOnInit() {
     this.res_id = this.activatedRoute.snapshot.paramMap.get('id') || '';
     this.imgURL = this.activatedRoute.snapshot.paramMap.get('url') || '';
-
 
     getDoc(doc(this.firestore, 'Reservations', this.res_id || '')).then(
       (reservation: any) => {
@@ -41,8 +47,5 @@ export class EventDetailsPage implements OnInit {
         this.event = event.data();
       }
     );
-
-
-
   }
 }
