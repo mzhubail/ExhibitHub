@@ -17,41 +17,91 @@ import {
   DocumentData,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { CustomePageService, EventDesign } from './custome-page.service';
+import { Reservation } from './reservation.service';
 
-//event interface
-export interface Event {
-  id?: string;
-  reservationID?: string; //foriegn key from reservation collection
-  name: string;
-  description: string;
-  poster?: string;
-  date: Date;
-  time?: string;
-  hall: string;
-  duration?: number;
-  prefferedColor?: string;
-  others?: string; //made it for pdf file link (needs discussion, may be deleted later)
-}
 
 @Injectable({
   providedIn: 'root',
 })
 export class EventsService {
-  public events: Event[] = [];
-  EventsCollection: CollectionReference<Event>;
+  public resAndEvents$!: Observable<ResAndEvent[]>;
 
-  constructor(public firestore: Firestore) {
-    this.EventsCollection =
-      collection(this.firestore, 'Events') as CollectionReference<Event>;
-    this.getEvents();
-  }
-
-  private async getEvents() {
-    const querySnapshot = await getDocs(this.EventsCollection);
-
-    querySnapshot.forEach((doc) => {
-      this.events.push(doc.data());
-      console.log(doc.data());
+  constructor(public firestore: Firestore, public custom:CustomePageService) {
+    this.getResAndEvents().then(()=>{
+      console.log(this.resAndEvents$);
     });
+
   }
+
+  async getResAndEvents() {
+    const events = await this.getEvents();
+    const reservations = await this.getReservations();
+
+    const combinedResAndEvents: ResAndEvent[] = [];
+
+
+    events.forEach(async event => {
+      const matchingReservation = reservations.find(
+        reservation => reservation.id === event.id
+      );
+
+      if (matchingReservation) {
+        // Get the image URL using the customService.getPosterURL method
+        const imageUrl = await this.custom.getPosterURL(event.image);
+
+        combinedResAndEvents.push({
+          event: event, // Include the imageUrl in the event object
+          reservation: matchingReservation,
+          imageUrl: imageUrl,
+        });
+      }
+    });
+
+    this.resAndEvents$ = new Observable(observer => {
+      observer.next(combinedResAndEvents);
+      observer.complete();
+    });
+
+
+
+
+  }
+
+  async getEvents(): Promise<EventDesign[]> {
+    const queryCollection = collection(this.firestore, 'Events');
+    const snapshot = await getDocs(queryCollection);
+    const data: EventDesign[] = [];
+    snapshot.forEach(doc => {
+      const docData = doc.data() as EventDesign;
+      docData.id = doc.id;
+      data.push(docData);
+    });
+    return data;
+  }
+
+  async getReservations(): Promise<Reservation[]> {
+    const queryCollection = collection(this.firestore, 'Reservations');
+    const snapshot = await getDocs(queryCollection);
+    const data: Reservation[] = [];
+    snapshot.forEach(doc => {
+      const docData = doc.data() as Reservation;
+      docData.id = doc.id;
+      data.push(docData);
+    });
+    return data;
+  }
+
+
+
+  
+}
+
+
+
+export interface ResAndEvent
+{
+  event: EventDesign;
+  reservation:Reservation;
+  imageUrl:string;
 }

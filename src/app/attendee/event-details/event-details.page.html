@@ -12,7 +12,11 @@
       <ion-label>Event Details</ion-label>
     </ion-list-header>
     <ion-card>
-      <ion-img src="assets/IMG_2275.jpg"></ion-img>
+      
+      <ion-img *ngIf="imgURL" src="{{this.imgURL}}"></ion-img> 
+
+
+
       <ion-card-content>
         <h2 class="event-card-content-element">23 Nov - 26 Nov 2023</h2>
         <h1 class="event-card-content-element">Event name</h1>
