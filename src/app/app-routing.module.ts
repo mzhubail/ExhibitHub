@@ -58,7 +58,7 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'event-details',
+    path: 'event-details/:id/:url',
     loadChildren: () =>
       import('./attendee/event-details/event-details.module').then(
         (m) => m.EventDetailsPageModule
