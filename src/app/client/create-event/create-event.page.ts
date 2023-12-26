@@ -25,8 +25,22 @@ interface ItemsIndex {
   styleUrls: ['./create-event.page.scss'],
 })
 export class CreateEventPage implements OnInit {
-  reservationID: string = ''; //from url
-  colorsList: string[] = ['danger', 'success', 'warning', 'medium'];
+  showalert() {
+    alert('clicke');
+  }
+  reservationID: any; //from url
+  designExists: any;
+
+  colorsList: string[] = [
+    'danger',
+    'success',
+    'warning',
+    'medium',
+    'tertiary',
+    'tint',
+    'primary',
+    'primary-tint',
+  ];
   itemsIndex: ItemsIndex[] = [
     {
       id: 'eventTitle',
@@ -59,6 +73,7 @@ export class CreateEventPage implements OnInit {
 
   // from the service
   eventDesign: EventDesign = {
+    id: '',
     color: '',
     title: '',
     image: '',
@@ -111,7 +126,23 @@ export class CreateEventPage implements OnInit {
     });
   }
   ngOnInit() {
-    let reservationID = this.activatedRoute.snapshot.paramMap.get('id');
+    this.reservationID = this.activatedRoute.snapshot.paramMap.get('id');
+    // okay find the id of the reservationID in events if there make the
+    this.custPage
+      .findDesign(this.reservationID)
+      .then((result: boolean) => {
+        if (result) {
+          console.log('desing exists');
+          this.designExists = true;
+        } else {
+          console.log('design does not exist');
+          this.designExists = false;
+        }
+      })
+      .catch((error: any) => {
+        // Handle error if the findDesign function fails
+        console.error('Error finding design:', error);
+      });
   }
 
   handleReorder(ev: CustomEvent<ItemReorderEventDetail>) {
@@ -189,6 +220,8 @@ export class CreateEventPage implements OnInit {
   attemptedToContinue = false;
 
   async createEventDesing() {
+    this.eventDesign.id = this.reservationID;
+
     this.attemptedToContinue = true;
     this.additionalMessages = [];
     // save to service
@@ -247,6 +280,7 @@ export class CreateEventPage implements OnInit {
       id: item.id,
       position: parseInt(item.index, 10), // Parse the index string to a number
     }));
+    console.log(this.eventDesign);
     this.custPage.addNewCustomEvent(this.eventDesign);
   }
 

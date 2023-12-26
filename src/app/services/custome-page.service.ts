@@ -21,6 +21,7 @@ import {
   docData,
   setDoc,
   addDoc,
+  DocumentSnapshot,
   query,
 } from '@angular/fire/firestore';
 import { DocumentData, getDoc } from 'firebase/firestore';
@@ -31,10 +32,9 @@ import { AlertController } from '@ionic/angular';
   providedIn: 'root',
 })
 export class CustomePageService {
-  // eventCollection: CollectionReference<DocumentData>;
-  eventCollection;
+  eventCollection: CollectionReference<DocumentData>;
+
   constructor(public storage: Storage, public fb: Firestore) {
-    // this.eventCollection = collection(this.fb, 'Events');
     this.eventCollection = collection(
       fb,
       'Events'
@@ -55,23 +55,35 @@ export class CustomePageService {
     itemsOrder: [],
   };
 
-  showItemOrder(itemOrder: any[]) {
-    this.itemOrderArray = itemOrder;
-    console.log(this.itemOrderArray);
+  // see if the desing already exixst make the publish button false
+  // findDesign(id: any) {
+  //    if the id exixt return true else false
+  // }
+
+  async findDesign(id: string): Promise<boolean> {
+    try {
+      const eventCollectionDocumentRef: DocumentReference = doc(
+        this.fb,
+        'Events',
+        id
+      );
+      const eventDocument: DocumentSnapshot<any> = await getDoc(
+        eventCollectionDocumentRef
+      );
+      return eventDocument.exists();
+    } catch (error) {
+      console.error('no desing found', error);
+      return false;
+    }
   }
 
-  // showAgenda(agenda: any) {
-  //   let item = agenda;
-  //   // console.log(this.agendas);
-  //   this.agendas = item;
-  // }
+  showItemOrder(itemOrder: any[]) {
+    this.itemOrderArray = itemOrder;
+    // console.log(this.itemOrderArray);
+  }
 
-  // working but i will add the reservation is as event id
-  // addNewCustomEvent(customEventData: any): Promise<DocumentReference> {
-  //   return addDoc(this.eventCollection, customEventData);
-  // }
-
-  addNewCustomEvent(customEventData: any): any {
+  addNewCustomEvent(customEventData: EventDesign): any {
+    console.log(customEventData);
     const eventDoc = doc(this.eventCollection, customEventData.id);
     setDoc(eventDoc, customEventData);
   }
@@ -111,7 +123,7 @@ export interface Agenda {
 }
 
 export interface EventDesign {
-  id?: string;
+  id: string;
   color: string;
   title: string;
   image: string;

@@ -8,6 +8,7 @@
 </ion-header>
 <ion-content class="ion-padding">
 
+  <span *ngIf="designExists">This event has already been published. <br> You cannot edit it now.</span>
   <ng-container>
     <ion-item>
       <ion-label>Theme color</ion-label>
@@ -35,8 +36,6 @@
           aria-label=""></ion-input>
         <ion-reorder slot="end"></ion-reorder>
       </ion-item>
-
-
       <ion-item #item3 id="price" (click)="showId(item3)">
         <ion-button slot="end" class="ion-no-margin" [color]="mycolor">Book a Ticket</ion-button>
         <ion-icon [color]="mycolor" class="ion-margin-end" name="cash-outline"></ion-icon>
@@ -163,7 +162,6 @@
     </ng-container>
   </ion-note>
 
-
-  <ion-button (click)="createEventDesing()" expand="block">publish Event</ion-button>
+  <ion-button (click)="createEventDesing()" expand="block" [disabled]="designExists">publish Event</ion-button>
 
 </ion-content>
