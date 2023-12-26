@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title color="primary">Hall Information</ion-title>
+    <ion-title color="primary">Hall Details</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,33 +11,44 @@
   <ion-card>
     <img src="/assets/hall.PNG" alt="" />
     <ion-card-content>
-      <ion-card-subtitle color="primary ">
-        Hall {{hallInfo.id}} {{hallInfo.name}}</ion-card-subtitle
-      >
-      {{hallInfo.description}}
-      <ion-item>
-        <ion-label>SQM(M^2):do we need it? </ion-label>
-        <ion-label>{{ hallInfo.capacity }}</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>Capacity:</ion-label>
-        <ion-label>{{hallInfo.capacity}}</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>No. of booths:</ion-label>
-        <ion-label>{{hallInfo.booths}}</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>Pricing:</ion-label>
-        <ion-label>{{hallInfo.price}}</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>Open to reserve ?</ion-label>
-      </ion-item>
+      <form [formGroup]="HallForm" (ngSubmit)="updateHall()">
+        <ion-card-subtitle color="primary ">
+          <ion-input
+            label="Hall {{hallInfo.id}}:"
+            formControlName="name"
+          ></ion-input>
+        </ion-card-subtitle>
+        <ion-item class="text-wrap">
+          <ion-textarea
+            [autoGrow]="true"
+            formControlName="description"
+          ></ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Capacity:" formControlName="capacity"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="No. of booths:"
+            formControlName="booths"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Pricing:" formControlName="price"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Availability</ion-label>
+          <ion-radio-group formControlName="availability">
+            <ion-radio value="7">7</ion-radio>
+            <ion-radio value="30">30</ion-radio>
+          </ion-radio-group>
+        </ion-item>
+        <ion-button class="ion-margin" expand="block" type="submit">
+          Update</ion-button
+        >
+      </form>
     </ion-card-content>
   </ion-card>
-  <ion-button class="ion-margin" expand="block" type="submit">
-    Update</ion-button
-  >
+
   <!-- form -->
 </ion-content>
