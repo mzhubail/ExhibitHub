@@ -9,7 +9,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
   <div
     class="loading-container"
     *ngIf="(reservations$ | async)===undefined||(reservations$ | async)===null||(tickets$ | async)===undefined||(tickets$ | async)===null||(users$ | async)===undefined||(users$ | async)===null"
@@ -20,93 +20,127 @@
 
   <div *ngIf="(reservations$ | async)&&(tickets$ | async)&&(users$ | async)">
     <div class="dashboard-title">
-      <ion-card-title
-        style="margin-left: 1rem; margin-top: 1rem; color: #ab916b"
-        >App Summary</ion-card-title
-      >
+      <ion-list>
+        <ion-list-header><ion-label>Dashboard</ion-label></ion-list-header>
+        <ion-card>
+          <!-- # of users card -->
+          <ion-card-content class="dashboard-container">
+            <div class="dashboard-title">
+              <ion-card-subtitle>Total Users</ion-card-subtitle>
+              <ion-card-title>{{(users$ | async)?.length}}</ion-card-title>
+            </div>
+            <div>
+              <ion-icon size="large" name="person"></ion-icon>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card [routerLink]="['/view-reservations']">
+          <!-- # of reservations card -->
+          <ion-card-content class="dashboard-container">
+            <div class="dashboard-title">
+              <ion-card-subtitle>Total Reservations</ion-card-subtitle>
+              <ion-card-title
+                >{{(reservations$ | async)?.length}}</ion-card-title
+              >
+            </div>
+            <div>
+              <ion-icon size="large" name="calendar-number"></ion-icon>
+              <!-- <ion-icon size="large" name="arrow-forward-outline"></ion-icon> -->
+            </div>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <!-- # of tickets card -->
+          <ion-card-content class="dashboard-container">
+            <div class="dashboard-title">
+              <ion-card-subtitle>Total tickets</ion-card-subtitle>
+              <ion-card-title>{{(tickets$ | async)?.length}}</ion-card-title>
+            </div>
+            <div>
+              <ion-icon size="large" name="ticket"></ion-icon>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+          <!-- Pending -->
+          <ion-card-content class="dashboard-container">
+            <div class="dashboard-title">
+              <ion-card-subtitle>Pending Requests</ion-card-subtitle>
+              <ion-card-title>{{pendingPercentage.toFixed(1)}}%</ion-card-title>
+            </div>
+            <div>
+              <ion-icon size="large" name="stop-circle-outline"></ion-icon>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+          <!-- Approved-->
+          <ion-card-content class="dashboard-container">
+            <div class="dashboard-title">
+              <ion-card-subtitle>Approved Requests</ion-card-subtitle>
+              <ion-card-title
+                >{{approvedPercentage.toFixed(1)}}%</ion-card-title
+              >
+            </div>
+            <div>
+              <ion-icon size="large" name="checkmark-circle-outline"></ion-icon>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+          <!-- Rejected -->
+          <ion-card-content class="dashboard-container">
+            <div class="dashboard-title">
+              <ion-card-subtitle>Rejected Requests</ion-card-subtitle>
+              <ion-card-title
+                >{{rejectedPercentage.toFixed(1)}}%</ion-card-title
+              >
+            </div>
+            <div>
+              <ion-icon size="large" name="close-circle-outline"></ion-icon>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-list>
     </div>
 
-    <ion-card>
-      <!-- # of users card -->
-      <ion-card-content class="dashboard-container">
-        <div class="dashboard-title">
-          <ion-card-subtitle>Total Users</ion-card-subtitle>
-          <ion-card-title>{{(users$ | async)?.length}}</ion-card-title>
-        </div>
-        <div>
-          <ion-icon size="large" name="person"></ion-icon>
-        </div>
-      </ion-card-content>
-    </ion-card>
-
-
-    <ion-card [routerLink]="['/view-reservations']">
-      <!-- # of reservations card -->
-      <ion-card-content class="dashboard-container">
-        <div class="dashboard-title">
-          <ion-card-subtitle>Total Halls Reservations</ion-card-subtitle>
-          <ion-card-title>{{(reservations$ | async)?.length}}</ion-card-title>
-        </div>
-        <div>
-          <ion-icon size="large" name="calendar-number"></ion-icon>
-          <ion-icon size="large" name="arrow-forward-outline"></ion-icon>
-        </div>
-      </ion-card-content>
-    </ion-card>
-    <ion-card>
-      <!-- # of tickets card -->
-      <ion-card-content class="dashboard-container">
-        <div class="dashboard-title">
-          <ion-card-subtitle>Total tickets</ion-card-subtitle>
-          <ion-card-title>{{(tickets$ | async)?.length}}</ion-card-title>
-        </div>
-        <div>
-          <ion-icon size="large" name="ticket"></ion-icon>
-        </div>
-      </ion-card-content>
-    </ion-card>
-
-
-    <ion-card>
-      <!-- Pending -->
-      <ion-card-content class="dashboard-container">
-        <div class="dashboard-title">
-          <ion-card-subtitle>Pending Requests</ion-card-subtitle>
-          <ion-card-title>{{pendingPercentage.toFixed(2)}}%</ion-card-title>
-        </div>
-        <div>
-          <ion-icon size="large" name="stop-circle-outline"></ion-icon>
-        </div>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card>
-      <!-- Approved-->
-      <ion-card-content class="dashboard-container">
-        <div class="dashboard-title">
-          <ion-card-subtitle>Approved Requests</ion-card-subtitle>
-          <ion-card-title>{{approvedPercentage.toFixed(2)}}%</ion-card-title>
-        </div>
-        <div>
-          <ion-icon size="large" name="checkmark-circle-outline"></ion-icon>
-        </div>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card>
-      <!-- Rejected -->
-      <ion-card-content class="dashboard-container">
-        <div class="dashboard-title">
-          <ion-card-subtitle>Rejected Requests</ion-card-subtitle>
-          <ion-card-title>{{rejectedPercentage.toFixed(2)}}%</ion-card-title>
-        </div>
-        <div>
-          <ion-icon size="large" name="close-circle-outline"></ion-icon>
-        </div>
-      </ion-card-content>
-    </ion-card>
-
+    <ion-list>
+      <ion-list-header>
+        <ion-label>Reservations</ion-label>
+        <ion-button
+          fill="clear"
+          size="small"
+          [routerLink]="['/view-reservations']"
+          routerDirection="forward"
+          ><ion-text>Show All</ion-text></ion-button
+        >
+      </ion-list-header>
+      <ion-card>
+        <ion-card-content>
+          <ion-item
+            *ngFor="let reservation of (reservation.filteredReservations$ | async)?.slice(0,5)"
+          >
+            <div class="d-flex align-items-center my-2">
+              <div class="d-flex flex-column">
+                <ion-text class="profile-avatar-text-admin"
+                  ><b>Event Name: </b> {{reservation.name}}</ion-text
+                >
+                <ion-text
+                  ><b>Requested Date: </b><br />
+                  {{reservation.start_date}} - {{reservation.end_date}}
+                </ion-text>
+                <ion-text
+                  ><b>Request Status: </b> {{reservation.status}}
+                </ion-text>
+              </div>
+            </div>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
   </div>
-
-
 </ion-content>
