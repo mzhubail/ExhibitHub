@@ -33,7 +33,7 @@
         </ion-card-content>
         <ion-button routerLink="/create-event/{{r.id}}" fill="clear"
           [disabled]="r.status === 'pending' || r.status === 'rejected'">
-          {{ r.status === 'pending' || r.status === 'rejected' ? r.status : 'Create Event' }}
+          {{ r.status === 'pending' || r.status === 'rejected' ? r.status : 'Go to Event Page' }}
         </ion-button>
       </ion-card>
     </ng-container>

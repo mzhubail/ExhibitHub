@@ -8,13 +8,23 @@
 </ion-header>
 <ion-content class="ion-padding">
 
-  <span *ngIf="designExists">This event has already been published. <br> You cannot edit it now.</span>
-  <ng-container>
-    <ion-item [hidden]="designExists">
-      <ion-label>Theme color</ion-label>
-      <ion-icon *ngFor="let color of colorsList" color="{{color}}" name="ellipse" (click)="pickColor(color)"></ion-icon>
-    </ion-item>
-  </ng-container>
+  <ion-note *ngIf="designExists" class="ion-padding-bottom">
+    This event has already been published. <br> You can only view it.
+  </ion-note>
+
+  <span *ngIf="!designExists" class="ion-padding-bottom">
+    Now you can customize the page that will be presented to people exploring
+    your event.
+    <br>
+    Feel free to customize it however you want.
+  </span>
+
+  <div style="height: 15px;"></div>
+
+  <ion-item [hidden]="designExists">
+    <ion-label>Theme color</ion-label>
+    <ion-icon *ngFor="let color of colorsList" color="{{color}}" name="ellipse" (click)="pickColor(color)"></ion-icon>
+  </ion-item>
   <ion-list>
     <ion-reorder-group [disabled]="designExists" (ionItemReorder)="handleReorder($any($event))">
 
@@ -26,7 +36,7 @@
 
       <ion-item [disabled]="designExists" #item1 id="poster" (click)="showId(item1)">
         <input type="file" #fileInput accept="image/*" style="display: none" (change)="handleImageChange()">
-        <img #imageElem (click)="triggerImagePicker()" [src]="pickedImageData ?? 'assets/upload.png'" alt="">
+        <img #imageElem (click)="triggerImagePicker()" [src]="pickedImageData ?? 'assets/blank-image.png'" alt="">
         <ion-reorder slot="end"></ion-reorder>
       </ion-item>
 

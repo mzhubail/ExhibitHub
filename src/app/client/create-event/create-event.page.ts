@@ -158,8 +158,11 @@ export class CreateEventPage implements OnInit {
           this.eventDescription = this.eventDesign.eventDescription;
           this.price = this.eventDesign.price;
           this.divs = this.eventDesign.agenda;
+          this.custPage.getPosterURL(this.eventDesign.image)
+            .then(url => { this.pickedImageData = url; });
           console.log(this.divs);
         } else {
+          this.pickedImageData = 'assets/upload.png';
           console.log('design does not exist');
           this.designExists = false;
         }
