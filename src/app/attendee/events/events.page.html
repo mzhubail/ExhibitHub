@@ -29,6 +29,7 @@
         class="event-card"
         [routerLink]="['/event-details', e.event.id, e.imageUrl]"
       >
+
         <ion-col class="event-card-img">
           <ion-avatar>
             <!-- Display image from firebase storage here  -->
@@ -56,7 +57,7 @@
           </div>
 
           <div class="event-card-text">
-            <ion-icon name="document-outline" color="primary"></ion-icon>
+            <ion-icon name="document-outline" color="primary"></ion-icon> 
             <ion-label class="event-card-content-element">
               Description: {{e.event.eventDescription}}
             </ion-label>
