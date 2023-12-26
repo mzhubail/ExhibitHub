@@ -10,7 +10,7 @@ import {
 import { Observable } from 'rxjs';
 import { collection, query } from 'firebase/firestore';
 import { Firestore, collectionData } from '@angular/fire/firestore';
-import { Ticket, TicketsService } from 'src/app/services/tickets.service';
+import { Ticket, TicketsService } from 'src/app/services/tickets.service'; 
 
 @Component({
   selector: 'app-reports',
