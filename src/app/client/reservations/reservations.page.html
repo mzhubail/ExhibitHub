@@ -1,19 +1,14 @@
 <ion-header>
-
   <ion-toolbar>
-
-    <ion-title color="primary">Reservations</ion-title>
-  </ion-toolbar>
-</ion-header>
-<ion-content class="ion-padding">
-  <ion-list>
-    <ion-list-header>
-      <ion-label>My Reservations</ion-label>
+    <ion-title color="primary">My Reservations</ion-title>
+    <ion-buttons slot="end">
       <ion-button fill="clear" routerLink="/create-reservation">
         <ion-text>Create</ion-text>
         <ion-icon name="add"></ion-icon>
       </ion-button>
-    </ion-list-header>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content class="ion-padding">
   <div class="loading-container" *ngIf="reservationService.reservations === undefined">

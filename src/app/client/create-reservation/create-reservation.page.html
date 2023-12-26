@@ -3,16 +3,12 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <!-- <ion-title color="primary">Create Reservation</ion-title> -->
+    <ion-title> Create Reservation </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
   <ion-list>
-    <ion-list-header>
-      <ion-label>Create Reservation</ion-label>
-    </ion-list-header>
-
     <form
       [formGroup]="reservationsForm"
       (ngSubmit)="AddReservation(reservationsForm)"
