@@ -132,6 +132,10 @@ const routes: Routes = [
     path: 'chat/:id',
     loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule)
   },
+  {
+    path: 'view-reservations',
+    loadChildren: () => import('./view-reservations/view-reservations.module').then( m => m.ViewReservationsPageModule)
+  },
   // {
   //   path: 'chat',
   //   loadChildren: () => import('./client/chat/chat.module').then( m => m.ChatPageModule)
