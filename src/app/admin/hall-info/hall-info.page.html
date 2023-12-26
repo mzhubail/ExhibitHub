@@ -16,36 +16,25 @@
           <ion-input
             label="Hall {{hallInfo.id}}:"
             formControlName="name"
-            value="{{hallInfo.name}}"
           ></ion-input>
         </ion-card-subtitle>
         <ion-item class="text-wrap">
           <ion-textarea
             [autoGrow]="true"
             formControlName="description"
-            value="{{hallInfo.description}} "
           ></ion-textarea>
         </ion-item>
         <ion-item>
-          <ion-input
-            label="Capacity:"
-            formControlName="capacity"
-            value="{{hallInfo.capacity}}"
-          ></ion-input>
+          <ion-input label="Capacity:" formControlName="capacity"></ion-input>
         </ion-item>
         <ion-item>
           <ion-input
             label="No. of booths:"
             formControlName="booths"
-            value="{{hallInfo.booths}}"
           ></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input
-            label="Pricing:"
-            formControlName="price"
-            value="{{hallInfo.price}}"
-          ></ion-input>
+          <ion-input label="Pricing:" formControlName="price"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label>Availability</ion-label>
