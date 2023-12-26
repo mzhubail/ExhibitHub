@@ -41,10 +41,12 @@ export class ChatPage implements OnInit {
 
   /* Scroll to last child of chatArea */
   scroll() {
-    const elem = this.messagesContainer.nativeElement;
-    const children = elem.childNodes;
-    children[children.length - 2]
-      .scrollIntoView({ behavior: "smooth", block: "start" });
+    const lastMessage = document.querySelector('.message:last-of-type');
+    if (!lastMessage)
+      return;
+    lastMessage.scrollIntoView({
+      behavior: "smooth", block: "start"
+    });
   }
 
   async sendMessage() {
