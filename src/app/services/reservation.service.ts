@@ -19,6 +19,7 @@ import {
 } from '@angular/fire/firestore';
 
 import { Observable, map, switchMap, of, debounceTime } from 'rxjs';
+import { where } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -195,7 +196,24 @@ export class ReservationService {
   }
 
 
+// get reservations based on each hall 
+  async getReservationsByHall(hall:string){
+    let reservations:Reservation[]=[];
+    let collectionRef = collection(this.firestore, 'Reservations');
+      let res_s = await getDocs(query(collectionRef,where('hall', '==', hall)));
+
+      res_s.forEach((docElement: any) => {
+        reservations.push(docElement.data());
+      });
+      return reservations;
   }
+
+
+
+
+  }
+
+
 
 
 

@@ -138,6 +138,10 @@ const routes: Routes = [
     path: 'view-reservations',
     loadChildren: () => import('./view-reservations/view-reservations.module').then( m => m.ViewReservationsPageModule)
   },
+  {
+    path: 'reservations-dates',
+    loadChildren: () => import('./reservations-dates/reservations-dates.module').then( m => m.ReservationsDatesPageModule)
+  },
   // {
   //   path: 'chat',
   //   loadChildren: () => import('./client/chat/chat.module').then( m => m.ChatPageModule)
