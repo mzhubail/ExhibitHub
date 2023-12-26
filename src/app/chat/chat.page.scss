@@ -18,17 +18,17 @@
 
   margin-bottom: 0.4rem;
 
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 15px;
 
   &.sent {
-    background-color: yellowgreen;
+    background-color: #E8E1D6;
     border-radius: $message-border-radius $message-border-radius $message-border-radius 0rem;
   }
 
   &.recieved {
     margin-left: auto;
 
-    background-color: lightblue;
+    background-color: #D6DDE8;
     border-radius: $message-border-radius $message-border-radius 0rem $message-border-radius;
   }
 }
@@ -56,7 +56,7 @@ ion-fab {
 }
 
 .message-timestamp {
-  color: darkslateblue;
+  color: gray;
   text-align: right;
   font-size: 0.7rem;
   padding-top: 0.2rem;
