@@ -17,19 +17,19 @@
   <ion-list>
     <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
 
-      <ion-item [color]="mycolor" #item0 id="0" (click)="showId(item0)">
-        <ion-input [color]="mycolor" class="custom-title" [formControl]="eventForm.controls.title" placeholder="Event Title"
-          aria-label=""></ion-input>
+      <ion-item [color]="mycolor" #item0 id="eventTitle" (click)="showId(item0)">
+        <ion-input [color]="mycolor" class="custom-title" [formControl]="eventForm.controls.title"
+          placeholder="Event Title" aria-label=""></ion-input>
         <ion-reorder slot="end"></ion-reorder>
       </ion-item>
 
-      <ion-item #item1 id="1" (click)="showId(item1)">
+      <ion-item #item1 id="poster" (click)="showId(item1)">
         <input type="file" #fileInput accept="image/*" style="display: none" (change)="handleImageChange()">
         <img #imageElem (click)="triggerImagePicker()" [src]="pickedImageData ?? 'assets/upload.png'" alt="">
         <ion-reorder slot="end"></ion-reorder>
       </ion-item>
 
-      <ion-item #item2 id="2" (click)="showId(item2)">
+      <ion-item #item2 id="description" (click)="showId(item2)">
         <label for=""></label>
         <ion-input [formControl]="eventForm.controls.eventDescription" placeholder="Event Description"
           aria-label=""></ion-input>
@@ -37,14 +37,14 @@
       </ion-item>
 
 
-      <ion-item #item3 id="3" (click)="showId(item3)">
+      <ion-item #item3 id="price" (click)="showId(item3)">
         <ion-button slot="end" class="ion-no-margin" [color]="mycolor">Book a Ticket</ion-button>
         <ion-icon [color]="mycolor" class="ion-margin-end" name="cash-outline"></ion-icon>
         <ion-input [formControl]="eventForm.controls.price" placeholder="Price in BD" type="number" inputmode="numeric"
           aria-label=""></ion-input>
         <ion-reorder slot="end"></ion-reorder>
       </ion-item>
-      <ion-item #item4 id="4" (click)="showId(item4)">
+      <ion-item #item4 id="agenda" (click)="showId(item4)">
         <div>
           <ion-item>
             <ion-label>
@@ -56,15 +56,11 @@
           <ng-container class="agenda-color" *ngFor="let div of divs; let divindex = index">
             <!-- Title Input -->
             <ion-item lines="none">
-              <ion-input label="Title" placeholder="Your agenda title"
-                  [(ngModel)]="div.title"
-                  >
+              <ion-input label="Title" placeholder="Your agenda title" [(ngModel)]="div.title">
               </ion-input>
             </ion-item>
 
-            <ion-note lines="none" class="error-message"
-                *ngIf="!titleIsValid(div.title) && attemptedToContinue"
-                >
+            <ion-note lines="none" class="error-message" *ngIf="!titleIsValid(div.title) && attemptedToContinue">
               <ion-icon name="alert-outline" color="danger"></ion-icon>
               <span> Title is not valid </span>
             </ion-note>
@@ -75,28 +71,18 @@
               <ion-label>
                 <ion-text> Date </ion-text>
               </ion-label>
-              <ion-datetime-button
-                date-target="true"
-                datetime="date-{{divindex}}"
-                color="primary"
-                class="ion-text-center"
-              ></ion-datetime-button>
+              <ion-datetime-button date-target="true" datetime="date-{{divindex}}" color="primary"
+                class="ion-text-center"></ion-datetime-button>
 
               <ion-modal [keepContentsMounted]="true">
                 <ng-template>
-                  <ion-datetime
-                    displayFormat="YYYY-MM-DD"
-                    id="date-{{divindex}}"
-                    presentation="date"
-                    [(ngModel)]="div.date"
-                  ></ion-datetime>
+                  <ion-datetime displayFormat="YYYY-MM-DD" id="date-{{divindex}}" presentation="date"
+                    [(ngModel)]="div.date"></ion-datetime>
                 </ng-template>
               </ion-modal>
             </ion-item>
 
-            <ion-note lines="none" class="error-message"
-                *ngIf="div.date === undefined && attemptedToContinue"
-                >
+            <ion-note lines="none" class="error-message" *ngIf="div.date === undefined && attemptedToContinue">
               <ion-icon name="alert-outline" color="danger"></ion-icon>
               <span> Date is required </span>
             </ion-note>
@@ -106,28 +92,18 @@
               <ion-label>
                 <ion-text> Start Time </ion-text>
               </ion-label>
-              <ion-datetime-button
-                time-target="true"
-                datetime="start-time-{{divindex}}"
-                color="primary"
-                class="ion-text-center"
-              ></ion-datetime-button>
+              <ion-datetime-button time-target="true" datetime="start-time-{{divindex}}" color="primary"
+                class="ion-text-center"></ion-datetime-button>
 
               <ion-modal [keepContentsMounted]="true">
                 <ng-template>
-                  <ion-datetime
-                    displayFormat="YYYY-MM-DD"
-                    id="start-time-{{divindex}}"
-                    presentation="time"
-                    [(ngModel)]="div.startTime"
-                  ></ion-datetime>
+                  <ion-datetime displayFormat="YYYY-MM-DD" id="start-time-{{divindex}}" presentation="time"
+                    [(ngModel)]="div.startTime"></ion-datetime>
                 </ng-template>
               </ion-modal>
             </ion-item>
 
-            <ion-note lines="none" class="error-message"
-                *ngIf="div.startTime === undefined && attemptedToContinue"
-                >
+            <ion-note lines="none" class="error-message" *ngIf="div.startTime === undefined && attemptedToContinue">
               <ion-icon name="alert-outline" color="danger"></ion-icon>
               <span> Start Time is required </span>
             </ion-note>
@@ -137,43 +113,30 @@
               <ion-label>
                 <ion-text> End Time </ion-text>
               </ion-label>
-              <ion-datetime-button
-                time-target="true"
-                datetime="end-time-{{divindex}}"
-                color="primary"
-                class="ion-text-center"
-              ></ion-datetime-button>
+              <ion-datetime-button time-target="true" datetime="end-time-{{divindex}}" color="primary"
+                class="ion-text-center"></ion-datetime-button>
 
               <ion-modal [keepContentsMounted]="true">
                 <ng-template>
-                  <ion-datetime
-                    displayFormat="YYYY-MM-DD"
-                    id="end-time-{{divindex}}"
-                    presentation="time"
-                    [(ngModel)]="div.endTime"
-                  ></ion-datetime>
+                  <ion-datetime displayFormat="YYYY-MM-DD" id="end-time-{{divindex}}" presentation="time"
+                    [(ngModel)]="div.endTime"></ion-datetime>
                 </ng-template>
               </ion-modal>
             </ion-item>
 
-            <ion-note lines="none" class="error-message"
-                *ngIf="div.endTime === undefined && attemptedToContinue"
-                >
+            <ion-note lines="none" class="error-message" *ngIf="div.endTime === undefined && attemptedToContinue">
               <ion-icon name="alert-outline" color="danger"></ion-icon>
               <span> End Time is required </span>
             </ion-note>
 
             <!-- Description Input -->
             <ion-item>
-              <ion-input label="Description" placeholder="Your agenda description"
-                  [(ngModel)]="div.description"
-                  >
+              <ion-input label="Description" placeholder="Your agenda description" [(ngModel)]="div.description">
               </ion-input>
             </ion-item>
 
             <ion-note lines="none" class="error-message"
-                *ngIf="!descriptionIsValid(div.description) && attemptedToContinue"
-                >
+              *ngIf="!descriptionIsValid(div.description) && attemptedToContinue">
               <ion-icon name="alert-outline" color="danger"></ion-icon>
               <span> Description is not valid </span>
             </ion-note>

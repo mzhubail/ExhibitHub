@@ -1,14 +1,45 @@
 import { Injectable } from '@angular/core';
 
-import { Storage, getDownloadURL, ref, uploadString } from '@angular/fire/storage';
+import {
+  Storage,
+  getDownloadURL,
+  ref,
+  uploadString,
+} from '@angular/fire/storage';
+import { Firestore } from '@angular/fire/firestore';
+import {
+  collection,
+  collectionData,
+  CollectionReference,
+  DocumentReference,
+} from '@angular/fire/firestore';
+import {
+  getDocs,
+  doc,
+  deleteDoc,
+  updateDoc,
+  docData,
+  setDoc,
+  addDoc,
+  query,
+} from '@angular/fire/firestore';
+import { DocumentData, getDoc } from 'firebase/firestore';
+import { Observable } from 'rxjs';
+import { AlertController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CustomePageService {
-  constructor(
-    public storage: Storage,
-  ) {}
+  // eventCollection: CollectionReference<DocumentData>;
+  eventCollection;
+  constructor(public storage: Storage, public fb: Firestore) {
+    // this.eventCollection = collection(this.fb, 'Events');
+    this.eventCollection = collection(
+      fb,
+      'Events'
+    ) as CollectionReference<DocumentData>;
+  }
 
   itemOrderArray: { id: string; position: number }[] = [];
   agendas: { date: Date; time: Date; description: string }[] = [];
@@ -26,20 +57,24 @@ export class CustomePageService {
 
   showItemOrder(itemOrder: any[]) {
     this.itemOrderArray = itemOrder;
-    // console.log(this.itemOrderArray);
+    console.log(this.itemOrderArray);
   }
 
-  showAgenda(agenda: any) {
-    let item = agenda;
-    // console.log(this.agendas);
-    this.agendas = item;
-  }
+  // showAgenda(agenda: any) {
+  //   let item = agenda;
+  //   // console.log(this.agendas);
+  //   this.agendas = item;
+  // }
 
-  addNewCustomEvent(customEventData: EventDesign) {
-    console.log(customEventData);
-    this.eventDesign = customEventData;
-  }
+  // working but i will add the reservation is as event id
+  // addNewCustomEvent(customEventData: any): Promise<DocumentReference> {
+  //   return addDoc(this.eventCollection, customEventData);
+  // }
 
+  addNewCustomEvent(customEventData: any): any {
+    const eventDoc = doc(this.eventCollection, customEventData.id);
+    setDoc(eventDoc, customEventData);
+  }
 
   /**
    * Uploads an image to firebase storage.
@@ -53,9 +88,8 @@ export class CustomePageService {
 
     console.log(imageId);
 
-    return uploadString(imageRef, imageData, 'data_url')
+    return uploadString(imageRef, imageData, 'data_url');
   }
-
 
   /**
    * Returns the image URL for the given image path
@@ -64,7 +98,7 @@ export class CustomePageService {
    */
   getPosterURL(imagePath: string) {
     const imageRef = ref(this.storage, imagePath);
-    return getDownloadURL(imageRef)
+    return getDownloadURL(imageRef);
   }
 }
 

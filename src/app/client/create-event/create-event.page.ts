@@ -9,15 +9,10 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { GestureController } from '@ionic/angular';
 import { ItemReorderEventDetail } from '@ionic/angular';
 import { IonItem } from '@ionic/angular';
-import {
-  Agenda,
-  CustomePageService,
-  EventDesign,
-} from 'src/app/services/custome-page.service';
+import { Agenda, EventDesign } from 'src/app/services/custome-page.service';
 import { convertErrorsToMessage } from 'src/app/utilities';
-
-
-
+import { CustomePageService } from 'src/app/services/custome-page.service';
+import { ActivatedRoute } from '@angular/router';
 
 interface ItemsIndex {
   id: string;
@@ -34,23 +29,23 @@ export class CreateEventPage implements OnInit {
   colorsList: string[] = ['danger', 'success', 'warning', 'medium'];
   itemsIndex: ItemsIndex[] = [
     {
-      id: '0',
+      id: 'eventTitle',
       index: '0',
     },
     {
-      id: '1',
+      id: 'poster',
       index: '1',
     },
     {
-      id: '2',
+      id: 'description',
       index: '2',
     },
     {
-      id: '3',
+      id: 'price',
       index: '3',
     },
     {
-      id: '4',
+      id: 'agenda',
       index: '4',
     },
   ];
@@ -73,7 +68,6 @@ export class CreateEventPage implements OnInit {
     itemsOrder: [],
   };
 
-
   // Image Upload related
   @ViewChild('fileInput') imageInputElem!: ElementRef<HTMLInputElement>;
   @ViewChild('imageElem') imageElem!: ElementRef<HTMLImageElement>;
@@ -82,33 +76,43 @@ export class CreateEventPage implements OnInit {
 
   eventForm;
 
-
   constructor(
     private gestureCtrl: GestureController,
     public custPage: CustomePageService,
     public formBuilder: FormBuilder,
+    public activatedRoute: ActivatedRoute
   ) {
     this.eventForm = formBuilder.group({
-      title: ['', [
-        Validators.required,
-        Validators.minLength(8),
-        Validators.maxLength(30),
-      ]],
-      eventDescription: ['', [
-        Validators.required,
-        Validators.minLength(8),
-        Validators.maxLength(120),
-      ]],
-      price: [0, [
-        Validators.required,
-        Validators.min(20),
-        Validators.max(100),
-        Validators.pattern(/^\d+$/),
-      ]],
+      title: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(30),
+        ],
+      ],
+      eventDescription: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(120),
+        ],
+      ],
+      price: [
+        0,
+        [
+          Validators.required,
+          Validators.min(20),
+          Validators.max(100),
+          Validators.pattern(/^\d+$/),
+        ],
+      ],
     });
   }
-  ngOnInit() {}
-
+  ngOnInit() {
+    let reservationID = this.activatedRoute.snapshot.paramMap.get('id');
+  }
 
   handleReorder(ev: CustomEvent<ItemReorderEventDetail>) {
     const movedItem = this.itemsIndex[ev.detail.from];
@@ -123,19 +127,20 @@ export class CreateEventPage implements OnInit {
     ev.detail.complete();
     this.custPage.showItemOrder(newIndexArray);
     this.itemsIndex = newIndexArray;
+    console.log(this.itemsIndex);
   }
-
 
   showId(item: IonItem) {
-    // Do nothing
+    // nothing
   }
 
-
-  public divs: Partial<Agenda>[] = [{
-    startTime: undefined,
-    date: undefined,
-    description: '',
-  }];
+  public divs: Partial<Agenda>[] = [
+    {
+      startTime: undefined,
+      date: undefined,
+      description: '',
+    },
+  ];
 
   addDiv() {
     const newDiv = {
@@ -148,27 +153,26 @@ export class CreateEventPage implements OnInit {
     this.divs.push(newDiv);
   }
 
-
   /** Open the file picker for image upload */
   triggerImagePicker(): void {
     this.imageInputElem.nativeElement.click();
   }
 
-
   /** Triggered when the user picks an image */
   handleImageChange(): void {
     const file = this.imageInputElem.nativeElement.files?.[0];
-    if (!file)
-      return;
+    if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = e => {
-      if (!e.target)
-        return;
+    reader.onload = (e) => {
+      if (!e.target) return;
 
       const selectedImageSrc = e.target.result;
-      if (selectedImageSrc === null || selectedImageSrc instanceof ArrayBuffer) {
-        console.log('I recieved a format I don\'t know how to deal with');
+      if (
+        selectedImageSrc === null ||
+        selectedImageSrc instanceof ArrayBuffer
+      ) {
+        console.log("I recieved a format I don't know how to deal with");
         return;
       }
 
@@ -178,11 +182,9 @@ export class CreateEventPage implements OnInit {
     reader.readAsDataURL(file);
   }
 
-
   pickColor(color: string) {
     this.mycolor = color;
   }
-
 
   attemptedToContinue = false;
 
@@ -233,16 +235,14 @@ export class CreateEventPage implements OnInit {
     const snapshot = await this.custPage.uploadPoster(this.pickedImageData);
     this.eventDesign.image = snapshot.metadata.fullPath;
 
-
     // Attributes from the formGroup
     let fromForm = this.eventForm.value;
-
-
+    this.eventDesign.id = this.reservationID;
     this.eventDesign.color = this.mycolor;
     this.eventDesign.title = fromForm.title as string;
     this.eventDesign.eventDescription = fromForm.eventDescription as string;
     this.eventDesign.price = fromForm.price as number;
-    this.eventDesign.agenda = (newDivs as unknown) as Agenda[];
+    this.eventDesign.agenda = newDivs as unknown as Agenda[];
     this.eventDesign.itemsOrder = this.itemsIndex.map((item) => ({
       id: item.id,
       position: parseInt(item.index, 10), // Parse the index string to a number
@@ -250,27 +250,24 @@ export class CreateEventPage implements OnInit {
     this.custPage.addNewCustomEvent(this.eventDesign);
   }
 
-
   titleIsValid = (t: string | undefined) =>
     t !== undefined && t.length > 4 && t.length < 20;
 
   descriptionIsValid = (d: string | undefined) =>
-    (d === undefined || d.length === 0)
-      ? true
-      : d.length > 4 && d.length < 100;
-
+    d === undefined || d.length === 0 ? true : d.length > 4 && d.length < 100;
 
   additionalMessages: string[] = [];
   errorMessages() {
-    let m, messages = [...this.additionalMessages];
-    const { eventDescription, price, title }  = this.eventForm.controls;
+    let m,
+      messages = [...this.additionalMessages];
+    const { eventDescription, price, title } = this.eventForm.controls;
 
-    if (m = convertErrorsToMessage('Event desctiption', eventDescription.errors))
+    if (
+      (m = convertErrorsToMessage('Event desctiption', eventDescription.errors))
+    )
       messages.push(m);
-    if (m = convertErrorsToMessage('Price', price.errors))
-      messages.push(m);
-    if (m = convertErrorsToMessage('Title', title.errors))
-      messages.push(m);
+    if ((m = convertErrorsToMessage('Price', price.errors))) messages.push(m);
+    if ((m = convertErrorsToMessage('Title', title.errors))) messages.push(m);
 
     return messages;
   }
