@@ -95,11 +95,22 @@ export class ReservationService {
   capacity!: number;
   resetHall!:string|null;
   filterHalls(capacity?:any) {
+
     if(capacity)
     this.capacity = capacity.target.value;
     if (!this.reservations$) {
       return;
     }
+
+    let today = new Date().toISOString().split('T')[0]; 
+    const startDate = this.start_date.toISOString().split('T')[0];
+    const endDate = this.end_date.toISOString().split('T')[0];
+    
+    if (startDate === today && endDate === today && !(this.capacity)) {
+      this.filteredHalls$ = this.halls$;
+      return;
+    }
+
     this.resetHall = null;
     this.filteredHalls$ = this.halls$;
     const start = this.start_date.toISOString().split('T')[0];
