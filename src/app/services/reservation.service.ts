@@ -94,7 +94,9 @@ export class ReservationService {
   // written by the client
   capacity!: number;
   resetHall!:string|null;
-  filterHalls() {
+  filterHalls(capacity?:any) {
+    if(capacity)
+    this.capacity = capacity.target.value;
     if (!this.reservations$) {
       return;
     }

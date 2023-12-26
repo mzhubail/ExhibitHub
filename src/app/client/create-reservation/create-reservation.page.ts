@@ -70,7 +70,18 @@ export class CreateReservationPage implements OnInit {
           ['OK']
         );
         return;
-      } else if (start_date < today || end_date < today) {
+        
+      }
+      else if(start_date==end_date){
+        this.reservation.generalAlert(
+          'Invalid Range',
+          'The start and end date cannot be the same.',
+          ['OK']
+        );
+        return;
+      }
+      
+      else if (start_date < today || end_date < today) {
         this.reservation.generalAlert(
           'Invalid Range',
           'The dates cannot be in the past.',
