@@ -1,13 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-searchbar class="ion-margin-top"></ion-searchbar>
+    <ion-title> Upcoming Events </ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding">
   <ion-list>
-    <ion-list-header>
-      <ion-label>Upcoming Events</ion-label>
-    </ion-list-header>
+    <ion-searchbar class="ion-margin-bottom"></ion-searchbar>
     <div routerLink="/event-details" *ngFor="let e of eventsService.events">
       <ion-card class="event-card">
         <ion-col class="event-card-img">
