@@ -108,7 +108,10 @@ export class HallInfoPage implements OnInit {
       availability: this.HallForm.get('availability')?.value,
     })
       .then(() => {
-        this.authServ.generalAlert('Success', 'Changes Saved!', ['Ok']);
+        this.authServ.generalAlert('Success', 'Changes Saved!', [{
+          text: 'Ok',
+          handler: () => { this.navController.back(); },
+        }]);
       })
       .catch(() => {
         this.authServ.generalAlert(
