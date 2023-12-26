@@ -25,14 +25,9 @@
         class="event-card"
         [routerLink]="['/event-details', e.event.id, e.imageUrl]"
       >
-
-        <ion-col class="event-card-img">
-          <ion-avatar>
-            <!-- Display image from firebase storage here  -->
-            <ion-img [src]="e.imageUrl"></ion-img>
-          </ion-avatar>
-        </ion-col>
-        <ion-col class="event-card-content">
+        <!-- Display image from firebase storage here  -->
+        <ion-img [src]="e.imageUrl" />
+        <ion-card-content>
           <ion-card-subtitle class="event-card-title"
             >{{e.event.title}}</ion-card-subtitle
           >
@@ -66,7 +61,7 @@
               Hall: {{e.reservation.hall}}
             </ion-label>
           </div>
-        </ion-col>
+        </ion-card-content>
       </ion-card>
     </div>
 </ion-content>
