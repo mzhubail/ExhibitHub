@@ -68,6 +68,11 @@
       ></ion-datetime-button>
     </ion-item>
 
+
+    <ion-item lines="none">
+      <ion-searchbar  label="Capacity"  (ionInput)="reservation.filterHalls($event)" type="number" placeholder="Search a capacity"></ion-searchbar>
+  </ion-item>
+
     <ion-item>
 
       <ion-label

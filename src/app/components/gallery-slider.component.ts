@@ -44,7 +44,9 @@ import { Component, OnInit } from '@angular/core';
               aria-label="Slide 5"
             ></button>
           </div>
+
           <div class="carousel-inner">
+            
             <div class="carousel-item active">
               <img
                 src="../assets/gallery1.jpeg"
@@ -85,6 +87,7 @@ import { Component, OnInit } from '@angular/core';
                 alt="..."
               />
             </div>
+
           </div>
         </div>
       </ion-card>
