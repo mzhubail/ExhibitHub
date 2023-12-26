@@ -33,7 +33,7 @@
   </div> -->
   <div *ngIf="event">
     <ion-list>
-      <div *ngFor="let item of event.itemsOrder; let i = index" [id]="item.position">
+      <div *ngFor="let item of sortItems(event.itemsOrder); let i = index" [id]="item.position">
         <ng-container [ngSwitch]="item.id">
 
           <ion-item *ngSwitchCase="eventTitle" [color]="event.color" [id]="item.id">

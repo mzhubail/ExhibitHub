@@ -48,4 +48,18 @@ export class EventDetailsPage implements OnInit {
       }
     );
   }
+
+  sortItems(list: { id: string; position: number; }[]) {
+    const listCopy = [...list];
+    listCopy.sort((_a, _b) => {
+      const a = _a.position;
+      const b = _b.position;
+      if (a < b)
+        return -1;
+      else if (a > b)
+        return 1;
+      else return 0
+    });
+    return listCopy;
+  }
 }
