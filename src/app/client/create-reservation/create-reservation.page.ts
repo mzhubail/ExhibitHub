@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NavController } from '@ionic/angular';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import {
   ReservationService,
@@ -18,7 +19,8 @@ export class CreateReservationPage implements OnInit {
   constructor(
     public reservation: ReservationService,
     public formBuilder: FormBuilder,
-    public authSrv: AuthenticationService
+    public authSrv: AuthenticationService,
+    public navController: NavController,
   ) {
     this.reservationsForm = formBuilder.group({
       name: ['', Validators.required],
@@ -118,7 +120,10 @@ export class CreateReservationPage implements OnInit {
           this.reservation.generalAlert(
             'Success',
             'Your reservation request has been sent successfully',
-            ['OK']
+            [{
+              text: 'OK',
+              handler: () => { this.navController.back(); },
+            }],
           );
         })
         .catch((err) => {

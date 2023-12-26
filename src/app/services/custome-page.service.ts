@@ -1,14 +1,45 @@
 import { Injectable } from '@angular/core';
 
-import { Storage, getDownloadURL, ref, uploadString } from '@angular/fire/storage';
+import {
+  Storage,
+  getDownloadURL,
+  ref,
+  uploadString,
+} from '@angular/fire/storage';
+import { Firestore } from '@angular/fire/firestore';
+import {
+  collection,
+  collectionData,
+  CollectionReference,
+  DocumentReference,
+} from '@angular/fire/firestore';
+import {
+  getDocs,
+  doc,
+  deleteDoc,
+  updateDoc,
+  docData,
+  setDoc,
+  addDoc,
+  DocumentSnapshot,
+  query,
+} from '@angular/fire/firestore';
+import { DocumentData, getDoc } from 'firebase/firestore';
+import { Observable } from 'rxjs';
+import { AlertController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CustomePageService {
-  constructor(
-    public storage: Storage,
-  ) {}
+  eventCollection: CollectionReference<DocumentData>;
+
+  constructor(public storage: Storage, public fb: Firestore) {
+    this.eventCollection = collection(
+      fb,
+      'Events'
+    ) as CollectionReference<DocumentData>;
+  }
 
   itemOrderArray: { id: string; position: number }[] = [];
   agendas: { date: Date; time: Date; description: string }[] = [];
@@ -24,22 +55,59 @@ export class CustomePageService {
     itemsOrder: [],
   };
 
+  // see if the desing already exixst make the publish button false
+  // findDesign(id: any) {
+  //    if the id exixt return true else false
+  // }
+
+  // working fine but i want to return data this time
+  // async findDesign(id: string): Promise<boolean> {
+  //   try {
+  //     const eventCollectionDocumentRef: DocumentReference = doc(
+  //       this.fb,
+  //       'Events',
+  //       id
+  //     );
+  //     const eventDocument: DocumentSnapshot<any> = await getDoc(
+  //       eventCollectionDocumentRef
+  //     );
+  //     return eventDocument.exists();
+  //   } catch (error) {
+  //     console.error('no desing found', error);
+  //     return false;
+  //   }
+  // }
+  async findDesign(id: string): Promise<any> {
+    try {
+      const eventCollectionDocumentRef: DocumentReference = doc(
+        this.fb,
+        'Events',
+        id
+      );
+      const eventDocument: DocumentSnapshot<any> = await getDoc(
+        eventCollectionDocumentRef
+      );
+      if (eventDocument.exists()) {
+        return eventDocument.data(); // Return the data if the document exists
+      } else {
+        return null; // Return null if the document doesn't exist
+      }
+    } catch (error) {
+      console.error('Error finding design:', error);
+      return null; // Return null in case of an error
+    }
+  }
+
   showItemOrder(itemOrder: any[]) {
     this.itemOrderArray = itemOrder;
     // console.log(this.itemOrderArray);
   }
 
-  showAgenda(agenda: any) {
-    let item = agenda;
-    // console.log(this.agendas);
-    this.agendas = item;
-  }
-
-  addNewCustomEvent(customEventData: EventDesign) {
+  addNewCustomEvent(customEventData: EventDesign): any {
     console.log(customEventData);
-    this.eventDesign = customEventData;
+    const eventDoc = doc(this.eventCollection, customEventData.id);
+    setDoc(eventDoc, customEventData);
   }
-
 
   /**
    * Uploads an image to firebase storage.
@@ -53,9 +121,8 @@ export class CustomePageService {
 
     console.log(imageId);
 
-    return uploadString(imageRef, imageData, 'data_url')
+    return uploadString(imageRef, imageData, 'data_url');
   }
-
 
   /**
    * Returns the image URL for the given image path
@@ -64,7 +131,7 @@ export class CustomePageService {
    */
   getPosterURL(imagePath: string) {
     const imageRef = ref(this.storage, imagePath);
-    return getDownloadURL(imageRef)
+    return getDownloadURL(imageRef);
   }
 }
 
@@ -77,7 +144,7 @@ export interface Agenda {
 }
 
 export interface EventDesign {
-  id?: string;
+  id: string;
   color: string;
   title: string;
   image: string;

@@ -51,7 +51,7 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'create-event',
+    path: 'create-event/:id',
     loadChildren: () =>
       import('./client/create-event/create-event.module').then(
         (m) => m.CreateEventPageModule
@@ -126,11 +126,13 @@ const routes: Routes = [
   },
   {
     path: 'chat',
-    loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule)
+    loadChildren: () =>
+      import('./chat/chat.module').then((m) => m.ChatPageModule),
   },
   {
     path: 'chat/:id',
-    loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule)
+    loadChildren: () =>
+      import('./chat/chat.module').then((m) => m.ChatPageModule),
   },
   {
     path: 'view-reservations',
