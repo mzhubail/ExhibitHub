@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-searchbar
+    (ionInput)="this.eventsService.searchEvents($event)"
       placeholder="Search by event title"
       class="ion-margin-top"
     ></ion-searchbar>
 
-    <ion-title> Upcoming Events </ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding">
@@ -24,7 +24,7 @@
       <ion-spinner name="circular"></ion-spinner>
     </div>
 
-    <div *ngFor="let e of eventsService.resAndEvents$ | async">
+    <div *ngFor="let e of eventsService.resAndEvents_filtered$ | async">
       <ion-card
         class="event-card"
         [routerLink]="['/event-details', e.event.id, e.imageUrl]"
