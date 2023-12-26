@@ -163,7 +163,7 @@ export class ReservationService {
    searchReservations(event:any){
       const searchTerm = event.target.value.toLowerCase().trim();
       if (!searchTerm) {
-        this.filteredReservations$ = this.reservations$; // If search term is empty, return all activities
+        this.filteredReservations$ = this.reservations$; 
         return; // exit
       }
       this.filteredReservations$ = this.reservations$.pipe(
