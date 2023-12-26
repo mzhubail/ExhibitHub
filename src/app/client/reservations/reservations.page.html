@@ -22,7 +22,8 @@
         There are no reservations currently in the database. <br>
         Try adding a new one.
       </p>
-      <ion-card *ngFor="let r of sortReservations(reservationService.reservations)" [color]="r.status === 'approved' ? 'tertiary' : ''">
+      <ion-card *ngFor="let r of sortReservations(reservationService.reservations)"
+        [color]="r.status === 'approved' ? 'tertiary' : ''" #ref (click)="animate(ref)">
         <ion-card-header>
           <ion-card-title>{{r.name}}</ion-card-title>
         </ion-card-header>

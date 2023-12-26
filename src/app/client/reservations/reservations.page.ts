@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Reservation, ReservationService } from 'src/app/services/reservation.service';
 import { ClientReservationService } from 'src/app/services/client-reservation.service';
 
+declare var dynamics: any;
+
 @Component({
   selector: 'app-reservations',
   templateUrl: './reservations.page.html',
@@ -28,5 +30,20 @@ export class ReservationsPage implements OnInit {
         return 0;
     });
     return list;
+  }
+
+  animate(e: any) {
+    dynamics.animate(
+      e.el,
+      {
+        rotateZ: ['-5deg', '5deg'],
+      },
+      {
+        type: dynamics.forceWithGravity,
+        frequency: 10,
+        friction: 200,
+        duration: 200,
+      }
+    );
   }
 }
