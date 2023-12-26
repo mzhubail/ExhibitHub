@@ -26,7 +26,8 @@
         [routerLink]="['/event-details', e.event.id, e.imageUrl]"
       >
         <!-- Display image from firebase storage here  -->
-        <ion-img [src]="e.imageUrl" />
+        <div style="background: url({{ e.imageUrl }}) no-repeat center center / cover; height: 350px; width: 100%">
+        </div>
         <ion-card-content>
           <ion-card-subtitle class="event-card-title"
             >{{e.event.title}}</ion-card-subtitle
