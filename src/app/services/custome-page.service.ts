@@ -60,7 +60,24 @@ export class CustomePageService {
   //    if the id exixt return true else false
   // }
 
-  async findDesign(id: string): Promise<boolean> {
+  // working fine but i want to return data this time
+  // async findDesign(id: string): Promise<boolean> {
+  //   try {
+  //     const eventCollectionDocumentRef: DocumentReference = doc(
+  //       this.fb,
+  //       'Events',
+  //       id
+  //     );
+  //     const eventDocument: DocumentSnapshot<any> = await getDoc(
+  //       eventCollectionDocumentRef
+  //     );
+  //     return eventDocument.exists();
+  //   } catch (error) {
+  //     console.error('no desing found', error);
+  //     return false;
+  //   }
+  // }
+  async findDesign(id: string): Promise<any> {
     try {
       const eventCollectionDocumentRef: DocumentReference = doc(
         this.fb,
@@ -70,10 +87,14 @@ export class CustomePageService {
       const eventDocument: DocumentSnapshot<any> = await getDoc(
         eventCollectionDocumentRef
       );
-      return eventDocument.exists();
+      if (eventDocument.exists()) {
+        return eventDocument.data(); // Return the data if the document exists
+      } else {
+        return null; // Return null if the document doesn't exist
+      }
     } catch (error) {
-      console.error('no desing found', error);
-      return false;
+      console.error('Error finding design:', error);
+      return null; // Return null in case of an error
     }
   }
 

@@ -69,6 +69,7 @@ export class CreateEventPage implements OnInit {
   mycolor: string = 'medium';
   title!: string;
   image!: 'upload.png';
+  price!: number;
   eventDescription: string = '';
 
   // from the service
@@ -128,19 +129,43 @@ export class CreateEventPage implements OnInit {
   ngOnInit() {
     this.reservationID = this.activatedRoute.snapshot.paramMap.get('id');
     // okay find the id of the reservationID in events if there make the
+    // working fine but i will try to take the data this time to display them
+    // this.custPage
+    //   .findDesign(this.reservationID)
+    //   .then((result: boolean) => {
+    //     if (result) {
+    //       console.log('desing exists');
+    //       this.designExists = true;
+    //     } else {
+    //       console.log('design does not exist');
+    //       this.designExists = false;
+    //     }
+    //   })
+    //   .catch((error: any) => {
+    //     // Handle error if the findDesign function fails
+    //     console.error('Error finding design:', error);
+    //   });
     this.custPage
       .findDesign(this.reservationID)
-      .then((result: boolean) => {
+      .then((result: any) => {
         if (result) {
-          console.log('desing exists');
+          // console.log(result);
           this.designExists = true;
+          // display the data
+          this.eventDesign = result;
+          this.mycolor = this.eventDesign.color;
+          this.title = this.eventDesign.title;
+          this.eventDescription = this.eventDesign.eventDescription;
+          this.price = this.eventDesign.price;
+          this.divs = this.eventDesign.agenda;
+          console.log(this.divs);
         } else {
           console.log('design does not exist');
           this.designExists = false;
         }
       })
       .catch((error: any) => {
-        // Handle error if the findDesign function fails
+        // do nothing let the user create the desing
         console.error('Error finding design:', error);
       });
   }
