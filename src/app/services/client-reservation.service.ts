@@ -26,7 +26,7 @@ import { AuthenticationService } from './authentication.service';
   providedIn: 'root',
 })
 export class ClientReservationService {
-  public reservations: Reservation[] = [];
+  public reservations!: Reservation[];
   ReservationCollection: CollectionReference<Reservation>;
   constructor(
     public authServ: AuthenticationService,
@@ -49,15 +49,16 @@ export class ClientReservationService {
 
   ngonInit() {}
   private async getReservations() {
-    const querySnapshot = await getDocs(
-      query(this.ReservationCollection, where('exhibitorID', '==', this.userID))
-    );
+    const uid = this.authServ.user?.uid;
+    if (!uid) {
+      this.authServ.redirectUser();
+      return;
+    }
 
-    querySnapshot.forEach((doc) => {
-      const reservation = doc.data();
-      const reservationWithId = { ...reservation, id: doc.id }; // Add the ID to the reservation object
-      this.reservations.push(reservationWithId);
-      console.log(reservationWithId);
+    const q = query(this.ReservationCollection, where('exhibitorID', '==', uid));
+    const reservations$ = collectionData(q, { idField: 'id' });
+    reservations$.subscribe(r => {
+      this.reservations = r;
     });
   }
 }

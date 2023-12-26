@@ -15,7 +15,18 @@
       </ion-button>
     </ion-list-header>
 
+<ion-content class="ion-padding">
+  <div class="loading-container" *ngIf="reservationService.reservations === undefined">
+      <ion-label> Loading reservations please wait... </ion-label>
+      <ion-spinner name="circular"></ion-spinner>
+  </div>
+
+  <ion-list>
     <ng-container *ngIf="reservationService.reservations !== undefined">
+      <p *ngIf="reservationService.reservations.length === 0">
+        There are no reservations currently in the database. <br>
+        Try adding a new one.
+      </p>
       <ion-card *ngFor="let r of reservationService.reservations" [color]="r.status === 'approved' ? 'tertiary' : ''">
         <ion-card-header>
           <ion-card-title>{{r.name}}</ion-card-title>
