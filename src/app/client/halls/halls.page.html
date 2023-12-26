@@ -12,12 +12,12 @@
 
     <ng-container *ngIf="hallInfo !== undefined">
 
-        <ion-item>
+        <!-- <ion-item>
             <ion-button slot="end" routerLink="/filter" fill="clear">
                 <ion-icon name="filter"></ion-icon>
                 FILTER
             </ion-button>
-        </ion-item>
+        </ion-item> -->
         <div style="display: flex; justify-content: center; align-items: center;">
             <!-- start svg -->
             <svg width="424" height="422" viewBox="0 0 424 422" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -310,7 +310,7 @@
                 {{hallInfo.description}}
                 <ion-item>
                     <ion-label>SQM(M^2):</ion-label>
-                    <ion-label>do we need it?</ion-label>
+                    <ion-label>{{hallInfo.capacity}}</ion-label>
                 </ion-item>
                 <ion-item>
                     <ion-label>Capacity:</ion-label>
@@ -326,10 +326,10 @@
                 </ion-item>
             </ion-card-content>
         </ion-card>
-        <ion-item>
+        <!-- <ion-item>
             <ion-button fill="clear " slot="start">Gallery</ion-button>
             <ion-button slot="end">Pick a date</ion-button>
-        </ion-item>
+        </ion-item> -->
 
     </ng-container>
 </ion-content>

@@ -10,6 +10,7 @@ import {
   updateDoc,
 } from '@angular/fire/firestore';
 import { AuthenticationService } from '../services/authentication.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-my-details',
@@ -33,7 +34,8 @@ export class MyDetailsPage implements OnInit {
     private route: ActivatedRoute,
     public formBuilder: FormBuilder,
     public firestore: Firestore,
-    public authServ: AuthenticationService
+    public authServ: AuthenticationService,
+    public navController: NavController,
   ) {
     this.DetailsForm = this.formBuilder.group({
       first_name: [
@@ -98,7 +100,10 @@ export class MyDetailsPage implements OnInit {
       Last_Name: this.DetailsForm.get('last_name')?.value,
       Phone: this.DetailsForm.get('phone')?.value,
     }).then(() => {
-      this.authServ.generalAlert('Success', 'Changes Saved!', ['Ok']);
+      this.authServ.generalAlert('Success', 'Changes Saved!', [{
+        text: 'Ok',
+        handler: () => { this.navController.back(); }
+      }]);
     });
   }
 }

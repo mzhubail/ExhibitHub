@@ -1,18 +1,15 @@
 <ion-header>
   <ion-toolbar>
-    <ion-searchbar
-    (ionInput)="this.eventsService.searchEvents($event)"
-      placeholder="Search by event title"
-      class="ion-margin-top"
-    ></ion-searchbar>
-
+    <ion-title> Upcoming Events </ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding">
-  <ion-list>
-    <ion-list-header>
-      <ion-label>Upcoming Events</ion-label>
-    </ion-list-header>
+
+    <ion-searchbar
+    (ionInput)="this.eventsService.searchEvents($event)"
+      placeholder="Search by event title"
+      class="ion-margin-bottom"
+    ></ion-searchbar>
 
 
     <div
@@ -29,14 +26,10 @@
         class="event-card"
         [routerLink]="['/event-details', e.event.id, e.imageUrl]"
       >
-
-        <ion-col class="event-card-img">
-          <ion-avatar>
-            <!-- Display image from firebase storage here  -->
-            <ion-img [src]="e.imageUrl"></ion-img>
-          </ion-avatar>
-        </ion-col>
-        <ion-col class="event-card-content">
+        <!-- Display image from firebase storage here  -->
+        <div style="background: url({{ e.imageUrl }}) no-repeat center center / cover; height: 350px; width: 100%">
+        </div>
+        <ion-card-content>
           <ion-card-subtitle class="event-card-title"
             >{{e.event.title}}</ion-card-subtitle
           >
@@ -70,8 +63,7 @@
               Hall: {{e.reservation.hall}}
             </ion-label>
           </div>
-        </ion-col>
+        </ion-card-content>
       </ion-card>
     </div>
-  </ion-list>
 </ion-content>
