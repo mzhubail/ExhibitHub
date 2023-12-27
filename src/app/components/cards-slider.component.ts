@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { EventsService } from '../services/events.service';
+import { Observable } from 'rxjs';
+import { EventsService, ResAndEvent } from '../services/events.service';
 
 @Component({
   selector: 'cards-slider',
@@ -44,8 +45,10 @@ import { EventsService } from '../services/events.service';
   `,
 })
 export class CardsSliderComponent implements OnInit {
+  public resAndEvents$!: Observable<ResAndEvent[]>;
+
   constructor(public service: EventsService) {
-    this.service.getResAndEvents();
+    this.resAndEvents$ = this.service.resAndEvents$;
   }
 
   ngOnInit() {}
