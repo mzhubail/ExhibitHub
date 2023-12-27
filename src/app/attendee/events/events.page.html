@@ -1,39 +1,33 @@
 <ion-header>
   <ion-toolbar>
-    <ion-searchbar
-      placeholder="Search by event title"
-      class="ion-margin-top"
-    ></ion-searchbar>
-
     <ion-title> Upcoming Events </ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding">
-  <ion-list>
-    <ion-list-header>
-      <ion-label>Upcoming Events</ion-label>
-    </ion-list-header>
+  <ion-searchbar
+    (ionInput)="this.eventsService.searchEvents($event)"
+    placeholder="Search by event title"
+    class="ion-margin-bottom"
+  ></ion-searchbar>
 
+  <div
+    class="loading-container"
+    *ngIf="(this.eventsService.resAndEvents$ | async)===undefined||(this.eventsService.resAndEvents$| async)===null"
+  >
+    <ion-label> Loading data please wait... </ion-label>
 
-    <div
-      class="loading-container"
-      *ngIf="(this.eventsService.resAndEvents$ | async)===undefined||(this.eventsService.resAndEvents$| async)===null">
+    <ion-spinner name="circular"></ion-spinner>
+  </div>
 
-      <ion-label> Loading data please wait... </ion-label>
-      
-      <ion-spinner name="circular"></ion-spinner>
-    </div>
-
-    <div *ngFor="let e of eventsService.resAndEvents$ | async">
-      <ion-card
-        class="event-card"
-        [routerLink]="['/event-details', e.event.id, e.imageUrl]"
-      >
-
+  <div *ngFor="let e of eventsService.resAndEvents_filtered$ | async">
+    <ion-card
+      class="event-card"
+      [routerLink]="['/event-details', e.event.id, e.imageUrl]"
+    >
+      <ion-row>
         <ion-col class="event-card-img">
           <ion-avatar>
-            <!-- Display image from firebase storage here  -->
-            <ion-img [src]="e.imageUrl"></ion-img>
+            <img class="event-img" src="{{ e.imageUrl }}" />
           </ion-avatar>
         </ion-col>
         <ion-col class="event-card-content">
@@ -47,7 +41,6 @@
               Start Date: {{e.reservation.start_date}}
             </ion-label>
           </div>
-
           <div class="event-card-text">
             <ion-icon name="calendar-clear-sharp" color="primary"></ion-icon>
             <ion-label class="event-card-content-element">
@@ -55,14 +48,6 @@
               End Date: {{e.reservation.end_date}}
             </ion-label>
           </div>
-
-          <div class="event-card-text">
-            <ion-icon name="document-outline" color="primary"></ion-icon> 
-            <ion-label class="event-card-content-element">
-              Description: {{e.event.eventDescription}}
-            </ion-label>
-          </div>
-
           <div class="event-card-text">
             <ion-label class="event-card-content-element">
               <ion-icon name="location-sharp" color="primary"></ion-icon>
@@ -71,7 +56,7 @@
             </ion-label>
           </div>
         </ion-col>
-      </ion-card>
-    </div>
-  </ion-list>
+      </ion-row>
+    </ion-card>
+  </div>
 </ion-content>

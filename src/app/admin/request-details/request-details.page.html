@@ -11,27 +11,56 @@
   <div class="loading-container" *ngIf="reservation === undefined">
     <ion-label> Loading halls please wait... </ion-label>
     <ion-spinner name="circular"></ion-spinner>
-</div>
+  </div>
   <ion-card *ngIf="reservation">
     <ion-card-content>
-      <h2 class="event-card-content-element">
-        <b>Event date:</b>
-        {{reservation.start_date}} ➡️ {{reservation.end_date}}
-      </h2><br>
-      <h2 class="event-card-content-element">
-        <b>Event name:</b>
-        {{reservation.name}}
-      </h2><br>
-      <h2 class="event-card-content-element">
-        <b>Event Description: </b>{{reservation.description}}
-      </h2><br>
-      <h2 class="event-card-content-element">
-        <b>Event Location:</b> Hall {{reservation.hall}}
-      </h2><br>
+      <ion-item>
+        <ion-input
+          [readonly]="true"
+          label="Event Name:"
+          value="{{reservation.name}}"
+        ></ion-input>
+        <br />
+      </ion-item>
+      <ion-item>
+        <ion-input
+          [readonly]="true"
+          label="Event Date:"
+          value="{{reservation.start_date}} - {{reservation.end_date}}"
+        ></ion-input>
+        <br />
+      </ion-item>
+
+      <ion-item>
+        <ion-textarea
+          [readonly]="true"
+          label="Event Description:"
+          value="{{reservation.description}}"
+        ></ion-textarea>
+        <br
+      /></ion-item>
+      <ion-item>
+        <ion-input
+          [readonly]="true"
+          label="Event Location:"
+          value="Hall {{reservation.hall}}"
+        ></ion-input>
+        <br />
+      </ion-item>
     </ion-card-content>
     <ion-row class="ion-justify-content-center ion-margin">
-      <ion-button *ngIf="reservation.status!=='approved'" (click)="updateReservation('approved')"  size="small">Change to Approved</ion-button>
-      <ion-button *ngIf="reservation.status!=='rejected'" (click)="updateReservation('rejected')" size="small">Change to Rejected</ion-button>
+      <ion-button
+        *ngIf="reservation.status!=='approved'"
+        (click)="updateReservation('approved')"
+        size="small"
+        >Change to Approved</ion-button
+      >
+      <ion-button
+        *ngIf="reservation.status!=='rejected'"
+        (click)="updateReservation('rejected')"
+        size="small"
+        >Change to Rejected</ion-button
+      >
     </ion-row>
   </ion-card>
 </ion-content>

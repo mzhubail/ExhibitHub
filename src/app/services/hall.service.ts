@@ -7,11 +7,7 @@ import {
   collection,
   collectionData,
 } from '@angular/fire/firestore';
-import {
-  getDocs,
-  getDoc,
-  doc,
-} from '@angular/fire/firestore';
+import { getDocs, getDoc, doc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 export interface Hall {
@@ -21,7 +17,7 @@ export interface Hall {
   booths: number;
   price: number;
   capacity: string;
-  avalability: boolean;
+  availability: number;
 }
 
 @Injectable({
@@ -33,27 +29,17 @@ export class HallService {
   halls!: Hall[];
 
   constructor(public firestore: Firestore) {
-    this.hallsRef =
-      collection(firestore, 'halls') as CollectionReference<Hall>;
+    this.hallsRef = collection(firestore, 'halls') as CollectionReference<Hall>;
     this.halls$ = collectionData(this.hallsRef, { idField: 'id' });
 
-    this.halls$.subscribe(halls => {
+    this.halls$.subscribe((halls) => {
       this.halls = halls;
-    })
+    });
   }
 
   findHallById(hallId: string) {
-    return this.halls.find(hall => hall.id === hallId);
+    return this.halls.find((hall) => hall.id === hallId);
   }
-
-
-  // updateCourse(course: Course): Promise<DocumentReference> {
-  //   return updateDoc(doc(this.firestore, 'Courses', course.id),{
-  //       id?: course.id,
-  //       Code: course.Code,
-  //       Name: course.Name
-  //   })
-  // }
 
   // async getHall(hallID: string) {
   //   let docSnap = await getDoc(doc(this.firestore, 'halls', hallID));

@@ -19,6 +19,7 @@ import {
 } from '@angular/fire/firestore';
 
 import { Observable, map, switchMap, of, debounceTime } from 'rxjs';
+import { where } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -94,10 +95,23 @@ export class ReservationService {
   // written by the client
   capacity!: number;
   resetHall!:string|null;
-  filterHalls() {
+  filterHalls(capacity?:any) {
+
+    if(capacity)
+    this.capacity = capacity.target.value;
     if (!this.reservations$) {
       return;
     }
+
+    let today = new Date().toISOString().split('T')[0]; 
+    const startDate = this.start_date.toISOString().split('T')[0];
+    const endDate = this.end_date.toISOString().split('T')[0];
+    
+    if (startDate === today && endDate === today && !(this.capacity)) {
+      this.filteredHalls$ = this.halls$;
+      return;
+    }
+
     this.resetHall = null;
     this.filteredHalls$ = this.halls$;
     const start = this.start_date.toISOString().split('T')[0];
@@ -163,7 +177,7 @@ export class ReservationService {
    searchReservations(event:any){
       const searchTerm = event.target.value.toLowerCase().trim();
       if (!searchTerm) {
-        this.filteredReservations$ = this.reservations$; // If search term is empty, return all activities
+        this.filteredReservations$ = this.reservations$; 
         return; // exit
       }
       this.filteredReservations$ = this.reservations$.pipe(
@@ -195,7 +209,24 @@ export class ReservationService {
   }
 
 
+// get reservations based on each hall 
+  async getReservationsByHall(hall:string){
+    let reservations:Reservation[]=[];
+    let collectionRef = collection(this.firestore, 'Reservations');
+      let res_s = await getDocs(query(collectionRef,where('hall', '==', hall)));
+
+      res_s.forEach((docElement: any) => {
+        reservations.push(docElement.data());
+      });
+      return reservations;
   }
+
+
+
+
+  }
+
+
 
 
 

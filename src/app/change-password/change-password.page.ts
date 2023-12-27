@@ -50,8 +50,8 @@ export class ChangePasswordPage implements OnInit {
 
   resetPasswordEmail(email: string) {
     // Check if the email is within auth accounts
-    this.authSrv.checkEmailExists(email).then((ans) => {
-      if (ans) {
+    this.authSrv.checkDuplicate(email).then((ans) => {
+      if (!ans) {
         this.authSrv.resetPasswordEmail(email);
       } else {
         this.authSrv.generalAlert('Invalid Email', 'Email does not exist !', [

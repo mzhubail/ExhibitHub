@@ -1,52 +1,58 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>All Reservations</ion-title>
+    <ion-title>Reservations</ion-title>
     <ion-back-button slot="start"></ion-back-button>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-
+<ion-content class="ion-padding">
   <div *ngIf="((reservations$) | async)?.length === 0">
     <ion-note>No reservations tell now!</ion-note>
-</div>
+  </div>
 
-<div class="loading-container" *ngIf="(reservations$ | async)===undefined||(reservations$ | async)===null">
+  <div
+    class="loading-container"
+    *ngIf="(reservations$ | async)===undefined||(reservations$ | async)===null"
+  >
     <ion-label> Loading reservations please wait... </ion-label>
     <ion-spinner name="circular"></ion-spinner>
-</div>
+  </div>
 
-<ion-searchbar placeholder="Search by event name" show-clear-button="always" clear-icon="trash-bin" (ionInput)="this.reservation.searchReservations($event)"></ion-searchbar>
+  <ion-searchbar
+    placeholder="Search by event name"
+    show-clear-button="always"
+    clear-icon="trash-bin"
+    (ionInput)="this.reservation.searchReservations($event)"
+  ></ion-searchbar>
 
-<div *ngIf="reservation.filteredReservations$ | async">
-
-        <ion-list>
-            <span *ngFor="let reservation of reservation.filteredReservations$ | async">
-                <div [routerLink]="['/request-details', reservation.id]" >
-                    <ion-card class="event-card">
-
-                        <ion-col class="event-card-content">
-                            <ion-card-content>
-                                <h3 class="event-card-content-element">
-                                    Requested Date: <br />
-                                    <b>{{reservation.start_date}} <br />
-                                        to ➡️ <br />{{reservation.end_date}}
-                                    </b>
-                                </h3>
-                                <h3 class="event-card-content-element">
-                                    Event name: <br />
-                                    <b> {{reservation.name}}</b>
-                                </h3>
-                                <h3 class="event-card-content-element">
-                                    Request Status: <b>{{reservation.status}}</b>
-                                </h3>
-                            </ion-card-content>
-                        </ion-col>
-                    </ion-card>
-                </div>
-            </span>
-        </ion-list>
-
-      </div>
-
+  <div *ngIf="reservation.filteredReservations$ | async">
+    <ion-list>
+      <span
+        *ngFor="let reservation of reservation.filteredReservations$ | async"
+      >
+        <div [routerLink]="['/request-details', reservation.id]">
+          <ion-card class="event-card">
+            <ion-col class="event-card-content">
+              <ion-card-content>
+                <h3 class="event-card-content-element">
+                  Requested Date: <br />
+                  <b
+                    >{{reservation.start_date}} <br />
+                    to <br />{{reservation.end_date}}
+                  </b>
+                </h3>
+                <h3 class="event-card-content-element">
+                  Event name: <br />
+                  <b> {{reservation.name}}</b>
+                </h3>
+                <h3 class="event-card-content-element">
+                  Request Status: <b>{{reservation.status}}</b>
+                </h3>
+              </ion-card-content>
+            </ion-col>
+          </ion-card>
+        </div>
+      </span>
+    </ion-list>
+  </div>
 </ion-content>
