@@ -250,3 +250,15 @@ ion-radio.radio-checked::part(mark) {
   height: 320px;
   object-fit: cover;
 }
+
+.event-img {
+  width: 300px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.event-details-img {
+  width: 100%;
+  height: 380px;
+  object-fit: fill;
+}
