@@ -106,8 +106,8 @@
           lines="none"
           *ngFor="let hall of reservation.filteredHalls$|async"
         >
-          <ion-radio value="{{hall.id}}" labelPlacement="end">
-            Hall {{hall.id}}
+          <ion-radio value="{{hall.id}}" labelPlacement="end" justify="start">
+            Hall {{hall.id}}: {{hall.name}}
           </ion-radio>
         </ion-item>
       </ion-radio-group>

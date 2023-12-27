@@ -13,6 +13,7 @@ import { Agenda, EventDesign } from 'src/app/services/custome-page.service';
 import { convertErrorsToMessage } from 'src/app/utilities';
 import { CustomePageService } from 'src/app/services/custome-page.service';
 import { ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 interface ItemsIndex {
   id: string;
@@ -96,7 +97,8 @@ export class CreateEventPage implements OnInit {
     private gestureCtrl: GestureController,
     public custPage: CustomePageService,
     public formBuilder: FormBuilder,
-    public activatedRoute: ActivatedRoute
+    public activatedRoute: ActivatedRoute,
+    public AuthServ: AuthenticationService
   ) {
     this.eventForm = formBuilder.group({
       title: [
@@ -151,6 +153,11 @@ export class CreateEventPage implements OnInit {
         if (result) {
           // console.log(result);
           this.designExists = true;
+          this.AuthServ.generalAlert(
+            'Message',
+            'This event has already been published. You can only view it.',
+            ['OK']
+          );
           // display the data
           this.eventDesign = result;
           this.mycolor = this.eventDesign.color;
@@ -158,8 +165,9 @@ export class CreateEventPage implements OnInit {
           this.eventDescription = this.eventDesign.eventDescription;
           this.price = this.eventDesign.price;
           this.divs = this.eventDesign.agenda;
-          this.custPage.getPosterURL(this.eventDesign.image)
-            .then(url => { this.pickedImageData = url; });
+          this.custPage.getPosterURL(this.eventDesign.image).then((url) => {
+            this.pickedImageData = url;
+          });
           console.log(this.divs);
         } else {
           this.pickedImageData = 'assets/upload.png';
@@ -169,6 +177,11 @@ export class CreateEventPage implements OnInit {
       })
       .catch((error: any) => {
         // do nothing let the user create the desing
+        this.AuthServ.generalAlert(
+          'Great News!',
+          'Now you can customize the page that will be presented to people exploring your event. Feel free to customize it however you want.',
+          ['OK']
+        );
         console.error('Error finding design:', error);
       });
   }
