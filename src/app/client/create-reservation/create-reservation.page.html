@@ -19,7 +19,7 @@
 
     <ion-item>
       <ion-input
-        placeholder="Enter the description"
+        placeholder="Enter description"
         label="Description"
         formControlName="description"
       >
@@ -68,21 +68,21 @@
       ></ion-datetime-button>
     </ion-item>
 
-
     <ion-item lines="none">
-      <ion-searchbar  label="Capacity"  (ionInput)="reservation.filterHalls($event)" type="number" placeholder="Search a capacity"></ion-searchbar>
-  </ion-item>
+      <ion-searchbar
+        label="Capacity"
+        (ionInput)="reservation.filterHalls($event)"
+        type="number"
+        placeholder="Search by capacity"
+      ></ion-searchbar>
+    </ion-item>
 
     <ion-item>
-
-      <ion-label
-        *ngIf="(reservation.filteredHalls$|async)?.length!==0"
-      >
+      <ion-label *ngIf="(reservation.filteredHalls$|async)?.length!==0">
         Halls found
       </ion-label>
 
-      <ion-label
-        *ngIf="(reservation.filteredHalls$|async)?.length===0"
+      <ion-label *ngIf="(reservation.filteredHalls$|async)?.length===0"
         ><ion-card-subtitle style="margin-left: 15px" color="danger"
           >There are no available halls for the specified
           dates.</ion-card-subtitle
@@ -111,19 +111,10 @@
           </ion-radio>
         </ion-item>
       </ion-radio-group>
-
     </ion-item>
 
     <ion-button class="ion-margin" expand="block" type="submit">
       Create</ion-button
     >
-
   </form>
-
-  <ion-button class="ion-margin" expand="block" routerLink="/reservations-dates">
-    Show available and reserved days
-    <ion-icon name="caret-forward-outline"></ion-icon>
-    </ion-button>
-
-
 </ion-content>
