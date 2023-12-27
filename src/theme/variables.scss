@@ -4,7 +4,7 @@
 /** Ionic CSS Variables **/
 
 :root {
-   --ion-color-red: red;
+  --ion-color-red: red;
   /** primary **/
   --ion-color-primary: #ab916b;
   --ion-color-primary-rgb: 171, 145, 107;
@@ -69,8 +69,7 @@
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
 
-  // Zeena: my Colors for custom page 
- 
+  // Zeena: my Colors for custom page
 }
 
 ion-content {
@@ -244,4 +243,10 @@ ion-radio.radio-checked::part(mark) {
   ion-card-subtitle {
     color: var(--ion-color-primary);
   }
+}
+
+.swiper-img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
 }

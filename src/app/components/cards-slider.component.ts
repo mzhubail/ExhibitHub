@@ -10,9 +10,11 @@ import { EventsService } from '../services/events.service';
         [keyboard]="true"
         [centerSlides]="true"
       >
-        <swiper-slide *ngFor="let elem of this.service.resAndEvents$ | async">
+        <swiper-slide
+          *ngFor="let elem of (this.service.resAndEvents$ | async)?.slice(0, 3)"
+        >
           <ion-card>
-            <ion-img src="{{ elem.imageUrl }}"></ion-img>
+            <ion-img class="swiper-img" src="{{ elem.imageUrl }}"></ion-img>
 
             <ion-card-content class="">
               <ion-card-subtitle class="ion-text-left">{{
