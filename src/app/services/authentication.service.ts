@@ -340,14 +340,14 @@ export class AuthenticationService {
       });
   }
 
-  // Check if the email exists within auth accounts
+  // Check if the email of auth user exists within auth accounts
   async checkEmailExists(email: string): Promise<boolean> {
     try {
       const auth = getAuth();
       const methods = await fetchSignInMethodsForEmail(auth, email);
 
       // If methods array has length > 0, email exists
-      return methods.length > 0;
+      return methods.length > 0; 
     } catch (error) {
       console.error('Error checking email existence:', error);
       return false; // Return false in case of any errors
