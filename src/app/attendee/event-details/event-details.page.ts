@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+// the change color is not working for now i will now afterInit and try
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+} from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { doc, getDoc } from 'firebase/firestore';
@@ -7,6 +14,7 @@ import {
   EventDesign,
 } from 'src/app/services/custome-page.service';
 import { Reservation } from 'src/app/services/reservation.service';
+import { TicketsService } from 'src/app/services/tickets.service';
 
 @Component({
   selector: 'app-event-details',
@@ -17,7 +25,8 @@ export class EventDetailsPage implements OnInit {
   constructor(
     public customService: CustomePageService,
     public firestore: Firestore,
-    public activatedRoute: ActivatedRoute
+    public activatedRoute: ActivatedRoute,
+    public ticketService: TicketsService
   ) {}
 
   res_id!: string;
@@ -49,17 +58,38 @@ export class EventDetailsPage implements OnInit {
     );
   }
 
-  sortItems(list: { id: string; position: number; }[]) {
+  sortItems(list: { id: string; position: number }[]) {
     const listCopy = [...list];
     listCopy.sort((_a, _b) => {
       const a = _a.position;
       const b = _b.position;
-      if (a < b)
-        return -1;
-      else if (a > b)
-        return 1;
-      else return 0
+      if (a < b) return -1;
+      else if (a > b) return 1;
+      else return 0;
     });
     return listCopy;
+  }
+  // color
+  @ViewChild('myDiv', { static: true }) myDivRef!: ElementRef;
+
+  selected: any[] = []; // Array to store selected div elements
+  totalPrice = 0;
+
+  // selectAgenda(div: any) {
+  //   const index = this.selected.indexOf(div);
+
+  //   if (index === -1) {
+  //     this.selected.push(div);
+  //     this.totalPrice = this.totalPrice - this.event.price;
+  //   } else {
+  //     this.selected.splice(index, 1);
+  //     if (this.totalPrice > 0)
+  //       this.totalPrice = this.totalPrice - this.event.price;
+  //     else this.totalPrice = 0;
+  //   }
+  //   console.log(this.selected);
+  // }
+  book(event: any) {
+    this.ticketService.addTicket(event);
   }
 }
