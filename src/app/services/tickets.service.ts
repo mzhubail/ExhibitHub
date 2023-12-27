@@ -18,6 +18,7 @@ import {
   getDoc,
   query,
   where,
+  Query,
 } from '@angular/fire/firestore';
 import { DocumentData } from 'firebase/firestore';
 import { Observable } from 'rxjs';
@@ -65,14 +66,17 @@ export class TicketsService {
       idField: 'id',
     }) as Observable<Ticket[]>;
   }
-
+  id: any;
   async addTicket(event: any): Promise<DocumentReference> {
+    this.id = event.id;
     this.ticket.eventID = event.id;
     this.ticket.eventName = event.title;
     this.ticket.ticketCode = this.generateRandomCode();
     this.uid = this.authServ.user?.uid;
     this.ticket.userID = this.uid;
-    console.log(this.ticket);
+    // this.ticket.hall = this.getHall();
+    // try hall
+
     return addDoc(collection(this.db, 'Tickets'), this.ticket);
   }
 
@@ -86,9 +90,10 @@ export class TicketsService {
       const randomIndex = Math.floor(Math.random() * characters.length);
       code += characters.charAt(randomIndex);
     }
-
     return code;
   }
+
+  // get hall
 }
 
 export interface Ticket {

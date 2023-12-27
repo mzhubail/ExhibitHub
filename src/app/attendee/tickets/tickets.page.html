@@ -12,15 +12,13 @@
 
 <ion-content class="ion-padding">
   <ion-list>
-    <ion-searchbar class="ion-margin-bottom"></ion-searchbar>
-
     <ion-card color="tertiary" *ngFor="let ticket of ticketService.tickets$ | async">
       <ion-card-header>
         <ion-card-title>Event name {{ticket.eventName}}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
         <ion-label>
-          {{ticket.ticketCode}}
+          Ticket Code: {{ticket.ticketCode}}
         </ion-label>
       </ion-card-content>
     </ion-card>
