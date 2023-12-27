@@ -14,14 +14,13 @@
   <ion-list>
     <ion-searchbar class="ion-margin-bottom"></ion-searchbar>
 
-    <ion-card color="tertiary" *ngFor="let i of [0, 1, 2, 3]">
+    <ion-card color="tertiary" *ngFor="let ticket of ticketService.tickets$ | async">
       <ion-card-header>
-        <ion-card-title>Event name</ion-card-title>
+        <ion-card-title>Event name {{ticket.eventName}}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
         <ion-label>
-          description about the event only few line <br />Nov 24, 2023 - Nov 23,
-          2023
+          {{ticket.ticketCode}}
         </ion-label>
       </ion-card-content>
     </ion-card>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TicketsService } from 'src/app/services/tickets.service';
 
 @Component({
   selector: 'app-tickets',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tickets.page.scss'],
 })
 export class TicketsPage implements OnInit {
-  constructor() {}
+  constructor(public ticketService: TicketsService) {}
 
   ngOnInit() {}
 }

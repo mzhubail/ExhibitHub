@@ -15,6 +15,7 @@ import {
 } from 'src/app/services/custome-page.service';
 import { Reservation } from 'src/app/services/reservation.service';
 import { TicketsService } from 'src/app/services/tickets.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-event-details',
@@ -26,7 +27,8 @@ export class EventDetailsPage implements OnInit {
     public customService: CustomePageService,
     public firestore: Firestore,
     public activatedRoute: ActivatedRoute,
-    public ticketService: TicketsService
+    public ticketService: TicketsService,
+    public AuthServ: AuthenticationService
   ) {}
 
   res_id!: string;
@@ -89,7 +91,24 @@ export class EventDetailsPage implements OnInit {
   //   }
   //   console.log(this.selected);
   // }
+
+  // book(event: any) {
+  //   this.ticketService.addTicket(event);
+  // }
   book(event: any) {
-    this.ticketService.addTicket(event);
+    this.ticketService
+      .addTicket(event)
+      .then(() => {
+        this.AuthServ.generalAlert(
+          'Message',
+          'Your ticket booked successfully',
+          ['OK']
+        );
+      })
+      .catch((error) => {
+        // Error occurred while adding the ticket
+        console.error('Error booking ticket:', error);
+        window.alert('You are already rejestered for this event');
+      });
   }
 }

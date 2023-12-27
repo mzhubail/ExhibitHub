@@ -17,6 +17,7 @@ import {
   addDoc,
   getDoc,
   query,
+  where,
 } from '@angular/fire/firestore';
 import { DocumentData } from 'firebase/firestore';
 import { Observable } from 'rxjs';
@@ -46,6 +47,20 @@ export class TicketsService {
 
   getTickets() {
     const queryCollection = query(collection(this.db, 'Tickets'));
+    this.tickets$ = collectionData(queryCollection, {
+      idField: 'id',
+    }) as Observable<Ticket[]>;
+  }
+
+  getuserTickets() {
+    //  i know its duplicate, :(
+    this.uid = this.authServ.user?.uid;
+    const uid = this.uid;
+    const queryCollection = query(
+      collection(this.db, 'Tickets'),
+      where('userID', '==', uid)
+    );
+
     this.tickets$ = collectionData(queryCollection, {
       idField: 'id',
     }) as Observable<Ticket[]>;
