@@ -29,45 +29,13 @@
     <ion-note>No reservations till now!</ion-note>
   </div>
 
-
-    <div class="loading-container" *ngIf="(reservations$ | async)===undefined||(reservations$ | async)===null">
-        <ion-label> Loading data please wait... </ion-label>
-        <ion-spinner name="circular"></ion-spinner>
-    </div>
-
-    <div *ngIf="reservations$ | async">
-        <div [ngSwitch]="selectedSegment">
-            <!-------------------------------------------- Pending list ------------------------------------------->
-
-            <ion-list *ngSwitchCase="'pending'">
-                <span *ngFor="let reservation of reservations$ | async">
-                    <div *ngIf="reservation.status==='pending'" [routerLink]="['/request-details', reservation.id]" >
-                        <ion-card class="event-card">
-
-                            <ion-col class="event-card-content">
-                                <ion-card-content>
-                                    <h3 class="event-card-content-element">
-                                        Requested Date: <br />
-                                        <b>{{reservation.start_date}} <br />
-                                            to ➡️ <br />{{reservation.end_date}}
-                                        </b>
-                                    </h3>
-                                    <h3 class="event-card-content-element">
-                                        Event name: <br />
-                                        <b> {{reservation.name}}</b>
-                                    </h3>
-                                    <h3 class="event-card-content-element">
-                                        Request Status: <b>{{reservation.status}}</b>
-                                    </h3>
-                                </ion-card-content>
-                            </ion-col>
-                        </ion-card>
-                    </div>
-                </span>
-            </ion-list>
-        </div>
-    </div>
-
+  <div
+    class="loading-container"
+    *ngIf="(reservations$ | async)===undefined||(reservations$ | async)===null"
+  >
+    <ion-label> Loading data please wait... </ion-label>
+    <ion-spinner name="circular"></ion-spinner>
+  </div>
 
   <div *ngIf="reservations$ | async">
     <div [ngSwitch]="selectedSegment">
@@ -83,15 +51,14 @@
               <ion-col class="event-card-content">
                 <ion-card-content>
                   <h3 class="event-card-content-element">
-                    Requested Date: <br />
-                    <b
-                      >{{reservation.start_date}} <br />
-                      to ➡️ <br />{{reservation.end_date}}
-                    </b>
-                  </h3>
-                  <h3 class="event-card-content-element">
                     Event name: <br />
                     <b> {{reservation.name}}</b>
+                  </h3>
+                  <h3 class="event-card-content-element">
+                    Requested Date: <br />
+                    &nbsp; From:
+                    <b> {{reservation.start_date}} </b> <br />
+                    &nbsp; To: <b>{{reservation.end_date}}</b>
                   </h3>
                   <h3 class="event-card-content-element">
                     Request Status: <b>{{reservation.status}}</b>
@@ -115,15 +82,14 @@
               <ion-col class="event-card-content">
                 <ion-card-content>
                   <h3 class="event-card-content-element">
-                    Requested Date: <br />
-                    <b
-                      >{{reservation.start_date}} <br />
-                      to ➡️ <br />{{reservation.end_date}}
-                    </b>
-                  </h3>
-                  <h3 class="event-card-content-element">
                     Event name: <br />
                     <b> {{reservation.name}}</b>
+                  </h3>
+                  <h3 class="event-card-content-element">
+                    Requested Date: <br />
+                    &nbsp; From:
+                    <b> {{reservation.start_date}} </b> <br />
+                    &nbsp; To: <b>{{reservation.end_date}}</b>
                   </h3>
                   <h3 class="event-card-content-element">
                     Request Status: <b>{{reservation.status}}</b>
@@ -147,15 +113,14 @@
               <ion-col class="event-card-content">
                 <ion-card-content>
                   <h3 class="event-card-content-element">
-                    Requested Date: <br />
-                    <b
-                      >{{reservation.start_date}} <br />
-                      to ➡️ <br />{{reservation.end_date}}
-                    </b>
-                  </h3>
-                  <h3 class="event-card-content-element">
                     Event name: <br />
                     <b> {{reservation.name}}</b>
+                  </h3>
+                  <h3 class="event-card-content-element">
+                    Requested Date: <br />
+                    &nbsp; From:
+                    <b> {{reservation.start_date}} </b> <br />
+                    &nbsp; To: <b>{{reservation.end_date}}</b>
                   </h3>
                   <h3 class="event-card-content-element">
                     Request Status: <b>{{reservation.status}}</b>
