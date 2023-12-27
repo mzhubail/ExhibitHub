@@ -1,0 +1,46 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Reservations Dates</ion-title>
+    <ion-buttons>
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+
+
+  <ion-card>
+    <ion-datetime
+    presentation="date"
+    [highlightedDates]="datePickerOptions.highlightedDates"
+  ></ion-datetime>
+  </ion-card>
+
+
+  <div align="center">
+  <ion-button (click)="filterCalender('1')">Hall 1</ion-button>
+  <ion-button (click)="filterCalender('2')">Hall 2</ion-button>
+  <ion-button (click)="filterCalender('3')">Hall 3</ion-button>
+  <ion-button (click)="filterCalender('4')">Hall 4</ion-button>
+  <ion-button (click)="filterCalender('5')">Hall 5</ion-button>
+  <ion-button (click)="filterCalender('6')">Hall 6</ion-button>
+  <ion-button (click)="filterCalender('7')">Hall 7</ion-button>
+  <ion-button (click)="filterCalender('8')">Hall 8</ion-button>
+</div>
+
+
+<div style="margin-left:10%;margin-top:5%;">
+  <div  style="display: flex; align-items: center; margin-bottom: 10px;">
+    <div style="border-radius:10%; width: 20px; height: 20px; background-color: rgb(46, 204, 113); margin-right: 5px;"></div>
+    <ion-note color="primary">Available Dates</ion-note>
+  </div>
+  <div style="display: flex; align-items: center;">
+    <div style="border-radius:10%; width: 20px; height: 20px; background-color: rgb(231, 76, 60); margin-right: 5px;"></div>
+    <ion-note color="primary">Busy/Unavailable Dates</ion-note>
+  </div>
+</div>
+
+
+</ion-content>
