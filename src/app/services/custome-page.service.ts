@@ -26,7 +26,8 @@ import {
 } from '@angular/fire/firestore';
 import { DocumentData, getDoc } from 'firebase/firestore';
 import { Observable } from 'rxjs';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +35,12 @@ import { AlertController } from '@ionic/angular';
 export class CustomePageService {
   eventCollection: CollectionReference<DocumentData>;
 
-  constructor(public storage: Storage, public fb: Firestore) {
+  constructor(
+    public storage: Storage,
+    public fb: Firestore,
+    public authService: AuthenticationService,
+    public navController: NavController,
+  ) {
     this.eventCollection = collection(
       fb,
       'Events'
@@ -106,7 +112,17 @@ export class CustomePageService {
   addNewCustomEvent(customEventData: EventDesign): any {
     console.log(customEventData);
     const eventDoc = doc(this.eventCollection, customEventData.id);
-    setDoc(eventDoc, customEventData);
+    setDoc(eventDoc, customEventData)
+      .then(() => {
+        this.authService.generalAlert(
+          'Success',
+          'Your event was published successfully',
+          [{
+            text: 'Ok',
+            handler: () => { this.navController.back(); },
+          }]
+        );
+      });
   }
 
   /**

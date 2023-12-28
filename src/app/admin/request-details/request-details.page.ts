@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 import { Reservation, ReservationService } from 'src/app/services/reservation.service';
 import { updateDoc } from 'firebase/firestore';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-request-details',
@@ -13,7 +14,8 @@ export class RequestDetailsPage implements OnInit {
   constructor(
     public activatedRoute: ActivatedRoute,
     public firestore: Firestore,
-    public reservations:ReservationService
+    public reservations:ReservationService,
+    public navController: NavController,
   ) { }
 
   res_id!: string;
@@ -38,7 +40,12 @@ export class RequestDetailsPage implements OnInit {
      updateDoc(DocumentRef, {
      status:status,
     }).then(()=>{
-      this.reservations.generalAlert('Updated', 'The status of the reservation request has been updated successfully',['OK']);
+      this.reservations.generalAlert('Updated', 'The status of the reservation request has been updated successfully',
+      [{
+          text: 'Ok',
+          handler: () => { this.navController.back(); },
+        }]
+      );
     });
   }
   
