@@ -20,7 +20,7 @@ import {
   where,
   Query,
 } from '@angular/fire/firestore';
-import { DocumentData } from 'firebase/firestore';
+import { DocumentData, onSnapshot } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
 
@@ -38,10 +38,16 @@ export class TicketsService {
     userID: '',
     eventID: '',
     eventName: '',
-    // hall: '',
     ticketCode: '',
-    // validFrom: '',
-    // validTo: '',
+    agenda: [],
+  };
+  myTicket: Ticket = {
+    id: '',
+    eventID: '',
+    userID: '',
+    eventName: '',
+    ticketCode: '',
+    agenda: [],
   };
 
   // find hall
@@ -71,11 +77,10 @@ export class TicketsService {
     this.id = event.id;
     this.ticket.eventID = event.id;
     this.ticket.eventName = event.title;
+    this.ticket.agenda = event.agenda;
     this.ticket.ticketCode = this.generateRandomCode();
     this.uid = this.authServ.user?.uid;
     this.ticket.userID = this.uid;
-    // this.ticket.hall = this.getHall();
-    // try hall
 
     return addDoc(collection(this.db, 'Tickets'), this.ticket);
   }
@@ -93,7 +98,25 @@ export class TicketsService {
     return code;
   }
 
-  // get hall
+  public unCS$: any;
+  findDataByID(id: string) {
+    this.unCS$ = onSnapshot(doc(this.db, 'Tickets', id), (snapshot: any) => {
+      // document listener
+      this.myTicket.id = id;
+      this.myTicket.eventID = snapshot.data().eventID;
+      this.myTicket.userID = snapshot.data().userID;
+      this.myTicket.eventName = snapshot.data().eventName;
+      this.myTicket.ticketCode = snapshot.data().ticketCode;
+      this.myTicket.agenda = snapshot.data().agenda;
+
+      // console.log('myTicket:', myTicket); // Output all the values of myTicket
+    });
+    this.unCS$ = this.myTicket;
+    console.log(this.unCS$);
+    console.log(this.unCS$);
+    console.log(this.unCS$);
+    console.log(this.unCS$);
+  }
 }
 
 export interface Ticket {
@@ -101,8 +124,6 @@ export interface Ticket {
   eventID: string;
   userID: string;
   eventName: string;
-  // hall: string;
+  agenda: [];
   ticketCode: string;
-  // validFrom: string;
-  // validTo: string;
 }

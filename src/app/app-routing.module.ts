@@ -136,11 +136,25 @@ const routes: Routes = [
   },
   {
     path: 'view-reservations',
-    loadChildren: () => import('./view-reservations/view-reservations.module').then( m => m.ViewReservationsPageModule)
+    loadChildren: () =>
+      import('./view-reservations/view-reservations.module').then(
+        (m) => m.ViewReservationsPageModule
+      ),
   },
   {
     path: 'reservations-dates',
-    loadChildren: () => import('./reservations-dates/reservations-dates.module').then( m => m.ReservationsDatesPageModule)
+    loadChildren: () =>
+      import('./reservations-dates/reservations-dates.module').then(
+        (m) => m.ReservationsDatesPageModule
+      ),
+  },
+
+  {
+    path: 'ticket-details/:ticketID',
+    loadChildren: () =>
+      import('./attendee/ticket-details/ticket-details.module').then(
+        (m) => m.TicketDetailsPageModule
+      ),
   },
   // {
   //   path: 'chat',
